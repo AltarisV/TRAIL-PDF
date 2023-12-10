@@ -85,6 +85,9 @@ celerybeat-schedule
 # SageMath parsed files
 *.sage.py
 
+# JetBrains IDEs
+.idea/
+
 # Environments
 .env
 .venv
