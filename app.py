@@ -12,9 +12,10 @@ from dotenv import load_dotenv
 load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
 poppler_path = os.getenv('POPPLER_PATH')
+app_secret_key = os.getenv('APP_SECRET_KEY')
 openai.api_key = api_key
 app = Flask(__name__)
-app.secret_key = "password123"
+app.secret_key = app_secret_key
 app.config['UPLOAD_EXTENSIONS'] = ['.pdf']
 app.config['UPLOAD_PATH'] = 'uploads'
 
