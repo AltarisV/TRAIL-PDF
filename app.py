@@ -172,6 +172,7 @@ def send_image_to_gpt4_vision(image_path, page_number):
         print(f"Request to GPT-4 Vision API failed: {e}")
         return f"Error processing image on page {page_number}. Exception: {e}"
 
+#TODO Save Text in a way that makes it more Screenreader friendly
 def save_texts(texts, original_filename):
     # Directory where the texts will be saved
     save_dir = "generated"
