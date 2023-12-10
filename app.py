@@ -4,7 +4,7 @@ import openai
 import base64
 import requests
 from PyPDF2 import PdfReader
-from flask import Flask, render_template, request, redirect, url_for, abort, send_from_directory, flash
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash
 from werkzeug.utils import secure_filename
 from pdf2image import convert_from_path
 from dotenv import load_dotenv
@@ -104,7 +104,8 @@ def convert_pdf_to_images(pdf_path):
         # Save images to a temporary directory and return their file paths
         image_paths = []
         temp_dir = "temp_images"
-        os.makedirs(temp_dir, exist_ok=True)
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir, exist_ok=True)
 
         for i, image in enumerate(images):
             image_path = os.path.join(temp_dir, f"page_{i}.jpg")
@@ -173,7 +174,8 @@ def send_image_to_gpt4_vision(image_path, page_number):
 def save_texts(texts, original_filename):
     # Directory where the texts will be saved
     save_dir = "generated"
-    os.makedirs(save_dir, exist_ok=True)
+    if not os.path.exists(save_dir):
+        os.makedirs(save_dir, exist_ok=True)
 
     # Construct the path for the new file
     base_filename = os.path.splitext(original_filename)[0]
