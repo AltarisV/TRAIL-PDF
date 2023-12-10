@@ -15,7 +15,6 @@ To install VisionScribe, follow these steps:
 
 #### Clone the repository:
 
-    ```sh
     git clone https://github.com/yourusername/yourrepository.git
     cd yourrepository
    
