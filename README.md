@@ -40,6 +40,7 @@ To install VisionScribe, follow these steps:
 
     OPENAI_API_KEY='your_openai_api_key_here'
     POPPLER_PATH='path_to_your_poppler_bin_directory'
+    APP_SECRET_KEY='your_secret_key_here'
 
 ## Running VisionScribe
 
