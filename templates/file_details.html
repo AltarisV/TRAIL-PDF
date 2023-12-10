@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Details</title>
+</head>
+<body>
+<h1>Details for {{ filename }}</h1>
+<p>This PDF has {{ page_count }} pages.</p>
+<form action="{{ url_for('convert_pdf', filename=filename) }}" method="post">
+    <input type="submit" value="Convert to Alternative Text">
+</form>
+<a href="{{ url_for('index') }}">Back to file list</a>
+</body>
+</html>
