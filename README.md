@@ -8,6 +8,7 @@ Before you begin, ensure you have met the following requirements:
 - You have installed the latest version of [Python](https://www.python.org/downloads/).
 - You have a Windows/Linux/Mac machine capable of running Python 3.8+.
 - You have installed [Git](https://git-scm.com/downloads).
+- You have Poppler in PATH
 
 ### Installing VisionScribe
 
