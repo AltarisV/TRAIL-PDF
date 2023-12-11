@@ -48,7 +48,7 @@ To run VisionScribe, execute:
 
     flask run
 
-This will start the Flask server, and you can access the web application by navigating to http://127.0.0.1:5000 in your web browser.
+This will start the Flask server, and you can access the web application by navigating to http://127.0.0.1:7777 in your web browser.
 
 
 ## Contributing to VisionScribe
