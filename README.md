@@ -1,6 +1,11 @@
 # VisionScribe
 A PDF to Alt-Text Generator (WIP).
 
+## Description
+VisionScribe lets the User take a PDF-File, converts every page into an image to send everything 
+to the GPT-4 Vision Model and then lets it generate Alternative-Text for each image. The resulting response is then
+turned into a HTML-File which includes Tags for Screenreader Accessibility.
+
 ## Getting Started
 
 ### Prerequisites
@@ -49,7 +54,8 @@ To run VisionScribe, execute:
 
     flask run
 
-This will start the Flask server, and you can access the web application by navigating to http://127.0.0.1:7777 in your web browser.
+This will start the Flask server, and you can access the web application by navigating to http://127.0.0.1:7777 
+or http://127.0.0.1:5000 (flask is weird sometimes) in your web browser.
 
 
 ## Contributing to VisionScribe
