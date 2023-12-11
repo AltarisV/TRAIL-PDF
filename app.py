@@ -60,6 +60,7 @@ def file_details(filename):
 
     return render_template('file_details.html', filename=filename, page_count=page_count)
 
+
 @app.route('/convert_pdf/<filename>', methods=['POST'])
 def convert_pdf(filename):
     print(f"Starting conversion for {filename}")
@@ -109,18 +110,20 @@ def convert_pdf_to_images(pdf_path):
             os.makedirs(temp_dir, exist_ok=True)
 
         for i, image in enumerate(images):
-            image_path = os.path.join(temp_dir, f"page_{i}.jpg")
+            image_path = os.path.join(temp_dir, f"page_{i + 1}.jpg")
             image.save(image_path, 'JPEG')
             image_paths.append(image_path)
 
         return image_paths  # This line should be outside the for-loop
     except Exception as e:
         print(f"Error in convert_pdf_to_images: {e}")
-        raise # re-raise the exception to be caught in the calling function
+        raise  # re-raise the exception to be caught in the calling function
+
 
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
+
 
 def send_image_to_gpt4_vision(image_path, page_number):
     base64_image = encode_image(image_path)
@@ -136,6 +139,7 @@ def send_image_to_gpt4_vision(image_path, page_number):
         "messages": [
             {
                 "role": "user",
+                #TODO Make GPT correctly put Markdown and LaTeX in the Response if they find it in the Image
                 "content": [
                     {"type": "text", "text": "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität."
                                              "Generiere eine Beschreibung, die als Alternativtext genutzt werden kann. "
@@ -146,7 +150,7 @@ def send_image_to_gpt4_vision(image_path, page_number):
                                              "Auf jeder der Folien ist unten ein grüner Streifen mit Datum "
                                              "und anderen Angaben. Schreibe nichts über diese. Schreibe allgemein "
                                              "nichts über styling oder design."
-                                             f"Deine Nachricht muss mit 'Seite {page_number}' beginnen."},
+                                             f"Deine Nachricht muss mit 'Seite {page_number}:' beginnen."},
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
                 ]
             }
@@ -172,7 +176,9 @@ def send_image_to_gpt4_vision(image_path, page_number):
         print(f"Request to GPT-4 Vision API failed: {e}")
         return f"Error processing image on page {page_number}. Exception: {e}"
 
-#TODO Save Text in a way that makes it more Screenreader friendly
+
+# TODO Save Text in a way that makes it more Screenreader friendly
+#  Markdown for Code, LaTeX for mathematical stuff
 def save_texts(texts, original_filename):
     # Directory where the texts will be saved
     save_dir = "generated"
@@ -181,13 +187,58 @@ def save_texts(texts, original_filename):
 
     # Construct the path for the new file
     base_filename = os.path.splitext(original_filename)[0]
-    save_path = os.path.join(save_dir, f"{base_filename}_generated.txt")
+    save_path = os.path.join(save_dir, f"{base_filename}_generated.html")
 
-    # Write the texts to the file
-    with open(save_path, "w") as file:
+    # Write the texts to the file as HTML
+    with open(save_path, "w", encoding='utf-8') as file:
+        file.write("<!DOCTYPE html>\n")
+        file.write("<html>\n")
+        file.write("<head>\n")
+        file.write("<meta charset=\"UTF-8\">\n")
+        file.write(f"<title>{base_filename}</title>\n")
+        file.write("</head>\n")
+        file.write("<body>\n")
+
         for text in texts:
-            file.write(text + "\n\n")
-            print(f"Texts successfully saved to {save_path}")
+            # Process each text block for HTML formatting
+            processed_text = process_text_for_html(text)
+            file.write(processed_text + "\n\n")
+
+        file.write("</body>\n")
+        file.write("</html>")
+        print(f"HTML file successfully saved to {save_path}")
+
+
+
+def process_text_for_html(text):
+    # Split the text into lines
+    lines = text.split('\n')
+
+    # Process each line
+    processed_lines = []
+    for line in lines:
+        # Check if the line starts with "Seite "
+        if line.startswith("Seite "):
+            # Find the position of the colon
+            colon_pos = line.find(':')
+            if colon_pos != -1:
+                # Extract and format the heading
+                header = line[:colon_pos].strip()
+                processed_lines.append(f"<h1>{header}</h1>")
+
+                # Extract and format the content, if any
+                content = line[colon_pos+1:].strip()
+                if content:
+                    processed_lines.append(f"<p>{content}</p>")
+            else:
+                # No colon found, treat the whole line as a header
+                processed_lines.append(f"<h1>{line}</h1>")
+        else:
+            # If the line doesn't start with "Seite", add it as a paragraph
+            processed_lines.append(f"<p>{line}</p>")
+
+    # Join the processed lines back into a single string
+    return ''.join(processed_lines)
 
 
 if __name__ == '__main__':
