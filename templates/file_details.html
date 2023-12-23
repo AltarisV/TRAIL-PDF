@@ -1,14 +1,81 @@
 <!DOCTYPE html>
 <html>
-<head>
+  <head>
     <title>File Details</title>
-</head>
-<body>
-<h1>Details for {{ filename }}</h1>
-<p>This PDF has {{ page_count }} pages.</p>
-<form action="{{ url_for('convert_pdf', filename=filename) }}" method="post">
-    <input type="submit" value="Convert to Alternative Text">
-</form>
-<a href="{{ url_for('index') }}">Back to file list</a>
-</body>
+    <style lang="scss">
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+      body {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Montserrat", sans-serif;
+        color: white;
+      }
+      .form-container {
+        width: 100vw;
+        height: 100vh;
+        background-color: #f7fff7;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+      .upload-files-container {
+        background-color: #191f19;
+        width: 420px;
+        padding: 30px 60px;
+        border-radius: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px,
+          rgba(0, 0, 0, 0.28) 0px 6px 6px;
+      }
+      .upload-files-container form{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+      }
+      .upload-button {
+        font-family: "Montserrat";
+        background-color: #7b2cbf;
+        color: #f7fff7;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+        border: none;
+        border-radius: 20px;
+        margin: 10px;
+        padding: 7.5px 50px;
+        cursor: pointer;
+      }
+      .upload-button a {
+        color: #f7fff7;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="form-container">
+      <div class="upload-files-container">
+        <form
+          enctype="multipart/form-data"
+          action="{{ url_for('convert_pdf', filename=filename) }}"
+          method="post"
+        >
+          <h3>Details for {{ filename }}</h3>
+          <p>This PDF has {{ page_count }} pages.</p>
+          <input
+            class="upload-button"
+            type="submit"
+            value="Convert to Alternative Text"
+          />
+          <button class="upload-button">
+            <a href="{{ url_for('index') }}">Back to file list</a>
+          </button>
+        </form>
+      </div>
+    </div>
+  </body>
 </html>
