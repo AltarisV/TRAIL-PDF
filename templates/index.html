@@ -25,7 +25,7 @@
       }
       .upload-files-container {
         background-color: #191f19;
-        width: 420px;
+        width: 500px;
         padding: 30px 60px;
         border-radius: 40px;
         box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px,
@@ -59,8 +59,9 @@
         border-radius: 40px;
         margin: 10px 0 15px;
         padding: 30px 50px;
-        width: 350px;
+        width: 400px;
         text-align: center;
+        transition: border-style .5;
 
         .upload-icon {
           font-size: 50px;
@@ -87,6 +88,7 @@
       }
       .default-file-input {
         opacity: 0;
+        display: none;
       }
       .cannot-upload-message {
         background-color: #ffc6c4;
@@ -168,6 +170,15 @@
         padding: 7.5px 50px;
         cursor: pointer;
       }
+      .upload-icon{
+        transition: transform .5s;
+      }
+      .rotate-icon{
+        transform: rotateX(180deg) rotateY(0deg) rotateZ(0deg);
+      }
+      .solid-border{
+        border-style: solid;
+      }
     </style>
   </head>
   <body>
@@ -192,19 +203,17 @@
             <span class="material-icons-outlined upload-icon">
               file_upload
             </span>
-            <h3 class="dynamic-message">Drag & drop any file here</h3>
+            <h3 class="dynamic-message">Drag & drop any PDF file here</h3>
             <label class="label">
               or
-              <span class="browse-files">
-                <input
-                  type="file"
-                  name="file"
-                  accept=".pdf"
-                  class="default-file-input"
-                />
-                <span class="browse-files-text">browse file</span>
-                <span>from device</span>
-              </span>
+              <input
+                type="file"
+                name="file"
+                accept=".pdf"
+                class="default-file-input"
+              />
+              <span class="browse-files-text">browse file</span>
+              <span>from device</span>
             </label>
           </div>
           <span class="cannot-upload-message">
@@ -325,10 +334,16 @@
               }
             }
             fileInput.files = files;
-
-            uploadIcon.innerHTML = "file_download";
+            document.querySelector(".upload-icon").classList.add("rotate-icon");
+            document.querySelector(".drag-file-area").classList.add("solid-border");
             dragDropText.innerHTML = "Drop your file here!";
           });
+        });
+
+        draggableFileArea.addEventListener("dragleave",(e)=>{
+          document.querySelector(".upload-icon").classList.remove("rotate-icon");
+          document.querySelector(".drag-file-area").classList.remove("solid-border");
+          dragDropText.innerHTML = "Drag & drop any file here";
         });
 
         draggableFileArea.addEventListener("drop", (e) => {
@@ -337,11 +352,13 @@
           let files = e.dataTransfer.files;
           for (const file of files) {
             if (!file.name.toString().includes(".pdf")) {
-              dragDropText.innerHTML = "Please upload a PDF file!";
+              dragDropText.innerHTML = "Drop a PDF file here!";
               uploadIcon.innerHTML = "error";
               return;
             }
           }
+          document.querySelector(".upload-icon").classList.remove("rotate-icon");
+          document.querySelector(".drag-file-area").classList.remove("solid-border");
           uploadIcon.innerHTML = "check_circle";
           dragDropText.innerHTML = "File Dropped Successfully!";
           fileInput.files = files;
