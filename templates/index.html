@@ -16,9 +16,10 @@
         color: white;
       }
       .form-container {
+        position: absolute;
+        top: 0;
         width: 100vw;
         height: 100vh;
-        background-color: #f7fff7;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -61,7 +62,7 @@
         padding: 30px 50px;
         width: 400px;
         text-align: center;
-        transition: border-style .5;
+        transition: border-style 0.5;
 
         .upload-icon {
           font-size: 50px;
@@ -117,18 +118,21 @@
         padding-left: 20px;
         cursor: pointer;
       }
+      .files-block-container {
+        display: none;
+        list-style: none;
+      }
       .file-block {
         color: #f7fff7;
         background-color: #7b2cbf;
         transition: all 1s;
         width: 390px;
         position: relative;
-        display: none;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
-        margin: 10px 0 15px;
-        padding: 10px 20px;
+        margin: 10px 15px;
+        padding: 5px 20px;
         border-radius: 25px;
         cursor: pointer;
       }
@@ -145,6 +149,7 @@
         padding: 0 3px;
       }
       .remove-file-icon {
+        margin-left: auto;
         cursor: pointer;
       }
       .progress-bar {
@@ -170,18 +175,152 @@
         padding: 7.5px 50px;
         cursor: pointer;
       }
-      .upload-icon{
-        transition: transform .5s;
+      .upload-icon {
+        transition: transform 0.5s;
       }
-      .rotate-icon{
+      .rotate-icon {
         transform: rotateX(180deg) rotateY(0deg) rotateZ(0deg);
       }
-      .solid-border{
+      .solid-border {
         border-style: solid;
+      }
+
+      .area {
+        background: #4e54c8;
+        background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+        width: 100vw;
+        min-height: 100vh;
+      }
+
+      .circles {
+        padding: 0;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+      }
+
+      .circles li {
+        position: absolute;
+        display: block;
+        list-style: none;
+        width: 20px;
+        height: 20px;
+        background: rgba(255, 255, 255, 0.2);
+        animation: animate 25s linear infinite;
+        bottom: -150px;
+      }
+
+      .circles li:nth-child(1) {
+        left: 25%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 0s;
+      }
+
+      .circles li:nth-child(2) {
+        left: 10%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 2s;
+        animation-duration: 12s;
+      }
+
+      .circles li:nth-child(3) {
+        left: 70%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 4s;
+      }
+
+      .circles li:nth-child(4) {
+        left: 40%;
+        width: 60px;
+        height: 60px;
+        animation-delay: 0s;
+        animation-duration: 18s;
+      }
+
+      .circles li:nth-child(5) {
+        left: 65%;
+        width: 20px;
+        height: 20px;
+        animation-delay: 0s;
+      }
+
+      .circles li:nth-child(6) {
+        left: 75%;
+        width: 110px;
+        height: 110px;
+        animation-delay: 3s;
+      }
+
+      .circles li:nth-child(7) {
+        left: 35%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 7s;
+      }
+
+      .circles li:nth-child(8) {
+        left: 50%;
+        width: 25px;
+        height: 25px;
+        animation-delay: 15s;
+        animation-duration: 45s;
+      }
+
+      .circles li:nth-child(9) {
+        left: 20%;
+        width: 15px;
+        height: 15px;
+        animation-delay: 2s;
+        animation-duration: 35s;
+      }
+
+      .circles li:nth-child(10) {
+        left: 85%;
+        width: 150px;
+        height: 150px;
+        animation-delay: 0s;
+        animation-duration: 11s;
+      }
+
+      @keyframes animate {
+        0% {
+          transform: translateY(0) rotate(0deg);
+          opacity: 1;
+          border-radius: 0;
+        }
+
+        100% {
+          transform: translateY(-1000px) rotate(720deg);
+          opacity: 0;
+          border-radius: 50%;
+        }
       }
     </style>
   </head>
   <body>
+    <div class="area">
+      <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+      </ul>
+    </div>
     <div class="form-container">
       <div class="upload-files-container">
         <form
@@ -208,8 +347,9 @@
               or
               <input
                 type="file"
-                name="file"
+                name="file[]"
                 accept=".pdf"
+                multiple="multiple"
                 class="default-file-input"
               />
               <span class="browse-files-text">browse file</span>
@@ -223,15 +363,7 @@
               >cancel</span
             >
           </span>
-          <div class="file-block">
-            <div class="file-info">
-              <span class="material-icons-outlined file-icon">description</span>
-              <span class="file-name"> </span> |
-              <span class="file-size"> </span>
-            </div>
-            <span class="material-icons remove-file-icon">delete</span>
-            <div class="progress-bar"></div>
-          </div>
+          <ul class="files-block-container"></ul>
           <button type="submit" class="upload-button">Upload</button>
         </form>
       </div>
@@ -256,28 +388,45 @@
       );
       let cancelAlertButton = document.querySelector(".cancel-alert-button");
       let uploadedFile = document.querySelector(".file-block");
+      let fileBlockContainer = document.querySelector(".files-block-container");
       let fileName = document.querySelector(".file-name");
       let fileSize = document.querySelector(".file-size");
       let progressBar = document.querySelector(".progress-bar");
-      let removeFileButton = document.querySelector(".remove-file-icon");
+      let removeFileButtons = document.querySelectorAll(".remove-file-icon");
       let uploadButton = document.querySelector(".upload-button");
       let fileFlag = 0;
 
       fileInput.addEventListener("click", () => {
-        fileInput.value = "";
-        console.log(fileInput.value);
+        //fileInput.value = "";
+        console.log(fileInput);
       });
 
       fileInput.addEventListener("change", (e) => {
-        console.log(" > " + fileInput.value);
         uploadIcon.innerHTML = "check_circle";
         dragDropText.innerHTML = "File Dropped Successfully!";
         uploadButton.innerHTML = `Upload`;
-        fileName.innerHTML = fileInput.files[0].name;
-        fileSize.innerHTML =
-          (fileInput.files[0].size / 1024).toFixed(1) + " KB";
-        uploadedFile.style.cssText = "display: flex;";
-        progressBar.style.width = 0;
+        fileBlockContainer.innerHTML = "";
+        let files = fileInput.files;
+        for (file of files) {
+          fileBlockContainer.innerHTML += `<li class="file-block">
+              <div class="file-info">
+                <span class="material-icons-outlined file-icon"
+                  >description</span
+                >
+                <span class="file-name">${
+                  file.name.length > 25
+                    ? file.name.slice(0, 25) + "..."
+                    : file.name
+                }</span> |
+                <span class="file-size">${
+                  (file.size / 1024).toFixed(1) + " KB"
+                }</span>
+              <span class="material-icons remove-file-icon">delete</span></div>
+              <div class="progress-bar"></div>
+            </div>
+          </li>`;
+        }
+        fileBlockContainer.style.cssText = "display: inline-block;";
         fileFlag = 0;
       });
       uploadButton.addEventListener("click", () => {
@@ -335,14 +484,20 @@
             }
             fileInput.files = files;
             document.querySelector(".upload-icon").classList.add("rotate-icon");
-            document.querySelector(".drag-file-area").classList.add("solid-border");
+            document
+              .querySelector(".drag-file-area")
+              .classList.add("solid-border");
             dragDropText.innerHTML = "Drop your file here!";
           });
         });
 
-        draggableFileArea.addEventListener("dragleave",(e)=>{
-          document.querySelector(".upload-icon").classList.remove("rotate-icon");
-          document.querySelector(".drag-file-area").classList.remove("solid-border");
+        draggableFileArea.addEventListener("dragleave", (e) => {
+          document
+            .querySelector(".upload-icon")
+            .classList.remove("rotate-icon");
+          document
+            .querySelector(".drag-file-area")
+            .classList.remove("solid-border");
           dragDropText.innerHTML = "Drag & drop any file here";
         });
 
@@ -357,25 +512,51 @@
               return;
             }
           }
-          document.querySelector(".upload-icon").classList.remove("rotate-icon");
-          document.querySelector(".drag-file-area").classList.remove("solid-border");
+          document
+            .querySelector(".upload-icon")
+            .classList.remove("rotate-icon");
+          document
+            .querySelector(".drag-file-area")
+            .classList.remove("solid-border");
           uploadIcon.innerHTML = "check_circle";
           dragDropText.innerHTML = "File Dropped Successfully!";
           fileInput.files = files;
-          fileName.innerHTML = files[0].name;
-          fileSize.innerHTML = (files[0].size / 1024).toFixed(1) + " KB";
-          uploadedFile.style.cssText = "display: flex;";
-          progressBar.style.width = 0;
+          fileBlockContainer.innerHTML = "";
+          for (const file of files) {
+            fileBlockContainer.innerHTML += `<li class="file-block">
+              <div class="file-info">
+                <span class="material-icons-outlined file-icon"
+                  >description</span
+                >
+                <span class="file-name">${
+                  file.name.length > 25
+                    ? file.name.slice(0, 25) + "..."
+                    : file.name
+                }</span> |
+                <span class="file-size">${
+                  (file.size / 1024).toFixed(1) + " KB"
+                }</span>
+              <span class="material-icons remove-file-icon">delete</span></div>
+              <div class="progress-bar"></div>
+            </div>
+          </li>`;
+          }
+          fileBlockContainer.style.cssText = "display: inline-block;";
+          //progressBar.style.width = 0;
           fileFlag = 0;
         });
       }
-      removeFileButton.addEventListener("click", () => {
-        uploadedFile.style.cssText = "display: none;";
-        fileInput.value = "";
-        uploadIcon.innerHTML = "file_upload";
-        dragDropText.innerHTML = "Drag & drop any file here";
-        uploadButton.innerHTML = `Upload`;
-      });
+      fileBlockContainer.addEventListener("click", removeFile);
+      function removeFile(e) {
+        if (e.target.classList.contains("remove-file-icon")) {
+          fileBlockContainer.removeChild(e.target.parentElement.parentElement);
+          if (fileBlockContainer.innerHTML == "") {
+            fileBlockContainer.style.cssText = "display:none;";
+            dragDropText.innerHTML = "Drag & drop any PDF file here";
+            uploadIcon.innerHTML = "file_upload";
+          }
+        }
+      }
     </script>
   </body>
 </html>
