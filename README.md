@@ -1,19 +1,16 @@
+
 # VisionScribe
-A PDF to Alt-Text Generator (WIP).
+A PDF to Alt-Text Generator.
 
 ## Description
-VisionScribe lets the User take a PDF-File, converts every page into an image to send everything 
-to the GPT-4 Vision Model and then lets it generate Alternative-Text for each image. The resulting response is then
-turned into a HTML-File which includes Tags for Screenreader Accessibility.
+VisionScribe is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
 
 ## Getting Started
 
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
-- You have installed the latest version of [Python](https://www.python.org/downloads/).
-- You have a Windows/Linux/Mac machine capable of running Python 3.8+.
-- You have installed [Git](https://git-scm.com/downloads).
-- You have Poppler in PATH
+- You have installed the latest version of [Docker](https://www.docker.com/products/docker-desktop).
+- You have a Windows/Linux/Mac machine capable of running Docker.
 
 ### Installing VisionScribe
 
@@ -21,50 +18,37 @@ To install VisionScribe, follow these steps:
 
 #### Clone the repository:
 
-    git clone https://github.com/yourusername/yourrepository.git
-    cd yourrepository
-   
-### Create a virtual environment and activate it:
+```bash
+git clone https://github.com/yourusername/yourrepository.git
+cd yourrepository
+```
 
-#### On Windows:
-    
-    python -m venv venv
-    venv\Scripts\activate
+#### Configuring the Application
 
-#### On macOS and Linux:
+Create a `.env` file in the project root directory and add the following configurations:
 
-    python3 -m venv venv
-    source venv/bin/activate
+```env
+OPENAI_API_KEY='your_openai_api_key_here'
+APP_SECRET_KEY='your_secret_key_here'
+```
 
-#### Install the required packages:
+### Running VisionScribe
 
-    pip install -r requirements.txt
+To run VisionScribe, execute the following command in the root directory of the project:
 
-### Configuring the Application
+```bash
+docker-compose up
+```
 
-#### Create a .env file in the project root directory and add the following configurations:
-
-    OPENAI_API_KEY='your_openai_api_key_here'
-    POPPLER_PATH='path_to_your_poppler_bin_directory'
-    APP_SECRET_KEY='your_secret_key_here'
-
-## Running VisionScribe
-
-To run VisionScribe, execute:
-
-    flask run
-
-This will start the Flask server, and you can access the web application by navigating to http://127.0.0.1:7777 
-or http://127.0.0.1:5000 (flask is weird sometimes) in your web browser.
-
+This will build and start the VisionScribe application in a Docker container. You can access the web application by navigating to `http://localhost:7777` in your web browser.
 
 ## Contributing to VisionScribe
 
 To contribute to VisionScribe, follow these steps:
 
-1. Fork this repository. 
-2. Create a new branch (git checkout -b feature_branch). 
-3. Make changes and test. 
-4. Commit your changes (git commit -am 'Add some feature'). 
-5. Push to the branch (git push origin feature_branch). 
+1. Fork this repository.
+2. Create a new branch (`git checkout -b feature_branch`).
+3. Make changes and test.
+4. Commit your changes (`git commit -am 'Add some feature'`).
+5. Push to the branch (`git push origin feature_branch`).
 6. Create a new Pull Request.
