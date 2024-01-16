@@ -99,7 +99,7 @@ def convert_pdf(filename):
 
         flash('PDF successfully converted to alternative text.')
         current_app.logger.info(f"Conversion completed for {filename}")
-        return save_texts(texts, filename)
+        return save_texts(texts, filename, chosen_language)
 
     except Exception as e:
         flash(f'Error during conversion: {e}')
@@ -248,10 +248,16 @@ def send_image_to_gpt4_vision_german(image_path, page_number):
 
 # TODO Save Text in a way that makes it more Screenreader friendly
 #  Markdown for Code, LaTeX for mathematical stuff
-def save_texts(texts, original_filename):
+def save_texts(texts, original_filename, language):
+    html_content = "<!DOCTYPE html>\n"
     # Construct the HTML content
-    html_content = "<!DOCTYPE html>\n<html>\n<head>\n"
-    html_content += "<meta charset=\"UTF-8\">\n"
+    if language == "english":
+        html_content += '<html lang="en">\n'
+    elif language == "german":
+        html_content += '<html lang="de">\n'
+    else:
+        html_content += '<html>\n'
+    html_content += "<head>\n<meta charset=\"UTF-8\">\n"
     html_content += f"<title>{original_filename}</title>\n"
     html_content += "</head>\n<body>\n"
 
