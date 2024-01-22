@@ -106,37 +106,6 @@ def convert_pdf(filename):
         current_app.logger.error(f"Error during conversion for {filename}: {e}")
         return redirect(url_for('file_details', filename=filename))
 
-def convert_pdf_to_images(pdf_path):
-    """
-    Convert a PDF file to a list of images, with each image representing a page of the PDF.
-
-    :param pdf_path: Path to the PDF file
-    :return: List of images
-    """
-    try:
-        images = convert_from_path(pdf_path)
-
-        # Save images to a temporary directory and return their file paths
-        image_paths = []
-        temp_dir = "temp_images"
-        if not os.path.exists(temp_dir):
-            os.makedirs(temp_dir, exist_ok=True)
-
-        for i, image in enumerate(images):
-            image_path = os.path.join(temp_dir, f"page_{i + 1}.jpg")
-            image.save(image_path, 'JPEG')
-            image_paths.append(image_path)
-
-        return image_paths  # This line should be outside the for-loop
-    except Exception as e:
-        current_app.logger.error(f"Error in convert_pdf_to_images: {e}")
-        raise  # re-raise the exception to be caught in the calling function
-
-
-def encode_image(image_path):
-    with open(image_path, "rb") as image_file:
-        return base64.b64encode(image_file.read()).decode('utf-8')
-
 
 def send_image_to_gpt4_vision_english(image_path, page_number):
     base64_image = encode_image(image_path)
@@ -158,14 +127,19 @@ def send_image_to_gpt4_vision_english(image_path, page_number):
                         "type": "text",
                         "text": "I am giving you an image from a university lecture slide."
                                 "Generate a description that can be used as alternative text. "
-                                "Please give me a short and precise alternative text for the "
+                                "Please give me a precise alternative text for the "
                                 "shown illustrations. A student with total blindness should "
-                                "be able to understand the illustration. Please also include specific contexts "
-                                "in the alternative text, if any are present. "
+                                "be able to understand the illustrations. Please also include specific contexts "
+                                "in the alternative text, if any are present. If there is text on the slide, "
+                                "include the raw text in the alternative text, in english, "
+                                "without changing it. If there are "
+                                "mathematical formulas, include raw LaTeX markup for these formulas in the alternative "
+                                "text without specifically outlining it. "
                                 "On each of the slides, there is a green strip at the bottom with the date "
                                 "and other details. Write nothing about these. Generally, "
                                 "write nothing about styling or design."
-                                f"Your message must start with 'Page {page_number}:'."
+                                f"Your message must start with 'Page {page_number}, <a title in one-two words chosen "
+                                f"on what is in the generated alternative text>:'."
                     },
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
                 ]
@@ -211,14 +185,20 @@ def send_image_to_gpt4_vision_german(image_path, page_number):
                 "content": [
                     {"type": "text", "text": "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität."
                                              "Generiere eine Beschreibung, die als Alternativtext genutzt werden kann. "
-                                             "Bitte gib mir einen kurzen und präzisen Alternativtext für die "
+                                             "Bitte gib mir einen präzisen Alternativtext für die "
                                              "gezeigten Abbildungen. Ein Studierender mit absoluter Blindheit sollte "
-                                             "die Abbildung verstehen können. Bitte nimm auch konkrete Zusammenhänge "
+                                             "die Abbildung verstehen können. Wenn normaler Text auf dem Bild "
+                                             "zu erkennen ist, dann schreibe den Text ohne Änderung, aber auf deutsch, "
+                                             " so auch in den "
+                                             "Alternativtext. Falls mathematische Formeln vorkommen, gib rohes LaTeX "
+                                             "für diese Formeln mit in deinen Alternativtext, ohne es "
+                                             "speziell hervorzuheben. Nimm auch konkrete Zusammenhänge "
                                              "in den Alternativtext mit auf, falls welche vorhanden sind. "
                                              "Auf jeder der Folien ist unten ein grüner Streifen mit Datum "
                                              "und anderen Angaben. Schreibe nichts über diese. Schreibe allgemein "
                                              "nichts über styling oder design."
-                                             f"Deine Nachricht muss mit 'Seite {page_number}:' beginnen."},
+                                             f"Deine Nachricht muss mit 'Seite {page_number}, <eine von dir generierte "
+                                             f"Überschrift in ein-zwei Worten>:' beginnen."},
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
                 ]
             }
@@ -246,9 +226,9 @@ def send_image_to_gpt4_vision_german(image_path, page_number):
         return f"Error processing image on page {page_number}. Exception: {e}"
 
 
-# TODO Save Text in a way that makes it more Screenreader friendly
-#  Markdown for Code, LaTeX for mathematical stuff
 def save_texts(texts, original_filename, language):
+    base_filename = os.path.splitext(original_filename)[0]
+    new_filename = base_filename + " " + language
     html_content = "<!DOCTYPE html>\n"
     # Construct the HTML content
     if language == "english":
@@ -258,7 +238,7 @@ def save_texts(texts, original_filename, language):
     else:
         html_content += '<html>\n'
     html_content += "<head>\n<meta charset=\"UTF-8\">\n"
-    html_content += f"<title>{original_filename}</title>\n"
+    html_content += f"<title>{new_filename}</title>\n"
     html_content += "</head>\n<body>\n"
 
     for text in texts:
@@ -274,7 +254,7 @@ def save_texts(texts, original_filename, language):
     # Create a response object and set the appropriate headers to prompt a download
     response = Response(html_bytes.getvalue(),
                         mimetype="text/html",
-                        headers={"Content-Disposition": f"attachment;filename={original_filename}.html"})
+                        headers={"Content-Disposition": f"attachment;filename={new_filename}.html"})
 
     return response
 
@@ -287,7 +267,7 @@ def process_text_for_html(text):
     processed_lines = []
     for line in lines:
         # Check if the line starts with "Seite "
-        if line.startswith("Seite "):
+        if line.startswith("Seite ") or line.startswith("Page "):
             # Find the position of the colon
             colon_pos = line.find(':')
             if colon_pos != -1:
@@ -308,6 +288,38 @@ def process_text_for_html(text):
 
     # Join the processed lines back into a single string
     return ''.join(processed_lines)
+
+
+def convert_pdf_to_images(pdf_path):
+    """
+    Convert a PDF file to a list of images, with each image representing a page of the PDF.
+
+    :param pdf_path: Path to the PDF file
+    :return: List of images
+    """
+    try:
+        images = convert_from_path(pdf_path)
+
+        # Save images to a temporary directory and return their file paths
+        image_paths = []
+        temp_dir = "temp_images"
+        if not os.path.exists(temp_dir):
+            os.makedirs(temp_dir, exist_ok=True)
+
+        for i, image in enumerate(images):
+            image_path = os.path.join(temp_dir, f"page_{i + 1}.jpg")
+            image.save(image_path, 'JPEG')
+            image_paths.append(image_path)
+
+        return image_paths  # This line should be outside the for-loop
+    except Exception as e:
+        current_app.logger.error(f"Error in convert_pdf_to_images: {e}")
+        raise  # re-raise the exception to be caught in the calling function
+
+
+def encode_image(image_path):
+    with open(image_path, "rb") as image_file:
+        return base64.b64encode(image_file.read()).decode('utf-8')
 
 
 if __name__ == '__main__':
