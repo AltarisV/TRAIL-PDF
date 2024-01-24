@@ -1,9 +1,10 @@
 
-# VisionScribe
+# TRAIL
+Transformative-Reading-Accessibility-Integration-Layer
 A PDF to Alt-Text Generator.
 
 ## Description
-VisionScribe is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
+TRAIL is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
 
 ## Getting Started
 
@@ -12,9 +13,9 @@ Before you begin, ensure you have met the following requirements:
 - You have installed the latest version of [Docker](https://www.docker.com/products/docker-desktop).
 - You have a Windows/Linux/Mac machine capable of running Docker.
 
-### Installing VisionScribe
+### Installing TRAIL
 
-To install VisionScribe, follow these steps:
+To install TRAIL, follow these steps:
 
 #### Clone the repository:
 
@@ -32,9 +33,9 @@ OPENAI_API_KEY='your_openai_api_key_here'
 APP_SECRET_KEY='your_secret_key_here'
 ```
 
-### Running VisionScribe
+### Running TRAIL
 
-To run VisionScribe, execute the following command in the root directory of the project:
+To run TRAIL, execute the following command in the root directory of the project:
 
 ```bash
 docker-compose up
@@ -42,9 +43,9 @@ docker-compose up
 
 This will build and start the VisionScribe application in a Docker container. You can access the web application by navigating to `http://localhost:7777` in your web browser.
 
-## Contributing to VisionScribe
+## Contributing to TRAIL
 
-To contribute to VisionScribe, follow these steps:
+To contribute to TRAIL, follow these steps:
 
 1. Fork this repository.
 2. Create a new branch (`git checkout -b feature_branch`).
