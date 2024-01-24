@@ -175,6 +175,7 @@
         padding: 7.5px 50px;
         cursor: pointer;
       }
+
       .upload-icon {
         transition: transform 0.5s;
       }
@@ -186,8 +187,8 @@
       }
 
       .area {
-        background: #4e54c8;
-        background: -webkit-linear-gradient(to left, #8f94fb, #4e54c8);
+        background: #f7fff7;
+        background: -webkit-linear-gradient(to left, #7b2cbf, #f7fff7);
         width: 100vw;
         min-height: 100vh;
       }
@@ -211,7 +212,7 @@
         list-style: none;
         width: 20px;
         height: 20px;
-        background: rgba(255, 255, 255, 0.2);
+        background: #7b2cbf;
         animation: animate 25s linear infinite;
         bottom: -150px;
       }
@@ -508,6 +509,12 @@
           for (const file of files) {
             if (!file.name.toString().includes(".pdf")) {
               dragDropText.innerHTML = "Drop a PDF file here!";
+              document
+                .querySelector(".upload-icon")
+                .classList.remove("rotate-icon");
+              document
+                .querySelector(".drag-file-area")
+                .classList.remove("solid-border");
               uploadIcon.innerHTML = "error";
               return;
             }
