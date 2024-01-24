@@ -121,25 +121,29 @@ def send_image_to_gpt4_vision_english(image_path, page_number):
         "messages": [
             {
                 "role": "user",
-                # TODO Make GPT correctly put Markdown and LaTeX in the Response if they find it in the Image
+                # TODO Make GPT correctly put Markdown in the Response if they find it in the Image
                 "content": [
                     {
                         "type": "text",
                         "text": "I am giving you an image from a university lecture slide."
-                                "Generate a description that can be used as alternative text. "
-                                "Please give me a precise alternative text for the "
+                                "Your job is to generate a description that can be used as alternative text. "
+                                "Give me a precise alternative text for the "
                                 "shown illustrations. A student with total blindness should "
-                                "be able to understand the illustrations. Please also include specific contexts "
-                                "in the alternative text, if any are present. If there is text on the slide, "
-                                "include the raw text in the alternative text, in english, "
-                                "without changing it. If there are "
+                                "be able to understand the illustrations. If you find any indications or associations,"
+                                "make sure to detail them in your response. If there is text on the slide, "
+                                "include the raw text in the alternative text, in english. If the original text on "
+                                "the slide is not in english, only include the translated text in your response."
+                                "If there are "
                                 "mathematical formulas, include raw LaTeX markup for these formulas in the alternative "
                                 "text without specifically outlining it. "
-                                "On each of the slides, there is a green strip at the bottom with the date "
-                                "and other details. Write nothing about these. Generally, "
-                                "write nothing about styling or design."
+                                "On each of the slides, there is a footer at the bottom with the date "
+                                "and other details. It is imperative that you write nothing about the slide footer or "
+                                "its contents. Generally, write nothing about styling or design."
                                 f"Your message must start with 'Page {page_number}, <a title in one-two words chosen "
-                                f"on what is in the generated alternative text>:'."
+                                f"on what is in the generated alternative text>:'. The title should be in english. "
+                                f"Do not repeat the title in your alternative text for the slide. If you translate a "
+                                f"title from another language, only include the translated title. Your response should "
+                                f"only contain the Page, Title and the alternative text."
                     },
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
                 ]
@@ -181,24 +185,30 @@ def send_image_to_gpt4_vision_german(image_path, page_number):
         "messages": [
             {
                 "role": "user",
-                # TODO Make GPT correctly put Markdown and LaTeX in the Response if they find it in the Image
+                # TODO Make GPT correctly put Markdown in the Response if they find it in the Image
                 "content": [
                     {"type": "text", "text": "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität."
                                              "Generiere eine Beschreibung, die als Alternativtext genutzt werden kann. "
                                              "Bitte gib mir einen präzisen Alternativtext für die "
                                              "gezeigten Abbildungen. Ein Studierender mit absoluter Blindheit sollte "
-                                             "die Abbildung verstehen können. Wenn normaler Text auf dem Bild "
+                                             "die Abbildung verstehen können. Falls du Assoziationen auf dem Bild "
+                                             "erkennen kannst, beschreibe diese. Wenn normaler Text auf dem Bild "
                                              "zu erkennen ist, dann schreibe den Text ohne Änderung, aber auf deutsch, "
-                                             " so auch in den "
-                                             "Alternativtext. Falls mathematische Formeln vorkommen, gib rohes LaTeX "
+                                             "so auch in den Alternativtext. Wenn der originale Text nicht auf deutsch "
+                                             "ist, dann sollte in deiner Antwort nur der übersetzte, deutsche Text "
+                                             "vorkommen. Falls mathematische Formeln vorkommen, gib rohes LaTeX "
                                              "für diese Formeln mit in deinen Alternativtext, ohne es "
                                              "speziell hervorzuheben. Nimm auch konkrete Zusammenhänge "
                                              "in den Alternativtext mit auf, falls welche vorhanden sind. "
-                                             "Auf jeder der Folien ist unten ein grüner Streifen mit Datum "
-                                             "und anderen Angaben. Schreibe nichts über diese. Schreibe allgemein "
-                                             "nichts über styling oder design."
+                                             "Auf jeder der Folien ist in der Fußzeile ein Streifen mit Datum "
+                                             "und anderen Angaben. Es ist von höchster Wichtigkeit, dass du nichts über"
+                                             " diese Fußzeile oder ihren Inhalt schreibst. Schreibe allgemein "
+                                             "nichts über Styling, Design oder das Logo der Institution."
                                              f"Deine Nachricht muss mit 'Seite {page_number}, <eine von dir generierte "
-                                             f"Überschrift in ein-zwei Worten>:' beginnen."},
+                                             f"Überschrift in ein-zwei Worten>:' beginnen. Die Überschrift soll auf "
+                                             f"deutsch sein. Wiederhole in deiner Antwort nicht den Titel der Folie. "
+                                             f"Deine Antwort sollte nur die Seite, den Title und "
+                                             f"den Alternativtext beinhalten."},
                     {"type": "image_url", "image_url": {"url": f"data:image/jpeg;base64,{base64_image}"}}
                 ]
             }
@@ -266,14 +276,18 @@ def process_text_for_html(text):
     # Process each line
     processed_lines = []
     for line in lines:
-        # Check if the line starts with "Seite "
+        # Check if the line starts with "Seite " or "Page "
         if line.startswith("Seite ") or line.startswith("Page "):
             # Find the position of the colon
             colon_pos = line.find(':')
             if colon_pos != -1:
-                # Extract and format the heading
-                header = line[:colon_pos].strip()
-                processed_lines.append(f"<h1>{header}</h1>")
+                # Extract the page number and title
+                page_num_title = line[:colon_pos].strip()
+                # Split page number and title
+                page_num, title = page_num_title.split(',', 1)
+
+                # Format the heading with the page number at the end
+                processed_lines.append(f"<h1>{title.strip()} ({page_num.strip()})</h1>")
 
                 # Extract and format the content, if any
                 content = line[colon_pos + 1:].strip()
@@ -283,8 +297,9 @@ def process_text_for_html(text):
                 # No colon found, treat the whole line as a header
                 processed_lines.append(f"<h1>{line}</h1>")
         else:
-            # If the line doesn't start with "Seite", add it as a paragraph
-            processed_lines.append(f"<p>{line}</p>")
+            # If the line doesn't start with "Seite" and is not empty, add it as a paragraph
+            if line.strip():
+                processed_lines.append(f"<p>{line}</p>")
 
     # Join the processed lines back into a single string
     return ''.join(processed_lines)
