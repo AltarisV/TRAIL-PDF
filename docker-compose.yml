@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  vision-scribe:
+    build: .
+    ports:
+      - "7777:7777"
+    environment:
+    - OPENAI_API_KEY=${OPENAI_API_KEY}
+    - APP_SECRET_KEY=${APP_SECRET_KEY}
+    volumes:
+      - .:/usr/src/app

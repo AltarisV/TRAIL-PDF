@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
     <title>File Details</title>
     <style lang="scss">
@@ -182,6 +182,7 @@
     </style>
   </head>
   <body>
+<<<<<<< HEAD
     <div class="area">
       <ul class="circles">
         <li></li>
@@ -197,24 +198,36 @@
       </ul>
     </div>
     <div class="form-container">
+=======
+  <div class="form-container">
+>>>>>>> 860338c7d8bd2a970de29d19d2c3b9242ee2ab1a
       <div class="upload-files-container">
-        <form
-          enctype="multipart/form-data"
-          action="{{ url_for('convert_pdf', filename=filename) }}"
-          method="post"
-        >
-          <h3>Details for {{ filename }}</h3>
-          <p>This PDF has {{ page_count }} pages.</p>
-          <input
-            class="upload-button"
-            type="submit"
-            value="Convert to Alternative Text"
-          />
-          <button class="upload-button">
-            <a href="{{ url_for('index') }}">Back to file list</a>
-          </button>
-        </form>
+          <form
+                  enctype="multipart/form-data"
+                  action="{{ url_for('convert_pdf', filename=filename) }}"
+                  method="post"
+          >
+              <h3>Details for {{ filename }}</h3>
+              <p>This PDF has {{ page_count }} pages.</p>
+
+              <!-- Language selection dropdown -->
+              <label for="language">Choose a language for conversion:</label>
+              <select name="language" id="language">
+                  <option value="english">English</option>
+                  <option value="german">German</option>
+                  <!-- Add other languages as needed -->
+              </select>
+
+              <input
+                      class="upload-button"
+                      type="submit"
+                      value="Convert to Alternative Text"
+              />
+              <button class="upload-button">
+                  <a href="{{ url_for('index') }}">Back to file list</a>
+              </button>
+          </form>
       </div>
-    </div>
+  </div>
   </body>
 </html>
