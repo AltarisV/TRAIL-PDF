@@ -1,6 +1,7 @@
 
 # TRAIL
 Transformative-Reading-Accessibility-Integration-Layer
+
 A PDF to Alt-Text Generator.
 
 ## Description
