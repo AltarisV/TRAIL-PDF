@@ -42,7 +42,7 @@ To run TRAIL, execute the following command in the root directory of the project
 docker-compose up
 ```
 
-This will build and start the VisionScribe application in a Docker container. You can access the web application by navigating to `http://localhost:7777` in your web browser.
+This will build and start the TRAIL application in a Docker container. You can access the web application by navigating to `http://localhost:7777` in your web browser.
 
 ## Contributing to TRAIL
 
