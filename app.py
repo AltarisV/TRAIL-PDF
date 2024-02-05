@@ -107,6 +107,55 @@ def convert_pdf(filename):
         return redirect(url_for('file_details', filename=filename))
 
 
+@app.route('/convert_pdf_n_pages/<filename>', methods=['POST'])
+def convert_pdf_n_pages(filename):
+    current_app.logger.info(f"Starting conversion for {filename}")
+    file_path = os.path.join(app.config['UPLOAD_PATH'], filename)
+
+    # Retrieve the chosen language and number of pages from the form data
+    chosen_language = request.form.get('language', 'english')
+    num_pages = request.form.get('num_pages', type=int)
+
+    try:
+        current_app.logger.info(f"Converting first {num_pages} pages of PDF to images for {file_path}")
+        # Convert first 'num_pages' of PDF to images
+        all_images = convert_pdf_to_images(file_path)
+        images = all_images[:num_pages]
+        current_app.logger.info(f"Images generated for first {num_pages} pages: {images}")
+        # Send each image to the GPT-4 vision model
+        texts = []
+        for i, image in enumerate(images):
+            if i > 0:  # Introduce delay for all but the first image because of TPM (Tokens per Minute) Rate Limit
+                time.sleep(6)  # Sleep for 6 seconds
+            current_app.logger.info(f"Processing image {image} on page {i + 1}")
+
+            if chosen_language == "english":
+                text = send_image_to_gpt4_vision_english(image, page_number=i + 1)
+            elif chosen_language == "german":
+                text = send_image_to_gpt4_vision_german(image, page_number=i + 1)
+            else:
+                # Handle unexpected language choice
+                current_app.logger.error(f"Unsupported language choice: {chosen_language}")
+                flash(f'Unsupported language choice: {chosen_language}')
+                return redirect(url_for('file_details', filename=filename))
+
+            current_app.logger.info(f"Received text: {text}")
+            texts.append(text)
+
+        # Save the received texts
+
+        flash('PDF successfully converted to alternative text.')
+        current_app.logger.info(f"Conversion completed for {filename}")
+        base_name, file_extension = os.path.splitext(filename)
+        modified_filename = f"{base_name}_first_{num_pages}_pages{file_extension}"
+        return save_texts(texts, modified_filename, chosen_language)
+
+    except Exception as e:
+        flash(f'Error during conversion: {e}')
+        current_app.logger.error(f"Error during conversion for {filename}: {e}")
+        return redirect(url_for('file_details', filename=filename))
+
+
 def send_image_to_gpt4_vision_english(image_path, page_number):
     base64_image = encode_image(image_path)
 
