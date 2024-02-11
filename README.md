@@ -7,8 +7,8 @@ TRAIL is a web application that converts PDF files into images, sends them to th
 By utilizing the GPT-4 Vision Model, mathematical formulas found in the source document will be converted into raw LaTeX-code in the resulting HTML, which allows screen readers to parse them.
 
 ### Speed and estimated Costs
-Currently, generating alternative text for a pdf will take at least 6 seconds per page.
-As a rough estimation, the API cost of generating alternative text via TRAIL is about 1.5 cents per page.
+Currently, generating alternative text for a pdf will take at least 6 seconds per page to stay within OpenAIs Rate Limits.
+As a rough estimation, the API cost of generating alternative text via TRAIL is roughly 2 cents per page.
 
 ## Getting Started
 
