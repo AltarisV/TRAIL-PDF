@@ -76,6 +76,12 @@
         label {
             font-size: 19px;
 
+        .delete-link {
+            margin-left: 10px;
+            cursor: pointer;
+            vertical-align: middle;
+        }
+
         .browse-files-text {
             color: #7b2cbf;
             font-weight: bolder;
@@ -333,12 +339,15 @@
             <ul class="upload-files-list">
                 {% for file in files %}
                     <li>
-                        <a href="{{ url_for('file_details', filename=file) }}"
-                        >{{ file }}</a
-                        >
+                        <a href="{{ url_for('file_details', filename=file) }}">{{ file }}</a>
+                        <!-- Delete button -->
+                        <a href="{{ url_for('delete_file', filename=file) }}" class="delete-link" title="Delete">
+                            <span class="material-icons" style="color: red;">delete</span>
+                        </a>
                     </li>
                 {% endfor %}
             </ul>
+
             <div class="drag-file-area">
             <span class="material-icons-outlined upload-icon">
               file_upload
@@ -564,6 +573,13 @@
             }
         }
     }
+    document.querySelectorAll('.delete-link').forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            if (!confirm('Are you sure you want to delete this file?')) {
+                event.preventDefault();
+            }
+        });
+    });
 </script>
 </body>
 </html>
