@@ -4,19 +4,19 @@ A PDF to Alt-Text Generator.
 
 ## Description
 TRAIL is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
-By utilizing the GPT-4 Vision Model, mathematical formulas found in the source document will be converted into raw LaTeX-code in the resulting HTML, which allows screen readers to parse them.
+By utilizing the GPT-4 Vision Model, mathematical formulas found in the source document are converted into raw LaTeX code in the resulting HTML, enabling screen readers to parse them effectively.
 
-### Speed and estimated Costs
-Currently, generating alternative text for a pdf will take at least 6 seconds per page to stay within OpenAIs Rate Limits.
-As a rough estimation, the API cost of generating alternative text via TRAIL is roughly 2 cents per page.
+### Speed and Estimated Costs
+Currently, generating alternative text for a PDF will take at least 6 seconds per page to stay within OpenAI's rate limits.
+As a rough estimation, the API cost of generating alternative text via TRAIL is approximately 2 cents per page.
 
 ## Getting Started
 
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
-- You have an OpenAI-API Key and are at least Tier 1 (meaning you have charged at least 5$ of credit).
+- You have an OpenAI API Key and are at least Tier 1 (meaning you have charged at least $5 of credit).
 - You have installed the latest version of [Docker](https://www.docker.com/products/docker-desktop).
-- You have a Windows/Linux/Mac machine capable of running Docker.
+- You have a Windows, Linux, or Mac machine capable of running Docker.
 
 ### Installing TRAIL
 
