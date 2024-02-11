@@ -1,110 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <title>File Details</title>
     <style lang="scss">
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-      body {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-        font-family: "Montserrat", sans-serif;
-        color: white;
-      }
-      .form-container {
-        width: 100vw;
-        height: 100vh;
-        background-color: #f7fff7;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-      .upload-files-container {
-        background-color: #191f19;
-        width: 420px;
-        padding: 30px 60px;
-        border-radius: 40px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px,
-          rgba(0, 0, 0, 0.28) 0px 6px 6px;
-      }
-      .upload-files-container form{
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-      }
-      .upload-button {
-        font-family: "Montserrat";
-        background-color: #7b2cbf;
-        color: #f7fff7;
-        display: flex;
-        align-items: center;
-        font-size: 18px;
-        border: none;
-        border-radius: 20px;
-        margin: 10px;
-        padding: 7.5px 50px;
-        cursor: pointer;
-      }
-      .upload-button a {
-        color: #f7fff7;
-        text-decoration: none;
-      }
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+            color: white;
+        }
+        .form-container {
+            position: absolute;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .upload-files-container {
+            background-color: #191f19;
+            width: 500px;
+            padding: 30px 60px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px,
+            rgba(0, 0, 0, 0.28) 0px 6px 6px;
+        form {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        h3 {
+            text-align: center;
+        }
+        }
+        }
+        .upload-button {
+            font-family: "Montserrat";
+            background-color: #7b2cbf;
+            color: #f7fff7;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            border: none;
+            border-radius: 20px;
+            margin: 10px;
+            padding: 7.5px 50px;
+            cursor: pointer;
+        a {
+            color: #f7fff7;
+            text-decoration: none;
+        }
+        }
+
+        .area {
+            background: #f7fff7;
+            background: -webkit-linear-gradient(to left, #7b2cbf, #f7fff7);
+            width: 100vw;
+            min-height: 100vh;
+        }
+
+        .circles {
+            padding: 0;
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .circles li {
+            position: absolute;
+            display: block;
+            list-style: none;
+            width: 20px;
+            height: 20px;
+            background: #7b2cbf;
+            animation: animate 25s linear infinite;
+            bottom: -150px;
+        }
+
+        .circles li:nth-child(1) {
+            left: 25%;
+            width: 80px;
+            height: 80px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(2) {
+            left: 10%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 2s;
+            animation-duration: 12s;
+        }
+
+        .circles li:nth-child(3) {
+            left: 70%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 4s;
+        }
+
+        .circles li:nth-child(4) {
+            left: 40%;
+            width: 60px;
+            height: 60px;
+            animation-delay: 0s;
+            animation-duration: 18s;
+        }
+
+        .circles li:nth-child(5) {
+            left: 65%;
+            width: 20px;
+            height: 20px;
+            animation-delay: 0s;
+        }
+
+        .circles li:nth-child(6) {
+            left: 75%;
+            width: 110px;
+            height: 110px;
+            animation-delay: 3s;
+        }
+
+        .circles li:nth-child(7) {
+            left: 35%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 7s;
+        }
+
+        .circles li:nth-child(8) {
+            left: 50%;
+            width: 25px;
+            height: 25px;
+            animation-delay: 15s;
+            animation-duration: 45s;
+        }
+
+        .circles li:nth-child(9) {
+            left: 20%;
+            width: 15px;
+            height: 15px;
+            animation-delay: 2s;
+            animation-duration: 35s;
+        }
+
+        .circles li:nth-child(10) {
+            left: 85%;
+            width: 150px;
+            height: 150px;
+            animation-delay: 0s;
+            animation-duration: 11s;
+        }
+
+        @keyframes animate {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+                border-radius: 0;
+            }
+
+            100% {
+                transform: translateY(-1000px) rotate(720deg);
+                opacity: 0;
+                border-radius: 50%;
+            }
+        }
     </style>
-  </head>
-  <body>
-  <div class="form-container">
-      <div class="upload-files-container">
-          <form
-                  enctype="multipart/form-data"
-                  action="{{ url_for('convert_pdf', filename=filename) }}"
-                  method="post"
-                  id="conversionForm"
-          >
-              <h3>Details for {{ filename }}</h3>
-              <p>This PDF has {{ page_count }} pages.</p>
+</head>
+<body>
+<div class="area">
+    <ul class="circles">
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+        <li></li>
+    </ul>
+</div>
+<div class="form-container">
+    <div class="upload-files-container">
+        <form
+                enctype="multipart/form-data"
+                action="{{ url_for('convert_pdf', filename=filename) }}"
+                method="post"
+                id="conversionForm"
+        >
+            <h3>Details for {{ filename }}</h3>
+            <p>This PDF has {{ page_count }} pages.</p>
 
-              <!-- Language selection dropdown -->
-              <label for="language">Choose a language for conversion:</label>
-              <select name="language" id="language">
-                  <option value="english">English</option>
-                  <option value="german">German</option>
-                  <!-- Add other languages as needed -->
-              </select>
+            <!-- Language selection dropdown from the second file -->
+            <label for="language">Choose a language for conversion:</label>
+            <select name="language" id="language">
+                <option value="english">English</option>
+                <option value="german">German</option>
+                <!-- Add other languages as needed -->
+            </select>
 
-              <!-- Input for number of pages (optional) -->
-              <label for="num_pages">Enter number of pages to convert (optional):</label>
-              <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
+            <!-- Input for number of pages (from the second file) -->
+            <label for="num_pages">Enter number of pages to convert (optional):</label>
+            <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
 
-              <!-- Button to convert the full document -->
-              <input
-                      class="upload-button"
-                      type="submit"
-                      value="Convert Full Document"
-              />
+            <!-- Button to convert the full document (from the second file) -->
+            <input
+                    class="upload-button"
+                    type="submit"
+                    value="Convert Full Document"
+            />
 
-              <!-- Button to convert specified number of pages -->
-              <button type="button" class="upload-button" onclick="submitPartialConversion()">
-                  Convert Specified Pages
-              </button>
+            <!-- Button to convert specified number of pages (from the second file) -->
+            <button type="button" class="upload-button" onclick="submitPartialConversion()">
+                Convert Specified Pages
+            </button>
 
-              <button class="upload-button">
-                  <a href="{{ url_for('index') }}">Back to file list</a>
-              </button>
-          </form>
-      </div>
-  </div>
+            <button class="upload-button">
+                <a href="{{ url_for('index') }}">Back to file list</a>
+            </button>
+        </form>
+    </div>
+</div>
 
-  <script>
-      function submitPartialConversion() {
-          var form = document.getElementById('conversionForm');
-          form.action = "{{ url_for('convert_pdf_n_pages', filename=filename) }}";
-          form.submit();
-      }
-  </script>
-  </body>
+<script>
+    function submitPartialConversion() {
+        var form = document.getElementById('conversionForm');
+        form.action = "{{ url_for('convert_pdf_n_pages', filename=filename) }}";
+        form.submit();
+    }
+</script>
+</body>
 </html>
