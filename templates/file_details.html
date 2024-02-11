@@ -202,11 +202,12 @@
                 enctype="multipart/form-data"
                 action="{{ url_for('convert_pdf', filename=filename) }}"
                 method="post"
+                id="conversionForm"
         >
             <h3>Details for {{ filename }}</h3>
             <p>This PDF has {{ page_count }} pages.</p>
 
-            <!-- Language selection dropdown -->
+            <!-- Language selection dropdown from the second file -->
             <label for="language">Choose a language for conversion:</label>
             <select name="language" id="language">
                 <option value="english">English</option>
@@ -214,16 +215,35 @@
                 <!-- Add other languages as needed -->
             </select>
 
+            <!-- Input for number of pages (from the second file) -->
+            <label for="num_pages">Enter number of pages to convert (optional):</label>
+            <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
+
+            <!-- Button to convert the full document (from the second file) -->
             <input
                     class="upload-button"
                     type="submit"
-                    value="Convert to Alternative Text"
+                    value="Convert Full Document"
             />
+
+            <!-- Button to convert specified number of pages (from the second file) -->
+            <button type="button" class="upload-button" onclick="submitPartialConversion()">
+                Convert Specified Pages
+            </button>
+
             <button class="upload-button">
                 <a href="{{ url_for('index') }}">Back to file list</a>
             </button>
         </form>
     </div>
 </div>
+
+<script>
+    function submitPartialConversion() {
+        var form = document.getElementById('conversionForm');
+        form.action = "{{ url_for('convert_pdf_n_pages', filename=filename) }}";
+        form.submit();
+    }
+</script>
 </body>
 </html>
