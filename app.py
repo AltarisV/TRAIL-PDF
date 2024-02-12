@@ -1,6 +1,10 @@
 import io
 import os
+import sys
 import time
+import webbrowser
+from threading import Timer
+
 import openai
 import base64
 import requests
@@ -8,13 +12,35 @@ from PyPDF2 import PdfReader
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, current_app, Response
 from werkzeug.utils import secure_filename
 from pdf2image import convert_from_path
-from dotenv import load_dotenv
+from dotenv import load_dotenv, set_key
+
+
+def setup_env_file():
+    """Set up the .env file with necessary API keys."""
+    env_file = '.env'
+    load_dotenv(env_file)
+    required_keys = ['OPENAI_API_KEY']
+
+    for key in required_keys:
+        if not os.getenv(key):
+            value = input(f"Enter your {key}: ")
+            set_key(env_file, key, value)
+
+
+# Call this function at the start of your application
+setup_env_file()
 
 load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
-app_secret_key = os.getenv('APP_SECRET_KEY')
+app_secret_key = "secretkey123"
 openai.api_key = api_key
-app = Flask(__name__)
+
+if getattr(sys, 'frozen', False):
+    template_folder = os.path.join(sys._MEIPASS, 'templates')
+    app = Flask('TRAIL', template_folder=template_folder)
+else:
+    app = Flask('TRAIL')
+
 app.secret_key = app_secret_key
 app.config['UPLOAD_EXTENSIONS'] = ['.pdf']
 app.config['UPLOAD_PATH'] = 'uploads'
@@ -399,5 +425,11 @@ def encode_image(image_path):
         return base64.b64encode(image_file.read()).decode('utf-8')
 
 
+def open_browser():
+    webbrowser.open_new('http://127.0.0.1:7777/')
+
+
 if __name__ == '__main__':
+    if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
+        Timer(1, open_browser).start()
     app.run(host='0.0.0.0', debug=True, port=7777)
