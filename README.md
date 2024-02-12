@@ -1,6 +1,6 @@
 # TRAIL
 
-A PDF to Alt-Text Generator.
+A PDF to Alt-Text Generator. Check out the latest release here: [Latest Release](https://github.com/AltarisV/TRAIL-PDF/releases)
 
 ## Description
 TRAIL is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
