@@ -14,7 +14,7 @@ As a rough estimation, the API cost of generating alternative text via TRAIL is 
 
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
-- You have an OpenAI API Key and are at least Tier 1 (meaning you have charged at least $5 of credit).
+- You have an [OpenAI API Key](https://openai.com/blog/openai-api) and are at least Tier 1 (meaning you have charged at least $5 of credit).
 - You have have installed the latest version of [Docker](https://www.docker.com/products/docker-desktop).
 
 ### Installing TRAIL
