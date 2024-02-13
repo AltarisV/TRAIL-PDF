@@ -6,7 +6,7 @@ A PDF to Alt-Text Generator. Check out the latest release here: [Latest Release]
 TRAIL is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
 By utilizing the GPT-4 Vision Model, mathematical formulas found in the source document are converted into raw LaTeX code in the resulting HTML, enabling screen readers to parse them effectively.
 
-### Affiliation and Acknowledgements
+### Affiliation
 
 This project has been developed as part of the research activities in the "Computer Science and Society" group ([Informatik und Gesellschaft](https://iug.htw-berlin.de/)) under the guidance of Prof. Dr. Katharina Simbeck at the HTW Berlin (University of Applied Sciences).
 
