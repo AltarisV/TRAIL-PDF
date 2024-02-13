@@ -6,20 +6,29 @@ A PDF to Alt-Text Generator. Check out the latest release here: [Latest Release]
 TRAIL is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
 By utilizing the GPT-4 Vision Model, mathematical formulas found in the source document are converted into raw LaTeX code in the resulting HTML, enabling screen readers to parse them effectively.
 
-### Speed and Estimated Costs
-Currently, generating alternative text for a PDF will take at least 6 seconds per page to stay within OpenAI's rate limits.
-As a rough estimation, the API cost of generating alternative text via TRAIL is approximately 2 cents per page.
+### Affiliation and Acknowledgements
+
+This project has been developed as part of the research activities in the "Computer Science and Society" group ([Informatik und Gesellschaft](https://iug.htw-berlin.de/)) under the guidance of Prof. Dr. Katharina Simbeck at the HTW Berlin (University of Applied Sciences).
 
 ## Getting Started
+
+### Using the latest TRAIL release
+To use TRAIL using the bundled release, simply unpack the folder and start TRAIL.exe.
+On first startup, you will be asked to input your OpenAI API Key, which will be saved in a separate file.
+Afterwards, your browser will open a new Tab where you can use TRAIL.
 
 ### Prerequisites
 Before you begin, ensure you have met the following requirements:
 - You have an [OpenAI API Key](https://openai.com/blog/openai-api) and are at least Tier 1 (meaning you have charged at least $5 of credit).
 - You have have installed the latest version of [Docker](https://www.docker.com/products/docker-desktop).
 
-### Installing TRAIL
+### Speed and Estimated Costs
+Currently, generating alternative text for a PDF will take at least 6 seconds per page to stay within OpenAI's rate limits.
+As a rough estimation, the API cost of generating alternative text via TRAIL is approximately 2 cents per page.
 
-To install TRAIL, follow these steps:
+## Working on TRAIL
+
+To start working on TRAIL, follow these steps:
 
 #### Clone the repository:
 
@@ -49,7 +58,7 @@ This will build and start the TRAIL application in a Docker container. You can a
 
 ## Planned
 
-- Bundling the Application for ease of use
+- Improving env security for bundled release
 - Testing and refining Code Markdown to HTML
 - Giving a Side-by-Side of the PDF pages and corresponding HTML for easy post-editing
 
