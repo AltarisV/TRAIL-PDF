@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Image Upload</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            background: #191f19;
+        }
+        .form-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        #upload-box {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            width: 400px; /* Adjust width for 4:3 aspect ratio */
+            height: 300px; /* Adjust height for 4:3 aspect ratio */
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        #submit-button {
+            font-family: "Montserrat";
+            background-color: #76B900;
+            color: #f7fff7;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        #response {
+            margin-top: 20px;
+            color: #f7fff7;
+            text-align: center;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var uploadBox = document.getElementById('upload-box');
+            var imageInput = document.getElementById('image-input');
+
+            // Handle click on upload box
+            uploadBox.addEventListener('click', function() {
+                imageInput.click();
+            });
+
+            // Handle image paste
+            uploadBox.addEventListener('paste', function(e) {
+                var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (var index in items) {
+                    var item = items[index];
+                    if (item.kind === 'file') {
+                        var blob = item.getAsFile();
+                        var reader = new FileReader();
+                        reader.onload = function(event){
+                            document.getElementById('upload-box').style.backgroundImage = 'url(' + event.target.result + ')';
+                        };
+                        reader.readAsDataURL(blob);
+                    }
+                }
+            });
+
+            // Handle submit button click
+            $('#submit-button').click(function() {
+                var formData = new FormData();
+                formData.append('image', imageInput.files[0]);
+
+                $.ajax({
+                    url: '/process-image',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        $("#response").html("<strong>Response:</strong> " + response.alt_text);
+                    }
+                });
+            });
+        });
+
+        function loadFile(event) {
+            var output = document.getElementById('upload-box');
+            output.style.backgroundImage = 'url(' + URL.createObjectURL(event.target.files[0]) + ')';
+            output.style.backgroundSize = 'cover';
+        }
+    </script>
+</head>
+<body>
+<div class="form-container">
+    <div class="upload-files-container">
+        <div id="upload-box" onclick="document.getElementById('image-input').click();">
+            Click here or paste an image (Ctrl+V)
+            <input type="file" id="image-input" hidden onchange="loadFile(event)" accept="image/*">
+        </div>
+        <button id="submit-button">Submit</button>
+        <div id="response"></div>
+    </div>
+</div>
+</body>
+</html>

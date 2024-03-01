@@ -86,6 +86,16 @@ def delete_file(filename):
         print(e)
     return redirect(url_for('index'))
 
+##TODO
+@app.route('/process-image', methods=['POST'])
+def process_image():
+    if 'image' in request.files:
+        image = request.files['image']
+        alt_text = get_alt_text_from_gpt_vision_api(image)
+        return jsonify(alt_text=alt_text)
+    else:
+        return "No image uploaded", 400
+
 
 @app.route('/files/<filename>')
 def file_details(filename):
@@ -423,6 +433,14 @@ def convert_pdf_to_images(pdf_path):
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
+
+##TODO
+def get_alt_text_from_gpt_vision_api(image):
+    # Code to send image to OpenAI's GPT-Vision API and get the response
+    # Example:
+    # response = openai.Image.create(...)
+    # return response
+    pass
 
 
 def open_browser():
