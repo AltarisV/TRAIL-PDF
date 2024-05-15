@@ -2,14 +2,18 @@ import io
 import os
 import sys
 import time
+import uuid
 import webbrowser
+from datetime import datetime
 from threading import Timer
 
 import openai
 import base64
 import requests
+from PIL.Image import Image
 from PyPDF2 import PdfReader
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, current_app, Response
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, current_app, Response, \
+    jsonify
 from werkzeug.utils import secure_filename
 from pdf2image import convert_from_path
 from dotenv import load_dotenv, set_key
@@ -48,6 +52,12 @@ app.config['UPLOAD_PATH'] = 'uploads'
 if not os.path.exists(app.config['UPLOAD_PATH']):
     os.makedirs(app.config['UPLOAD_PATH'])
 
+IMAGE_UPLOAD_PATH = os.path.join(app.config['UPLOAD_PATH'], 'images')
+if not os.path.exists(IMAGE_UPLOAD_PATH):
+    os.makedirs(IMAGE_UPLOAD_PATH)
+
+app.config['IMAGE_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
+
 
 @app.route('/')
 def index():
@@ -85,6 +95,41 @@ def delete_file(filename):
         # Log the error here
         print(e)
     return redirect(url_for('index'))
+
+
+@app.route('/image-upload')
+def image_upload():
+    return render_template('image_upload.html')
+
+
+@app.route('/process-image', methods=['POST'])
+def process_image():
+    print("Files:", request.files)
+    print("Forms Data:", request.form)
+    if 'image' in request.files:
+        image = request.files['image']
+        filename = secure_filename(image.filename)
+
+        # If no filename, generate one
+        if not filename:
+            filename = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + str(uuid.uuid4()) + ".jpg"
+
+        # file_ext = os.path.splitext(filename)[1]
+        # if file_ext not in app.config['IMAGE_EXTENSIONS']:
+        #     return "Invalid image type", 400
+
+        image_path = os.path.join(IMAGE_UPLOAD_PATH, filename)
+        # if is_valid_image(image.stream):
+        image.save(image_path)
+        print(f"Image saved to {image_path}")
+        alt_text = get_alt_text_from_gpt_vision_api_german(image_path)
+        # Optionally delete the image file after processing
+        os.remove(image_path)
+        return jsonify(alt_text=alt_text)
+        # else:
+        #     return "Image could not be saved", 400
+    else:
+        return "No image uploaded", 400
 
 
 @app.route('/files/<filename>')
@@ -423,6 +468,89 @@ def convert_pdf_to_images(pdf_path):
 def encode_image(image_path):
     with open(image_path, "rb") as image_file:
         return base64.b64encode(image_file.read()).decode('utf-8')
+
+
+def is_valid_image(file_stream):
+    try:
+        # Reset the file stream's position to the beginning
+        file_stream.seek(0)
+        with Image.open(file_stream) as img:
+            img.verify()  # Verify that it is, in fact, an image
+        return True
+    except Exception as e:
+        print(f"Image validation error: {e}")
+        return False
+
+
+##TODO
+def get_alt_text_from_gpt_vision_api_german(image_path):
+    base64_image = encode_image(image_path)
+    print("Base64 Encoded Image:", base64_image[:30])  # Print first 30 characters to verify
+
+    image_url = f"data:image/jpeg;base64,{base64_image}"
+    print("Image URL:", image_url[:100])  # Print part of the image URL to verify
+
+    print(f"Sending singular image to GPT-4 Vision API")
+    headers = {
+        "Content-Type": "application/json",
+        "Authorization": f"Bearer {openai.api_key}"
+    }
+
+    payload = {
+        "model": "gpt-4-vision-preview",
+        "messages": [
+            {
+                "role": "user",
+                # TODO Make GPT correctly put Markdown in the Response if they find it in the Image
+                "content": [
+                    {"type": "text", "text": "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität."
+                                             "Generiere eine Beschreibung, die als Alternativtext genutzt werden kann. "
+                                             "Bitte gib mir einen präzisen Alternativtext für die "
+                                             "gezeigte Abbildung. Ein Studierender mit absoluter Blindheit sollte "
+                                             "die Abbildung verstehen können. Falls du Assoziationen auf dem Bild "
+                                             "erkennen kannst, beschreibe diese. Wenn normaler Text auf dem Bild "
+                                             "zu erkennen ist, dann schreibe den Text ohne Änderung, aber auf deutsch, "
+                                             "so auch in den Alternativtext. Wenn der originale Text nicht auf deutsch "
+                                             "ist, dann sollte in deiner Antwort nur der übersetzte, deutsche Text "
+                                             "vorkommen. Falls mathematische Formeln vorkommen, gib rohes LaTeX "
+                                             "für diese Formeln mit in deinen Alternativtext, ohne es "
+                                             "speziell hervorzuheben. Nimm auch konkrete Zusammenhänge "
+                                             "in den Alternativtext mit auf, falls welche vorhanden sind. "
+                                             f"Deine Antwort sollte nur den Alternativtext beinhalten."},
+                    {
+                        "type": "image_url",
+                        "image_url": {
+                            "url": image_url
+                        }
+                    }
+                ]
+            }
+        ],
+        "max_tokens": 2000,
+        "temperature": 0.2
+    }
+
+    print(f"Payload being sent to OpenAI API: {payload}")
+
+    try:
+        response = requests.post("https://api.openai.com/v1/chat/completions", headers=headers, json=payload)
+        print(f"API Response Status: {response.status_code}")
+        print(f"API Response Body: {response.text}")
+
+        # Check if response is successful (status code 200)
+        if response.status_code == 200:
+            response_json = response.json()
+            text_content = response_json['choices'][0]['message']['content'] if response_json.get('choices') else ''
+            return text_content
+        else:
+            # Log error details if response is not successful
+            print(f"Error from GPT-4 Vision API: Status Code {response.status_code}, Response: {response.text}")
+            return f"Error processing singular image. API response status: {response.status_code}"
+
+    except requests.exceptions.RequestException as e:
+        # Catch and log any exceptions during the API request
+        print(f"Request to GPT-4 Vision API failed: {e}")
+        return f"Error processing singular image. Exception: {e}"
 
 
 def open_browser():

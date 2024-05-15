@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Image Upload</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Montserrat", sans-serif;
+            color: white;
+            background: #191f19;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+        }
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        #upload-box {
+            border: 2px dashed #ccc;
+            border-radius: 5px;
+            width: 400px;
+            height: 300px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            margin: 20px 0; /* Add margin to the top and bottom */
+        }
+        #submit-button {
+            font-family: "Montserrat";
+            background-color: #76B900;
+            color: #f7fff7;
+            border: none;
+            border-radius: 20px;
+            padding: 10px 20px;
+            cursor: pointer;
+            margin: 20px 0; /* Add margin to the top and bottom */
+        }
+        #response {
+            max-width: 600px;
+            margin: 20px auto; /* Center the response div horizontally and add space on top and bottom */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background: #333;
+            color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: inline-block;
+        }
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        var formData = new FormData(); // Global FormData object
+
+        $(document).ready(function() {
+            // Handle image paste
+            $('#upload-box').on('paste', function(e) {
+                var items = (e.clipboardData || e.originalEvent.clipboardData).items;
+                for (var index in items) {
+                    var item = items[index];
+                    if (item.kind === 'file') {
+                        var blob = item.getAsFile();
+                        formData.append('image', blob); // Append the pasted image to the FormData
+
+                        var reader = new FileReader();
+                        reader.onload = function(event){
+                            $('#upload-box').css('backgroundImage', 'url(' + event.target.result + ')');
+                        };
+                        reader.readAsDataURL(blob);
+                    }
+                }
+            });
+        });
+
+        function loadFile(event) {
+            var file = event.target.files[0];
+            formData.append('image', file); // Append the file to the FormData
+
+            var output = document.getElementById('upload-box');
+            output.style.backgroundImage = 'url(' + URL.createObjectURL(file) + ')';
+            output.style.backgroundSize = 'cover';
+        }
+
+        // AJAX form submission
+        function submitForm(event) {
+            event.preventDefault(); // Prevent default form submission
+
+            $.ajax({
+                url: '/process-image',
+                type: 'POST',
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(response) {
+                    $("#response").html("<strong>Response:</strong> " + response.alt_text);
+                },
+                error: function(xhr, status, error) {
+                    console.log("AJAX Error: " + status + "\nError: " + error);
+                    $("#response").html("Error in image processing: " + xhr.responseText);
+                }
+            });
+        }
+    </script>
+</head>
+<body>
+<div class="form-container">
+    <div class="upload-files-container">
+        <form id="image-upload-form" onsubmit="submitForm(event)">
+            <div id="upload-box" onclick="document.getElementById('image-input').click();">
+                Click here or paste an image (Ctrl+V)
+                <input type="file" id="image-input" name="image" hidden onchange="loadFile(event)" accept="image/*">
+            </div>
+            <button type="submit" id="submit-button">Submit</button>
+        </form>
+        <div id="response"></div>
+    </div>
+</div>
+</body>
+</html>
