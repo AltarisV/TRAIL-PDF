@@ -38,6 +38,7 @@ load_dotenv()
 api_key = os.getenv('OPENAI_API_KEY')
 app_secret_key = "secretkey123"
 openai.api_key = api_key
+gpt_model = "gpt-4o"  # |"gpt-4-turbo"
 
 if getattr(sys, 'frozen', False):
     template_folder = os.path.join(sys._MEIPASS, 'templates')
@@ -250,7 +251,7 @@ def send_image_to_gpt4_vision_english(image_path, page_number):
     }
 
     payload = {
-        "model": "gpt-4-vision-preview",
+        "model": gpt_model,
         "messages": [
             {
                 "role": "user",
@@ -314,7 +315,7 @@ def send_image_to_gpt4_vision_german(image_path, page_number):
     }
 
     payload = {
-        "model": "gpt-4-vision-preview",
+        "model": gpt_model,
         "messages": [
             {
                 "role": "user",
@@ -497,7 +498,7 @@ def get_alt_text_from_gpt_vision_api_german(image_path):
     }
 
     payload = {
-        "model": "gpt-4-vision-preview",
+        "model": gpt_model,
         "messages": [
             {
                 "role": "user",
