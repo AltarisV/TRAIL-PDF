@@ -91,18 +91,32 @@
             output.style.backgroundSize = 'cover';
         }
 
+        // Function to escape HTML
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
         // AJAX form submission
         function submitForm(event) {
             event.preventDefault(); // Prevent default form submission
 
+            var selectedPrompt = document.getElementById('prompt-select').value;
+            formData.append('prompt', selectedPrompt); // Append the selected prompt to the FormData
+
             $.ajax({
-                url: '/process-image',
+                url: '/process-image-with-prompt',
                 type: 'POST',
                 data: formData,
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    $("#response").html("<strong>Response:</strong> " + response.alt_text);
+                    var escapedResponse = escapeHtml(response.alt_text);
+                    $("#response").html("<strong>Response:</strong> <pre>" + escapedResponse + "</pre>");
                 },
                 error: function(xhr, status, error) {
                     console.log("AJAX Error: " + status + "\nError: " + error);
@@ -120,6 +134,12 @@
                 Click here or paste an image (Ctrl+V)
                 <input type="file" id="image-input" name="image" hidden onchange="loadFile(event)" accept="image/*">
             </div>
+            <label for="prompt-select">What does the image show?:</label>
+            <select id="prompt-select" name="prompt">
+                <option value="normal">Normal</option>
+                <option value="mathematical">Mathematical Formula</option>
+                <option value="table">Table</option>
+            </select>
             <button type="submit" id="submit-button">Submit</button>
         </form>
         <div id="response"></div>
