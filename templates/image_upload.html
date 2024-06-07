@@ -109,7 +109,7 @@
             formData.append('prompt', selectedPrompt); // Append the selected prompt to the FormData
 
             $.ajax({
-                url: '/process-image-with-prompt',
+                url: '/process-image',
                 type: 'POST',
                 data: formData,
                 processData: false,

@@ -103,7 +103,7 @@ def image_upload():
     return render_template('image_upload.html')
 
 
-@app.route('/process-image-with-prompt', methods=['POST'])
+@app.route('/process-image', methods=['POST'])
 def process_image():
     if 'image' in request.files:
         image = request.files['image']
@@ -538,7 +538,7 @@ def get_alt_text(image_path, prompt_type):
                        "markdown beinhalten und möglichst mit border arbeiten.")
     elif prompt_type == "graph":
         prompt_text = ("Hier Text für Graphen einfügen")
-    else:
+    else: # normal
         prompt_text = ("Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität."
                        "Generiere eine Beschreibung, die als Alternativtext genutzt werden kann. "
                        "Bitte gib mir einen präzisen Alternativtext für die "
