@@ -1,5 +1,6 @@
 import io
 import os
+import shutil
 import sys
 import time
 import uuid
@@ -184,6 +185,8 @@ def convert_pdf(filename):
         flash(f'Error during conversion: {e}')
         current_app.logger.error(f"Error during conversion for {filename}: {e}")
         return redirect(url_for('file_details', filename=filename))
+    finally:
+        shutil.rmtree(TEMP_IMAGE_PATH)  # Clean up the temporary directory
 
 
 @app.route('/convert_pdf_n_pages/<filename>', methods=['POST'])
@@ -243,6 +246,8 @@ def convert_pdf_n_pages(filename):
         flash(f'Error during conversion: {e}')
         current_app.logger.error(f"Error during conversion for {filename}: {e}")
         return redirect(url_for('file_details', filename=filename))
+    finally:
+        shutil.rmtree(TEMP_IMAGE_PATH)  # Clean up the temporary directory
 
 
 def send_image_to_gpt_english(image_path, page_number):
@@ -469,6 +474,10 @@ def convert_pdf_to_images(pdf_path):
     try:
         doc = fitz.open(pdf_path)
         image_paths = []
+
+        if os.path.exists(TEMP_IMAGE_PATH):
+            shutil.rmtree(TEMP_IMAGE_PATH)
+        os.makedirs(TEMP_IMAGE_PATH, exist_ok=True)
 
         for i, page in enumerate(doc):
             pix = page.get_pixmap()
