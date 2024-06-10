@@ -3,8 +3,7 @@
 A PDF to Alt-Text Generator. Check out the latest release here: [Latest Release](https://github.com/AltarisV/TRAIL-PDF/releases)
 
 ## Description
-TRAIL is a web application that converts PDF files into images, sends them to the GPT-4 Vision Model, and generates alternative text for each image. The resulting text is provided as a downloadable HTML file, enhanced with tags for screen reader accessibility.
-By utilizing the GPT-4 Vision Model, mathematical formulas found in the source document are converted into raw LaTeX code in the resulting HTML, enabling screen readers to parse them effectively.
+TRAIL is a web application that converts PDF files into images, sends them to the GPT-4o Model, and generates alternative text for each image. The resulting text is then downloaded as an HTML file, which enables a blind person to navigate them with a screenreader. By utilizing GPT-4o, TRAIL is able to produce neatly structured HTML files that includes HTML-style tables, LaTeX-code and Markdown. 
 
 ### Affiliation
 
@@ -18,9 +17,8 @@ On first startup, you will be asked to input your OpenAI API Key, which will be 
 Afterwards, your browser will open a new Tab where you can use TRAIL.
 
 ### Prerequisites
-Before you begin, ensure you have met the following requirements:
+Before you begin, ensure you have:
 - You have an [OpenAI API Key](https://openai.com/blog/openai-api) and are at least Tier 1 (meaning you have charged at least $5 of credit).
-- You have have installed the latest version of [Docker](https://www.docker.com/products/docker-desktop).
 
 ### Speed and Estimated Costs
 Currently, generating alternative text for a PDF will take at least 6 seconds per page to stay within OpenAI's rate limits.
@@ -28,6 +26,7 @@ As a rough estimation, the API cost of generating alternative text via TRAIL is 
 
 ## Working on TRAIL
 
+Before working on TRAIL, make sure you have have installed the latest version of Docker or [Docker Desktop](https://www.docker.com/products/docker-desktop).
 To start working on TRAIL, follow these steps:
 
 #### Clone the repository:
