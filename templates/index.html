@@ -369,14 +369,14 @@
             <span class="cannot-upload-message">
             <span class="material-icons-outlined">error</span> Please select a
             file first
-            <span class="material-icons-outlined cancel-alert-button"
-            >cancel</span
-            >
+            <span class="material-icons-outlined cancel-alert-button">cancel</span>
           </span>
             <ul class="files-block-container"></ul>
             <button type="submit" class="upload-button">Upload</button>
             <p>or</p>
-            <a href="{{ url_for('image_upload') }}" class="navigation-button">Upload singular Images</a>
+        </form>
+        <form action="{{ url_for('image_upload') }}" method="get" style="margin: 0;">
+            <button type="submit" class="upload-button" style="text-decoration: none;">Upload singular Images</button>
         </form>
     </div>
 </div>

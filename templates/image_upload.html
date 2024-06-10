@@ -21,6 +21,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            height: 100%;
         }
         #upload-box {
             border: 2px dashed #ccc;
@@ -41,6 +42,7 @@
             background-color: #76B900;
             color: #f7fff7;
             border: none;
+            align-items: center;
             border-radius: 20px;
             padding: 10px 20px;
             cursor: pointer;
@@ -56,6 +58,22 @@
             color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        #response pre {
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
+        }
+        .upload-files-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%; /* Ensure full width for centering */
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -91,9 +109,21 @@
             output.style.backgroundSize = 'cover';
         }
 
-        // AJAX form submission
+        // Function to escape HTML
+        function escapeHtml(text) {
+            return text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#39;");
+        }
+
         function submitForm(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
+
+            var selectedPrompt = document.getElementById('prompt-select').value;
+            formData.append('prompt', selectedPrompt);
 
             $.ajax({
                 url: '/process-image',
@@ -102,7 +132,13 @@
                 processData: false,
                 contentType: false,
                 success: function(response) {
-                    $("#response").html("<strong>Response:</strong> " + response.alt_text);
+                    var escapedResponse = escapeHtml(response.alt_text);
+                    $("#response").html("<strong>Response:</strong> <pre>" + escapedResponse + "</pre>");
+
+                    // Reset the form and clear the upload box
+                    document.getElementById('image-upload-form').reset();
+                    formData = new FormData();
+                    $('#upload-box').css('backgroundImage', '');
                 },
                 error: function(xhr, status, error) {
                     console.log("AJAX Error: " + status + "\nError: " + error);
@@ -110,17 +146,25 @@
                 }
             });
         }
-    </script>
+</script>
 </head>
 <body>
 <div class="form-container">
     <div class="upload-files-container">
         <form id="image-upload-form" onsubmit="submitForm(event)">
-            <div id="upload-box" onclick="document.getElementById('image-input').click();">
+            <div id="upload-box" style="align-items: center"  onclick="document.getElementById('image-input').click();">
                 Click here or paste an image (Ctrl+V)
                 <input type="file" id="image-input" name="image" hidden onchange="loadFile(event)" accept="image/*">
             </div>
+            <label for="prompt-select">What does the image show?:</label>
+            <select id="prompt-select" name="prompt">
+                <option value="normal">Normal</option>
+                <option value="mathematical">Mathematical Formula</option>
+                <option value="table">Table</option>
+            </select>
+            <div>
             <button type="submit" id="submit-button">Submit</button>
+            </div>
         </form>
         <div id="response"></div>
     </div>
