@@ -125,8 +125,8 @@ def process_image():
         # Use the combined function to get the alt text
         alt_text = get_alt_text(image_path, prompt_type)
 
-        # Optionally delete the image file after processing
-        os.remove(image_path)
+        if os.path.exists(image_path):
+            os.remove(image_path)
         return jsonify(alt_text=alt_text)
     else:
         return "No image uploaded", 400
