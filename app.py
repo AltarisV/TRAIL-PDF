@@ -196,7 +196,7 @@ def convert_pdf_n_pages(filename):
 
     # Retrieve the chosen language, starting page, and number of pages from the form data
     chosen_language = request.form.get('language', 'english')
-    start_page = request.form.get('start_page', type=int)
+    start_page = request.form.get('start_page', type=int, default=1)
     num_pages = request.form.get('num_pages', type=int)
 
     try:
@@ -207,11 +207,12 @@ def convert_pdf_n_pages(filename):
         if not num_pages or num_pages <= 0 or start_page + num_pages - 1 > total_pages:
             num_pages = total_pages - start_page + 1
 
-        current_app.logger.info(f"Converting pages {start_page} to {start_page + num_pages - 1} of PDF to images for {file_path}")
+        current_app.logger.info(
+            f"Converting pages {start_page} to {start_page + num_pages - 1} of PDF to images for {file_path}")
 
         # Convert specified range of PDF pages to images
         end_page = min(start_page + num_pages - 1, total_pages)  # Ensure end page does not exceed total pages
-        images = all_images[start_page-1:end_page]  # Adjust for zero-based indexing
+        images = all_images[start_page - 1:end_page]  # Adjust for zero-based indexing
         current_app.logger.info(f"Images generated for pages {start_page} to {end_page}: {images}")
 
         # Send each image to the GPT model
@@ -399,13 +400,14 @@ def save_texts(texts, original_filename, language):
     base_filename = os.path.splitext(original_filename)[0]
     new_filename = base_filename + " " + language
     html_content = "<!DOCTYPE html>\n"
-    # Construct the HTML content
+
     if language == "english":
         html_content += '<html lang="en">\n'
     elif language == "german":
         html_content += '<html lang="de">\n'
     else:
         html_content += '<html>\n'
+
     html_content += "<head>\n<meta charset=\"UTF-8\">\n"
     html_content += f"<title>{new_filename}</title>\n"
     html_content += "</head>\n<body>\n"
@@ -416,51 +418,42 @@ def save_texts(texts, original_filename, language):
         html_content += processed_text + "\n\n"
 
     html_content += "</body>\n</html>"
-
-    # Convert the HTML content to a BytesIO object
     html_bytes = io.BytesIO(html_content.encode('utf-8'))
 
     # Create a response object and set the appropriate headers to prompt a download
     response = Response(html_bytes.getvalue(),
                         mimetype="text/html",
                         headers={"Content-Disposition": f"attachment;filename={new_filename}.html"})
-
     return response
 
 
 def process_text_for_html(text):
-    # Split the text into lines
     lines = text.split('\n')
-
-    # Process each line
     processed_lines = []
+
     for line in lines:
-        # Check if the line starts with "Seite " or "Page "
         if line.startswith("Seite ") or line.startswith("Page "):
             # Find the position of the colon
             colon_pos = line.find(':')
             if colon_pos != -1:
                 # Extract the page number and title
                 page_num_title = line[:colon_pos].strip()
-                # Split page number and title
                 page_num, title = page_num_title.split(',', 1)
 
                 # Format the heading with the page number at the end
-                processed_lines.append(f"<h1>{title.strip()} ({page_num.strip()})</h1>")
+                processed_lines.append(f"<h1>{page_num.strip()}</h1>")
+                processed_lines.append(f"<h2>{title.strip()}</h2>")
 
-                # Extract and format the content, if any
+                # Extract and format the content
                 content = line[colon_pos + 1:].strip()
                 if content:
                     processed_lines.append(f"<p>{content}</p>")
             else:
-                # No colon found, treat the whole line as a header
                 processed_lines.append(f"<h1>{line}</h1>")
         else:
             # If the line doesn't start with "Seite" and is not empty, add it as a paragraph
             if line.strip():
                 processed_lines.append(f"<p>{line}</p>")
-
-    # Join the processed lines back into a single string
     return ''.join(processed_lines)
 
 
@@ -528,7 +521,8 @@ def get_alt_text(image_path, prompt_type):
                        "istgleich Quadratwurzel aus Zähler beta geteilt durch Nenner 2 pi Bruchergebnis "
                        "Wurzelende exp Klammer auf minus 1 halber Bruch"
                        "beta linke Klammer x minus my rechte Klammer im Quadrat klammer zu''."
-                       "Außerdem benötige ich separat generiert rohes LaTeX für diese Formel. Deine Antwort sollte "
+                       "Außerdem benötige ich separat generiert rohes LaTeX für diese Formel. Starte deine Antwort "
+                       "NICHT mit 'Alternativtext:'. Deine Antwort sollte "
                        "in etwa so aufgebaut sein und direkt mit der Formel in zugänglichem Text anfangen: "
                        "{Formel in zugänglichem Text}"
                        "Formel in LaTeX: "
@@ -540,10 +534,11 @@ def get_alt_text(image_path, prompt_type):
                        "die ein blinder Student mit seinem Screenreader barrierefrei navigieren kann."
                        "Deine Antwort sollte ausschließlich den HTML-Code für die Tabelle beinhalten, "
                        "sodass der Nutzer ihn kopieren und in seinem Dokument verwenden kann. Die Antwort sollte kein "
-                       "markdown beinhalten und möglichst mit border arbeiten.")
+                       "markdown beinhalten und möglichst mit border arbeiten. Starte deine Antwort"
+                       " NICHT mit 'Alternativtext:'.")
     elif prompt_type == "graph":
         prompt_text = ("Hier Text für Graphen einfügen")
-    else: # normal
+    else:  # normal
         prompt_text = ("Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität."
                        "Generiere eine Beschreibung, die als Alternativtext genutzt werden kann. "
                        "Bitte gib mir einen präzisen Alternativtext für die "
@@ -559,7 +554,8 @@ def get_alt_text(image_path, prompt_type):
                        "normaler Sprache auf, damit auch Leute, die kein LaTeX verstehen, die "
                        "Formel lesen können. Nimm auch konkrete Zusammenhänge "
                        "in den Alternativtext mit auf, falls welche vorhanden sind. "
-                       "Deine Antwort sollte nur den Alternativtext beinhalten.")
+                       "Deine Antwort sollte nur den Alternativtext beinhalten, starte deine Antwort"
+                       " NICHT mit 'Alternativtext:'.")
 
     payload = {
         "model": gpt_model,

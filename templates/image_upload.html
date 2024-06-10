@@ -58,6 +58,15 @@
             color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: inline-block;
+            word-wrap: break-word;
+            white-space: pre-wrap;
+        }
+        #response pre {
+            white-space: pre-wrap;
+            white-space: -moz-pre-wrap;
+            white-space: -pre-wrap;
+            white-space: -o-pre-wrap;
+            word-wrap: break-word;
         }
         .upload-files-container {
             display: flex;
@@ -110,12 +119,11 @@
                 .replace(/'/g, "&#39;");
         }
 
-        // AJAX form submission
         function submitForm(event) {
-            event.preventDefault(); // Prevent default form submission
+            event.preventDefault();
 
             var selectedPrompt = document.getElementById('prompt-select').value;
-            formData.append('prompt', selectedPrompt); // Append the selected prompt to the FormData
+            formData.append('prompt', selectedPrompt);
 
             $.ajax({
                 url: '/process-image',
@@ -126,6 +134,11 @@
                 success: function(response) {
                     var escapedResponse = escapeHtml(response.alt_text);
                     $("#response").html("<strong>Response:</strong> <pre>" + escapedResponse + "</pre>");
+
+                    // Reset the form and clear the upload box
+                    document.getElementById('image-upload-form').reset();
+                    formData = new FormData();
+                    $('#upload-box').css('backgroundImage', '');
                 },
                 error: function(xhr, status, error) {
                     console.log("AJAX Error: " + status + "\nError: " + error);
@@ -133,7 +146,7 @@
                 }
             });
         }
-    </script>
+</script>
 </head>
 <body>
 <div class="form-container">

@@ -194,13 +194,13 @@
             <label for="language">Choose a language for conversion:</label>
             <select name="language" id="language">
                 <option value="english">English</option>
-                <option value="german">German</option>
+                <option value="german" selected>German</option>
                 <!-- Add other languages as needed -->
             </select>
 
             <!-- Input for starting page -->
             <label for="start_page">Enter starting page:</label>
-            <input type="number" name="start_page" id="start_page" min="1" max="{{ page_count }}">
+            <input type="number" name="start_page" id="start_page" min="1" max="{{ page_count }}" value="1">
 
             <!-- Input for number of pages -->
             <label for="num_pages" style="text-align: center">Enter number of pages to convert <br>
