@@ -10,12 +10,12 @@ from threading import Timer
 import openai
 import base64
 import requests
+import fitz
 from PIL.Image import Image
 from PyPDF2 import PdfReader
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash, current_app, Response, \
     jsonify
 from werkzeug.utils import secure_filename
-from pdf2image import convert_from_path
 from dotenv import load_dotenv, set_key
 
 
@@ -53,9 +53,9 @@ app.config['UPLOAD_PATH'] = 'uploads'
 if not os.path.exists(app.config['UPLOAD_PATH']):
     os.makedirs(app.config['UPLOAD_PATH'])
 
-IMAGE_UPLOAD_PATH = os.path.join(app.config['UPLOAD_PATH'], 'images')
-if not os.path.exists(IMAGE_UPLOAD_PATH):
-    os.makedirs(IMAGE_UPLOAD_PATH)
+TEMP_IMAGE_PATH = 'temp_images'
+if not os.path.exists(TEMP_IMAGE_PATH):
+    os.makedirs(TEMP_IMAGE_PATH)
 
 app.config['IMAGE_EXTENSIONS'] = ['.jpg', '.jpeg', '.png', '.gif']
 
@@ -114,7 +114,7 @@ def process_image():
         if not filename:
             filename = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + str(uuid.uuid4()) + ".jpg"
 
-        image_path = os.path.join(IMAGE_UPLOAD_PATH, filename)
+        image_path = os.path.join(TEMP_IMAGE_PATH, filename)
         image.save(image_path)
 
         # Use the combined function to get the alt text
@@ -467,17 +467,13 @@ def convert_pdf_to_images(pdf_path):
     :return: List of images
     """
     try:
-        images = convert_from_path(pdf_path)
-
-        # Save images to a temporary directory and return their file paths
+        doc = fitz.open(pdf_path)
         image_paths = []
-        temp_dir = "temp_images"
-        if not os.path.exists(temp_dir):
-            os.makedirs(temp_dir, exist_ok=True)
 
-        for i, image in enumerate(images):
-            image_path = os.path.join(temp_dir, f"page_{i + 1}.jpg")
-            image.save(image_path, 'JPEG')
+        for i, page in enumerate(doc):
+            pix = page.get_pixmap()
+            image_path = os.path.join(TEMP_IMAGE_PATH, f"page_{i + 1}.png")
+            pix.save(image_path)
             image_paths.append(image_path)
 
         return image_paths  # This line should be outside the for-loop
@@ -499,7 +495,7 @@ def is_valid_image(file_stream):
             img.verify()  # Verify that it is, in fact, an image
         return True
     except Exception as e:
-        print(f"Image validation error: {e}")
+        current_app.logger.error(f"Image validation error: {e}")
         return False
 
 
