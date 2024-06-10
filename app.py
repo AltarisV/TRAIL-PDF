@@ -115,6 +115,10 @@ def process_image():
         if not filename:
             filename = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + str(uuid.uuid4()) + ".jpg"
 
+        # Ensure the temp_images directory exists
+        if not os.path.exists(TEMP_IMAGE_PATH):
+            os.makedirs(TEMP_IMAGE_PATH, exist_ok=True)
+
         image_path = os.path.join(TEMP_IMAGE_PATH, filename)
         image.save(image_path)
 
