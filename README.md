@@ -57,7 +57,8 @@ This will build and start the TRAIL application in a Docker container. You can a
 
 ## Planned
 
-- Improving env security for bundled release
+- Improving security for bundled release
+- Threading locks to prevent multiple functionalities to be started at the same time, interfering with each other
 - Testing and refining Code Markdown to HTML
 - Giving a Side-by-Side of the PDF pages and corresponding HTML for easy post-editing
 
