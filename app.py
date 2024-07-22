@@ -223,7 +223,7 @@ def convert_pdf_n_pages(filename):
         texts = []
         for i, image in enumerate(images, start=start_page):
             if i > start_page:  # Introduce delay for all but the first image because of TPM (Tokens per Minute) Rate Limit
-                time.sleep(6)  # Sleep for 6 seconds
+                time.sleep(2)  # Sleep for 6 seconds
             current_app.logger.info(f"Processing image {image} on page {i}")
 
             if chosen_language == "english":
@@ -437,25 +437,19 @@ def process_text_for_html(text):
 
     for line in lines:
         if line.startswith("Seite ") or line.startswith("Page "):
-            # Find the position of the colon
             colon_pos = line.find(':')
             if colon_pos != -1:
-                # Extract the page number and title
-                page_num_title = line[:colon_pos].strip()
-                page_num, title = page_num_title.split(',', 1)
-
-                # Format the heading with the page number at the end
-                processed_lines.append(f"<h1>{page_num.strip()}</h1>")
-                processed_lines.append(f"<h2>{title.strip()}</h2>")
-
-                # Extract and format the content
+                # Find the title part
+                title_start_pos = line.find(',') + 1
+                title = line[title_start_pos:colon_pos].strip()
                 content = line[colon_pos + 1:].strip()
+
+                processed_lines.append(f"<h1>{title}</h1>")
                 if content:
                     processed_lines.append(f"<p>{content}</p>")
             else:
                 processed_lines.append(f"<h1>{line}</h1>")
         else:
-            # If the line doesn't start with "Seite" and is not empty, add it as a paragraph
             if line.strip():
                 processed_lines.append(f"<p>{line}</p>")
     return ''.join(processed_lines)
