@@ -35,29 +35,32 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            margin: 20px 0; /* Add margin to the top and bottom */
+            margin: 20px 0;
         }
-        #submit-button {
+        #submit-button, #home-button {
             font-family: "Montserrat";
             background-color: #76B900;
             color: #f7fff7;
             border: none;
-            align-items: center;
             border-radius: 20px;
             padding: 10px 20px;
             cursor: pointer;
-            margin: 20px 0; /* Add margin to the top and bottom */
+            margin: 10px 0;
+            transition: background-color 0.3s;
+        }
+        #submit-button:hover, #home-button:hover {
+            background-color: #63a700;
         }
         #response {
             max-width: 600px;
-            margin: 20px auto; /* Center the response div horizontally and add space on top and bottom */
+            margin: 20px auto;
             padding: 10px;
             border: 1px solid #ccc;
             border-radius: 5px;
             background: #333;
             color: #fff;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            display: inline-block;
+            display: none;
             word-wrap: break-word;
             white-space: pre-wrap;
         }
@@ -73,7 +76,7 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            width: 100%; /* Ensure full width for centering */
+            width: 100%;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -134,6 +137,7 @@
                 success: function(response) {
                     var escapedResponse = escapeHtml(response.alt_text);
                     $("#response").html("<strong>Response:</strong> <pre>" + escapedResponse + "</pre>");
+                    $("#response").show();
 
                     // Reset the form and clear the upload box
                     document.getElementById('image-upload-form').reset();
@@ -143,10 +147,15 @@
                 error: function(xhr, status, error) {
                     console.log("AJAX Error: " + status + "\nError: " + error);
                     $("#response").html("Error in image processing: " + xhr.responseText);
+                    $("#response").show();
                 }
             });
         }
-</script>
+
+        function goToHome() {
+            window.location.href = "{{ url_for('main.index') }}";
+        }
+    </script>
 </head>
 <body>
 <div class="form-container">
@@ -163,11 +172,12 @@
                 <option value="table">Table</option>
             </select>
             <div>
-            <button type="submit" id="submit-button">Submit</button>
+                <button type="submit" id="submit-button">Submit</button>
             </div>
         </form>
         <div id="response"></div>
     </div>
+    <button id="home-button" onclick="goToHome()">Home</button>
 </div>
 </body>
 </html>

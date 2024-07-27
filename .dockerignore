@@ -1,12 +1,15 @@
+# Ignore Python bytecode files
 __pycache__
 *.pyc
-*.pyo
-*.pyd
-.Python
-env
-.env
+
+# Ignore virtual environment directory
 venv
+
+# Ignore version control directories
 .git
-.dockerignore
-Dockerfile
-*.md
+.gitignore
+
+# Ignore other unwanted files
+.idea
+.DS_Store
+.env

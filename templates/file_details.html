@@ -183,7 +183,7 @@
     <div class="upload-files-container">
         <form
                 enctype="multipart/form-data"
-                action="{{ url_for('convert_pdf', filename=filename) }}"
+                action="{{ url_for('file.convert_pdf', filename=filename) }}"
                 method="post"
                 id="conversionForm"
         >
@@ -215,8 +215,8 @@
                 Convert from Specified Pages
             </button>
 
-            <button class="upload-button">
-                <a href="{{ url_for('index') }}">Back to file list</a>
+            <button class="upload-button" type="button" onclick="window.location.href='{{ url_for('main.index') }}'">
+                Back to file list
             </button>
         </form>
     </div>
@@ -225,7 +225,7 @@
 <script>
     function submitPartialConversion() {
         var form = document.getElementById('conversionForm');
-        form.action = "{{ url_for('convert_pdf_n_pages', filename=filename) }}";
+        form.action = "{{ url_for('file.convert_pdf_n_pages', filename=filename) }}";
         form.submit();
     }
 </script>
