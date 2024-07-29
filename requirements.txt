@@ -1,38 +1,40 @@
-openai~=1.3.8
-PyPDF2~=3.0.1
+# Core dependencies
 flask~=3.0.0
-requests~=2.31.0
-PyMuPDF~=1.24.5
 python-dotenv~=1.0.0
+requests~=2.31.0
+httpx~=0.25.2
+PyPDF2~=3.0.1
+PyMuPDF~=1.24.5
+openai~=1.3.8
 
+# Flask dependencies
+Jinja2~=3.1.2
+MarkupSafe~=2.1.3
+werkzeug~=3.0.1
+click~=8.1.7
+blinker~=1.7.0
+itsdangerous~=2.1.2
+
+# Development and additional tools
 ipython~=8.18.1
 traitlets~=5.14.0
 h11~=0.14.0
 defusedxml~=0.7.1
 cffi~=1.16.0
-Pillow~=10.1.0
 pip~=24.0
 attrs~=23.1.0
 distro~=1.8.0
 wheel~=0.42.0
 tornado~=6.4
-Jinja2~=3.1.2
 filelock~=3.13.1
 keras~=2.15.0
 colorama~=0.4.6
 notebook~=7.0.6
 exceptiongroup~=1.2.0
 sniffio~=1.3.0
-MarkupSafe~=2.1.3
-werkzeug~=3.0.1
-click~=8.1.7
-blinker~=1.7.0
-itsdangerous~=2.1.2
-httpcore~=1.0.2
 pygments~=2.17.2
 idna~=3.6
 certifi~=2023.11.17
-httpx~=0.25.2
 pydantic~=2.5.2
 numpy~=1.26.2
 pandas~=2.1.3
@@ -44,3 +46,4 @@ packaging~=23.2
 pyparsing~=3.1.1
 zipp~=3.17.0
 build~=1.0.3
+Pillow~=10.1.0
