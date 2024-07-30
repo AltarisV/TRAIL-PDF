@@ -103,7 +103,7 @@ def send_image_to_gpt_german(image_path, page_number):
         "Überschrift in ein-zwei Worten>:' beginnen. Die Überschrift soll auf "
         "deutsch sein. Wiederhole in deiner Antwort nicht den Titel der Folie. "
         "Deine Antwort sollte nur die Seite, den Titel und "
-        "den Alternativtext beinhalten."
+        "den Alternativtext beinhalten. Starte den Alternativtext NICHT mit 'Alternativtext:'."
     )
 
     headers = {
