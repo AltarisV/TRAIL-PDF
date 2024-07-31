@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 import logging
 import os
 from logging.handlers import RotatingFileHandler
-
+from app.services.ai_service import init_blip2_model  # Importiere die Initialisierungsfunktion
 
 def create_app():
     # Set up environment and ensure API keys are set
@@ -41,5 +41,9 @@ def create_app():
 
     if not os.path.exists(app.config['TEMP_IMAGE_PATH']):
         os.makedirs(app.config['TEMP_IMAGE_PATH'])
+
+    # Initialisiere BLIP-2 im Anwendungskontext
+    with app.app_context():
+        init_blip2_model()  # Initialisiere das Modell
 
     return app

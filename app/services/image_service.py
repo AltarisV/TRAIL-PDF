@@ -42,3 +42,13 @@ def save_image(image, temp_image_path):
 def delete_image(image_path):
     if os.path.exists(image_path):
         os.remove(image_path)
+
+
+def load_image(image_path):
+    try:
+        image = Image.open(image_path)
+        current_app.logger.info(f"Image loaded successfully from {image_path}")
+        return image
+    except Exception as e:
+        current_app.logger.error(f"Failed to load image: {e}")
+        return None

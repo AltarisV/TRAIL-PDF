@@ -10,3 +10,7 @@ services:
       - APP_SECRET_KEY=${APP_SECRET_KEY}
     volumes:
       - .:/usr/src/app
+      - huggingface_cache:/root/.cache/huggingface  # Das Volume für das Cache-Verzeichnis
+
+volumes:
+  huggingface_cache:

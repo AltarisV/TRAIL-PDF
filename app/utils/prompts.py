@@ -94,5 +94,8 @@ PROMPTS = {
         "mathematische Formeln bitte zudem in normaler Sprache auf, damit auch Leute, die kein LaTeX verstehen, die Formel "
         "lesen können. Nimm auch konkrete Zusammenhänge in den Alternativtext mit auf, falls welche vorhanden sind. Deine "
         "Antwort sollte nur den Alternativtext beinhalten, starte deine Antwort NICHT mit 'Alternativtext:'."
+    ),
+    'test': (
+        "Describe what is in this image."
     )
 }

@@ -47,3 +47,5 @@ pyparsing~=3.1.1
 zipp~=3.17.0
 build~=1.0.3
 Pillow~=10.1.0
+torch~=2.0.0
+transformers~=4.32.0
