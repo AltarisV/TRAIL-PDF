@@ -83,7 +83,7 @@ PROMPTS = {
         "verwenden kann. Die Antwort sollte nur Markdown des im Bild dargestellten Codes beinhalten. Starte deine "
         "Antwort NICHT mit 'Alternativtext:'."
     ),
-    'normal': (
+    'standard': (
         "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität. Generiere eine Beschreibung, die als "
         "Alternativtext genutzt werden kann. Bitte gib mir einen präzisen Alternativtext für die gezeigte Abbildung. "
         "Ein Studierender mit absoluter Blindheit sollte die Abbildung verstehen können. Falls du Assoziationen auf dem "

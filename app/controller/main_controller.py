@@ -31,11 +31,6 @@ def upload_files():
     return redirect(url_for('main.index'))
 
 
-@main_bp.route('/uploads/<filename>')
-def upload(filename):
-    return send_from_directory(current_app.config['UPLOAD_PATH'], filename)
-
-
 @main_bp.route('/delete/<filename>')
 def delete_file(filename):
     current_app.logger.debug(f'Deleting file: {filename}')
