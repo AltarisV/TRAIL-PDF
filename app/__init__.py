@@ -1,5 +1,5 @@
 from flask import Flask
-from app.config import Config  # Import aus dem 'app' Ordner
+from app.Config import Config
 from dotenv import load_dotenv
 import logging
 import os
@@ -7,6 +7,9 @@ from logging.handlers import RotatingFileHandler
 
 
 def create_app():
+    # Set up environment and ensure API keys are set
+    Config.setup_env_file()
+
     app = Flask(__name__, template_folder='templates')
     app.config.from_object(Config)
     load_dotenv()

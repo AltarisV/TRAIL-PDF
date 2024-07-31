@@ -3,29 +3,37 @@
 <head>
     <title>Image Upload</title>
     <style>
+        @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
         body {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: "Montserrat", sans-serif;
             color: white;
-            background: #191f19;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            text-align: center;
         }
         .form-container {
+            position: absolute;
+            top: 0;
+            width: 100vw;
+            height: 100vh;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100%;
+        }
+        .upload-files-container {
+            background-color: #191f19;
+            width: 500px;
+            padding: 30px 60px;
+            border-radius: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px, rgba(0, 0, 0, 0.28) 0px 6px 6px;
         }
         #upload-box {
-            border: 2px dashed #ccc;
-            border-radius: 5px;
+            border: 2px dashed #76B900;
+            border-radius: 20px;
             width: 400px;
             height: 300px;
             display: flex;
@@ -78,13 +86,6 @@
             white-space: -pre-wrap;
             white-space: -o-pre-wrap;
             word-wrap: break-word;
-        }
-        .upload-files-container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
         }
     </style>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -172,7 +173,7 @@
 <div class="form-container">
     <div class="upload-files-container">
         <form id="image-upload-form" onsubmit="submitForm(event)">
-            <div id="upload-box" style="align-items: center"  onclick="document.getElementById('image-input').click();">
+            <div id="upload-box" onclick="document.getElementById('image-input').click();">
                 <span id="upload-box-text">Click here or paste an image (Ctrl+V)</span>
                 <input type="file" id="image-input" name="image" hidden onchange="loadFile(event)" accept="image/*">
             </div>
@@ -182,13 +183,13 @@
                 <option value="mathematical">Mathematical Formula</option>
                 <option value="table">Table</option>
             </select>
-            <div>
+            <div style="display: flex; justify-content: center; width: 100%;">
                 <button type="submit" id="submit-button">Submit</button>
             </div>
         </form>
         <div id="response"></div>
+        <button id="home-button" onclick="goToHome()">Home</button>
     </div>
-    <button id="home-button" onclick="goToHome()">Home</button>
 </div>
 </body>
 </html>
