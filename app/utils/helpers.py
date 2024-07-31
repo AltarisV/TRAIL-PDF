@@ -1,8 +1,9 @@
 import io
 import os
 import webbrowser
-from flask import current_app, Response
+
 from dotenv import load_dotenv, set_key
+from flask import Response
 
 
 def setup_env_file():

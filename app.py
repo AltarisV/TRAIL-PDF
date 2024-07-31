@@ -1,12 +1,12 @@
 import os
 
-from core import create_app
+from app import create_app
 
 app = create_app()
 
 if __name__ == '__main__':
     if os.environ.get('WERKZEUG_RUN_MAIN') == 'true':
-        from core.utils.helpers import open_browser
+        from app.utils.helpers import open_browser
         from threading import Timer
         Timer(1, open_browser).start()
     app.run(host='0.0.0.0', debug=True, port=7777)

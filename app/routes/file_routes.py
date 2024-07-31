@@ -2,11 +2,10 @@ from flask import Blueprint, render_template, current_app, request, redirect, ur
 import os
 import shutil
 import time
-from core.utils.pdf_utils import convert_pdf_to_images
-from core.services.gpt_service import send_image_to_gpt_english, send_image_to_gpt_german
-from core.utils.helpers import save_texts
+from app.services.pdf_service import convert_pdf_to_images
+from app.services.gpt_service import send_image_to_gpt
+from app.utils.helpers import save_texts
 from PyPDF2 import PdfReader
-
 
 file_bp = Blueprint('file', __name__)
 
@@ -26,6 +25,7 @@ def file_details(filename):
 
     return render_template('file_details.html', filename=filename, page_count=page_count)
 
+
 @file_bp.route('/convert_pdf/<filename>', methods=['POST'])
 def convert_pdf(filename):
     current_app.logger.info(f"Starting conversion for {filename}")
@@ -43,14 +43,7 @@ def convert_pdf(filename):
                 time.sleep(6)
             current_app.logger.info(f"Processing image {image} on page {i + 1}")
 
-            if chosen_language == "english":
-                text = send_image_to_gpt_english(image, page_number=i + 1)
-            elif chosen_language == "german":
-                text = send_image_to_gpt_german(image, page_number=i + 1)
-            else:
-                current_app.logger.error(f"Unsupported language choice: {chosen_language}")
-                flash(f'Unsupported language choice: {chosen_language}')
-                return redirect(url_for('file.file_details', filename=filename))
+            text = send_image_to_gpt(image, chosen_language)
 
             current_app.logger.info(f"Received text: {text}")
             texts.append(text)
@@ -95,14 +88,7 @@ def convert_pdf_n_pages(filename):
                 time.sleep(2)
             current_app.logger.info(f"Processing image {image} on page {i}")
 
-            if chosen_language == "english":
-                text = send_image_to_gpt_english(image, page_number=i)
-            elif chosen_language == "german":
-                text = send_image_to_gpt_german(image, page_number=i)
-            else:
-                current_app.logger.error(f"Unsupported language choice: {chosen_language}")
-                flash(f'Unsupported language choice: {chosen_language}')
-                return redirect(url_for('file.file_details', filename=filename))
+            text = send_image_to_gpt(image, chosen_language)
 
             current_app.logger.info(f"Received text: {text}")
             texts.append(text)

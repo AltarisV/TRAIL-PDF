@@ -3,7 +3,7 @@ from werkzeug.utils import secure_filename
 import os
 import uuid
 from datetime import datetime
-from core.services.gpt_service import get_alt_text
+from app.services.gpt_service import get_alt_text
 
 image_bp = Blueprint('image', __name__)
 

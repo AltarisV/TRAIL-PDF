@@ -1,6 +1,7 @@
 import base64
 import requests
 from flask import current_app
+from PIL import Image
 
 
 def encode_image(image_path):
@@ -54,3 +55,13 @@ def get_alt_text(image_path, prompt_type):
     except requests.exceptions.RequestException as e:
         print(f"Request to GPT API failed: {e}")
         return f"Error processing image. Exception: {e}"
+
+def is_valid_image(file_stream):
+    try:
+        file_stream.seek(0)
+        with Image.open(file_stream) as img:
+            img.verify()
+        return True
+    except Exception as e:
+        current_app.logger.error(f"Image validation error: {e}")
+        return False

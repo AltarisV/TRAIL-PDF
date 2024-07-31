@@ -36,6 +36,14 @@
             background-repeat: no-repeat;
             background-position: center;
             margin: 20px 0;
+            position: relative;
+        }
+        #upload-box-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
         #submit-button, #home-button {
             font-family: "Montserrat";
@@ -96,6 +104,7 @@
                         var reader = new FileReader();
                         reader.onload = function(event){
                             $('#upload-box').css('backgroundImage', 'url(' + event.target.result + ')');
+                            $('#upload-box-text').hide(); // Hide the text when image is pasted
                         };
                         reader.readAsDataURL(blob);
                     }
@@ -110,6 +119,7 @@
             var output = document.getElementById('upload-box');
             output.style.backgroundImage = 'url(' + URL.createObjectURL(file) + ')';
             output.style.backgroundSize = 'cover';
+            document.getElementById('upload-box-text').style.display = 'none'; // Hide the text when image is selected
         }
 
         // Function to escape HTML
@@ -143,6 +153,7 @@
                     document.getElementById('image-upload-form').reset();
                     formData = new FormData();
                     $('#upload-box').css('backgroundImage', '');
+                    $('#upload-box-text').show(); // Show the text again when form is reset
                 },
                 error: function(xhr, status, error) {
                     console.log("AJAX Error: " + status + "\nError: " + error);
@@ -162,7 +173,7 @@
     <div class="upload-files-container">
         <form id="image-upload-form" onsubmit="submitForm(event)">
             <div id="upload-box" style="align-items: center"  onclick="document.getElementById('image-input').click();">
-                Click here or paste an image (Ctrl+V)
+                <span id="upload-box-text">Click here or paste an image (Ctrl+V)</span>
                 <input type="file" id="image-input" name="image" hidden onchange="loadFile(event)" accept="image/*">
             </div>
             <label for="prompt-select">What does the image show?:</label>
