@@ -25,9 +25,9 @@ def create_app():
     # Test logging on startup
     app.logger.info('Flask application has started')
 
-    from app.routes.main_routes import main_bp  # Aktualisierte Importe
-    from app.routes.file_routes import file_bp
-    from app.routes.image_routes import image_bp
+    from app.controller.main_controller import main_bp  # Aktualisierte Importe
+    from app.controller.file_controller import file_bp
+    from app.controller.image_controller import image_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(file_bp)

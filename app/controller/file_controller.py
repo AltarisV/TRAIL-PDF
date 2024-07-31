@@ -1,9 +1,8 @@
 from flask import Blueprint, render_template, current_app, request, redirect, url_for, flash
 import os
 import shutil
-import time
 from app.services.pdf_service import convert_pdf_to_images
-from app.services.gpt_service import send_image_to_gpt
+from app.services.gpt_service import process_images_with_gpt
 from app.utils.helpers import save_texts
 from PyPDF2 import PdfReader
 
@@ -37,16 +36,7 @@ def convert_pdf(filename):
         images = convert_pdf_to_images(file_path)
         current_app.logger.info(f"Images generated: {images}")
 
-        texts = []
-        for i, image in enumerate(images):
-            if i > 0:
-                time.sleep(6)
-            current_app.logger.info(f"Processing image {image} on page {i + 1}")
-
-            text = send_image_to_gpt(image, chosen_language)
-
-            current_app.logger.info(f"Received text: {text}")
-            texts.append(text)
+        texts = process_images_with_gpt(images, chosen_language)
 
         flash('PDF successfully converted to alternative text.')
         current_app.logger.info(f"Conversion completed for {filename}")
@@ -69,29 +59,20 @@ def convert_pdf_n_pages(filename):
     num_pages = request.form.get('num_pages', type=int)
 
     try:
-        all_images = convert_pdf_to_images(file_path)
-        total_pages = len(all_images)
+        total_pages = len(PdfReader(file_path).pages)
 
         if not num_pages or num_pages <= 0 or start_page + num_pages - 1 > total_pages:
             num_pages = total_pages - start_page + 1
 
-        current_app.logger.info(
-            f"Converting pages {start_page} to {start_page + num_pages - 1} of PDF to images for {file_path}")
-
         end_page = min(start_page + num_pages - 1, total_pages)
-        images = all_images[start_page - 1:end_page]
+
+        current_app.logger.info(
+            f"Converting pages {start_page} to {end_page} of PDF to images for {file_path}")
+
+        images = convert_pdf_to_images(file_path, start_page=start_page, end_page=end_page)
         current_app.logger.info(f"Images generated for pages {start_page} to {end_page}: {images}")
 
-        texts = []
-        for i, image in enumerate(images, start=start_page):
-            if i > start_page:
-                time.sleep(2)
-            current_app.logger.info(f"Processing image {image} on page {i}")
-
-            text = send_image_to_gpt(image, chosen_language)
-
-            current_app.logger.info(f"Received text: {text}")
-            texts.append(text)
+        texts = process_images_with_gpt(images, chosen_language)
 
         flash('PDF successfully converted to alternative text.')
         current_app.logger.info(f"Conversion completed for {filename}")
