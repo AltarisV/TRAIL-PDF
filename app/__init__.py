@@ -7,7 +7,7 @@ from logging.handlers import RotatingFileHandler
 
 
 def create_app():
-    app = Flask(__name__, template_folder='templates')  # Aktualisierter Pfad für Templates
+    app = Flask(__name__, template_folder='templates')
     app.config.from_object(Config)
     load_dotenv()
 
@@ -25,7 +25,7 @@ def create_app():
     # Test logging on startup
     app.logger.info('Flask application has started')
 
-    from app.controller.main_controller import main_bp  # Aktualisierte Importe
+    from app.controller.main_controller import main_bp
     from app.controller.file_controller import file_bp
     from app.controller.image_controller import image_bp
 

@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, current_app, request, redirect, ur
 import os
 import shutil
 from app.services.pdf_service import convert_pdf_to_images
-from app.services.gpt_service import process_images_with_gpt
+from app.services.ai_service import process_images_with_gpt
 from app.utils.helpers import save_texts
 from PyPDF2 import PdfReader
 

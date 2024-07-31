@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template, current_app
-from app.services.gpt_service import send_image_to_gpt
+from app.services.ai_service import send_image_to_gpt
 from app.services.image_service import save_image, delete_image, is_valid_image
 
 image_bp = Blueprint('image', __name__)
