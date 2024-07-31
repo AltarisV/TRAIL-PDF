@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify, render_template, current_app
-from app.services.ai_service import send_image_to_gpt
+from app.services.ai_service import send_image_to_ai
 from app.services.image_service import save_image, delete_image, is_valid_image
 
 image_bp = Blueprint('image', __name__)
@@ -21,7 +21,7 @@ def process_image():
             return "Invalid image uploaded", 400
 
         image_path = save_image(image, TEMP_IMAGE_PATH)
-        alt_text = send_image_to_gpt(image_path, prompt_type)
+        alt_text = send_image_to_ai(image_path, prompt_type)
         delete_image(image_path)
 
         return jsonify(alt_text=alt_text)

@@ -5,7 +5,7 @@ from app.services.image_service import encode_image
 from app.utils.prompts import PROMPTS
 
 
-def send_image_to_gpt(image_path, chosen_language):
+def send_image_to_ai(image_path, chosen_language):
     base64_image = encode_image(image_path)
     image_url = f"data:image/jpeg;base64,{base64_image}"
 
@@ -50,14 +50,14 @@ def send_image_to_gpt(image_path, chosen_language):
         return f"Error processing image. Exception: {e}"
 
 
-def process_images_with_gpt(images, chosen_language):
+def process_images_with_ai(images, chosen_language):
     texts = []
     for i, image in enumerate(images):
         if i > 0:
             time.sleep(6)
         current_app.logger.info(f"Processing image {image} on page {i + 1}")
 
-        text = send_image_to_gpt(image, chosen_language)
+        text = send_image_to_ai(image, chosen_language)
 
         current_app.logger.info(f"Received text: {text}")
         texts.append(text)

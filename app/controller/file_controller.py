@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, current_app, request, redirect, ur
 import os
 import shutil
 from app.services.pdf_service import convert_pdf_to_images
-from app.services.ai_service import process_images_with_gpt
+from app.services.ai_service import process_images_with_ai
 from app.utils.helpers import save_texts
 from PyPDF2 import PdfReader
 
@@ -36,7 +36,7 @@ def convert_pdf(filename):
         images = convert_pdf_to_images(file_path)
         current_app.logger.info(f"Images generated: {images}")
 
-        texts = process_images_with_gpt(images, chosen_language)
+        texts = process_images_with_ai(images, chosen_language)
 
         flash('PDF successfully converted to alternative text.')
         current_app.logger.info(f"Conversion completed for {filename}")
@@ -72,7 +72,7 @@ def convert_pdf_n_pages(filename):
         images = convert_pdf_to_images(file_path, start_page=start_page, end_page=end_page)
         current_app.logger.info(f"Images generated for pages {start_page} to {end_page}: {images}")
 
-        texts = process_images_with_gpt(images, chosen_language)
+        texts = process_images_with_ai(images, chosen_language)
 
         flash('PDF successfully converted to alternative text.')
         current_app.logger.info(f"Conversion completed for {filename}")
