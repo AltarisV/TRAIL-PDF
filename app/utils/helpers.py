@@ -2,19 +2,7 @@ import io
 import os
 import webbrowser
 
-from dotenv import load_dotenv, set_key
 from flask import Response
-
-
-def setup_env_file():
-    env_file = '.env'
-    load_dotenv(env_file)
-    required_keys = ['OPENAI_API_KEY']
-
-    for key in required_keys:
-        if not os.getenv(key):
-            value = input(f"Enter your {key}: ")
-            set_key(env_file, key, value)
 
 
 def open_browser():
