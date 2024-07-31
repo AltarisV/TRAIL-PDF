@@ -69,11 +69,19 @@ PROMPTS = {
     'table': (
         "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
         "Ich gebe dir ein Bild von einer Tabelle aus einer Vorlesungsfolie an der Universität. "
-        "Deine Aufgabe ist es, diese Tabelle in HTML Code umzuwandeln, damit es eine HTML-Tabelle wird, die ein blinder "
+        "Deine Aufgabe ist es, diese Tabelle in HTML-Code umzuwandeln, damit es eine HTML-Tabelle wird, die ein blinder "
         "Student mit seinem Screenreader barrierefrei navigieren kann. "
         "Deine Antwort sollte ausschließlich den HTML-Code für die Tabelle beinhalten, sodass der Nutzer ihn kopieren "
-        "und in seinem Dokument verwenden kann. Die Antwort sollte kein markdown beinhalten und möglichst mit border "
+        "und in einem Dokument verwenden kann. Die Antwort sollte kein markdown beinhalten und möglichst mit border "
         "arbeiten. Starte deine Antwort NICHT mit 'Alternativtext:'."
+    ),
+    'code': (
+        "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
+        "Ich gebe dir ein Bild von einem Code-Ausschnitt aus einer Vorlesungsfolie an der Universität. "
+        "Deine Aufgabe ist es, diesen Code als Markdown wiederzugeben. "
+        "Deine Antwort sollte ausschließlich den Code enthalten, sodass ein Nutzer ihn kopieren und in einem Dokument "
+        "verwenden kann. Die Antwort sollte nur Markdown des im Bild dargestellten Codes beinhalten. Starte deine "
+        "Antwort NICHT mit 'Alternativtext:'."
     ),
     'normal': (
         "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität. Generiere eine Beschreibung, die als "
