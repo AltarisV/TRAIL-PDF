@@ -47,6 +47,8 @@ PROMPTS = {
         "Deine Antwort sollte HTML-Code für die Tabelle beinhalten, "
         "sodass der Nutzer ihn kopieren und in seinem Dokument verwenden kann. Die Antwort sollte kein "
         "markdown beinhalten und möglichst mit border arbeiten. "
+        "Wenn das Bild Darstellungen von Code enthält, so gebe den Code in einem code-Tag "
+        "für HTML aus, also <code>{hier der code}</code>."
         "Schreibe allgemein nichts über Styling, Design oder das Logo der Institution. "
         "Dies ist von höchster Wichtigkeit. "
         "Deine Nachricht muss mit 'Seite {page_number}, <eine von dir generierte "
