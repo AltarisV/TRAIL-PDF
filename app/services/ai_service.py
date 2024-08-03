@@ -67,23 +67,21 @@ def send_image_to_ai(image_path, chosen_prompt):
         else:
             current_app.logger.error(
                 f"Error from GPT API: Status Code {response.status_code}, Response: {response.text}")
-            return f"Error processing image. API response status: {response.status_code}", None
+            return f"Error processing image. API response status: {response.status_code}"
     except requests.exceptions.RequestException as e:
         current_app.logger.error(f"Request to GPT API failed: {e}")
-        return f"Error processing image. Exception: {e}", None
+        return f"Error processing image. Exception: {e}"
 
 
 def process_images_with_ai(images, chosen_prompt):
     texts = []
-    token_usages = []
     for i, image in enumerate(images):
         if i > 0:
             time.sleep(6)
         current_app.logger.info(f"Processing image {image} on page {i + 1}")
 
-        text, usage_info = send_image_to_ai(image, chosen_prompt)
+        text = send_image_to_ai(image, chosen_prompt)
 
         current_app.logger.info(f"Received text: {text}")
         texts.append(text)
-        token_usages.append(usage_info)
-    return texts, token_usages
+    return texts
