@@ -27,7 +27,6 @@ def send_image_to_ai(image_path, chosen_prompt):
         raw_image = load_image(image_path).convert('RGB')
         current_app.logger.info(f"Image loaded successfully from {image_path}")
 
-        # Check if a valid prompt is provided
         if chosen_prompt.lower() != "empty":
             prompt_text = PROMPTS.get(chosen_prompt)
             if prompt_text is None:
