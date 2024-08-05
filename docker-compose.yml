@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   trail-pdf:
     build: .
@@ -10,7 +8,7 @@ services:
       - APP_SECRET_KEY=${APP_SECRET_KEY}
     volumes:
       - .:/usr/src/app
-      - huggingface_cache:/root/.cache/huggingface  # Das Volume für das Cache-Verzeichnis
+      - huggingface_cache:/root/.cache/huggingface
 
 volumes:
   huggingface_cache:

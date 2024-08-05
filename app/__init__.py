@@ -25,8 +25,7 @@ def create_app():
     app.logger.addHandler(file_handler)
     app.logger.setLevel(logging.DEBUG)
 
-    # Test logging on startup
-    app.logger.info('Flask application has started')
+    app.logger.info('Logger has started')
 
     from app.controller.main_controller import main_bp
     from app.controller.file_controller import file_bp
@@ -36,14 +35,17 @@ def create_app():
     app.register_blueprint(file_bp)
     app.register_blueprint(image_bp)
 
+    app.logger.info('Blueprints registered.')
+
     if not os.path.exists(app.config['UPLOAD_PATH']):
         os.makedirs(app.config['UPLOAD_PATH'])
 
     if not os.path.exists(app.config['TEMP_IMAGE_PATH']):
         os.makedirs(app.config['TEMP_IMAGE_PATH'])
 
-    # Initialisiere BLIP-2 im Anwendungskontext
     with app.app_context():
-        init_blip2_model()  # Initialisiere das Modell
+        app.logger.info("Initializing BLIP-2 model within the app context.")
+        init_blip2_model()
 
+    app.logger.info("Flask app creation complete.")
     return app
