@@ -32,7 +32,6 @@ def send_image_to_ai(image_path, chosen_prompt):
         raw_image = load_image(image_path).convert('RGB')
         current_app.logger.info(f"Image loaded successfully from {image_path}")
 
-        # Check if a valid prompt is provided
         if chosen_prompt.lower() != "empty":
             # Retrieve the appropriate text prompt
             prompt_text = PROMPTS.get(chosen_prompt)
@@ -73,7 +72,7 @@ def process_images_with_ai(images, chosen_prompt):
     texts = []
     for i, image_path in enumerate(images):
         if i > 0:
-            time.sleep(6)  # Optional: Sleep to add a delay between requests
+            time.sleep(2)
         current_app.logger.info(f"Processing image {i + 1} of {len(images)}: {image_path}")
 
         text = send_image_to_ai(image_path, chosen_prompt)
