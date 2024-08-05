@@ -9,4 +9,4 @@ if __name__ == '__main__':
         from app.utils.helpers import open_browser
         from threading import Timer
         Timer(1, open_browser).start()
-    app.run(host='0.0.0.0', debug=True, port=7777)
+    app.run(host='0.0.0.0', debug=True, port=7777, use_reloader=False)

@@ -10,6 +10,7 @@ from app.utils.prompts import PROMPTS
 processor = None
 model = None
 
+
 def init_blip2_model():
     global processor, model
     processor = Blip2Processor.from_pretrained("Salesforce/blip2-opt-2.7b")
@@ -26,16 +27,22 @@ def send_image_to_ai(image_path, chosen_prompt):
         raw_image = load_image(image_path).convert('RGB')
         current_app.logger.info(f"Image loaded successfully from {image_path}")
 
-        # Retrieve the appropriate text prompt
-        prompt_text = PROMPTS.get(chosen_prompt)
-        if prompt_text is None:
-            current_app.logger.error(f"Unsupported language choice: {chosen_prompt}")
-            return f"Error processing image. Unsupported language choice: {chosen_prompt}"
+        # Check if a valid prompt is provided
+        if chosen_prompt.lower() != "empty":
+            # Retrieve the appropriate text prompt
+            prompt_text = PROMPTS.get(chosen_prompt)
+            if prompt_text is None:
+                current_app.logger.error(f"Unsupported language choice: {chosen_prompt}")
+                return f"Error processing image. Unsupported language choice: {chosen_prompt}"
 
-        # current_app.logger.info(f"Using prompt: {prompt_text}")
+            current_app.logger.info(f"Using prompt: {prompt_text}")
+            # Prepare inputs with the prompt
+            inputs = processor(raw_image, prompt_text, return_tensors="pt").to(
+                "cuda" if torch.cuda.is_available() else "cpu")
+        else:
+            # Prepare inputs without the prompt
+            inputs = processor(raw_image, return_tensors="pt").to("cuda" if torch.cuda.is_available() else "cpu")
 
-        # Prepare inputs for the model
-        inputs = processor(raw_image, return_tensors="pt").to("cuda" if torch.cuda.is_available() else "cpu")
         current_app.logger.info(f"Inputs prepared for the model: {inputs}")
 
         # Perform prediction
@@ -51,7 +58,6 @@ def send_image_to_ai(image_path, chosen_prompt):
     except Exception as e:
         current_app.logger.error(f"Error processing image with BLIP-2: {e}")
         return f"Error processing image. Exception: {e}"
-
 
 
 def process_images_with_ai(images, chosen_prompt):

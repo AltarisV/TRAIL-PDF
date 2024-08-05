@@ -97,5 +97,8 @@ PROMPTS = {
     ),
     'test': (
         "Describe what is in this image."
+    ),
+    'empty': (
+        ""
     )
 }
