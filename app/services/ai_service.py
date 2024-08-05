@@ -29,7 +29,6 @@ def send_image_to_ai(image_path, chosen_prompt):
 
         # Check if a valid prompt is provided
         if chosen_prompt.lower() != "empty":
-            # Retrieve the appropriate text prompt
             prompt_text = PROMPTS.get(chosen_prompt)
             if prompt_text is None:
                 current_app.logger.error(f"Unsupported language choice: {chosen_prompt}")
@@ -64,7 +63,7 @@ def process_images_with_ai(images, chosen_prompt):
     texts = []
     for i, image_path in enumerate(images):
         if i > 0:
-            time.sleep(6)  # Optional: Sleep to add a delay between requests
+            time.sleep(2)
         current_app.logger.info(f"Processing image {i + 1} of {len(images)}: {image_path}")
 
         text = send_image_to_ai(image_path, chosen_prompt)
