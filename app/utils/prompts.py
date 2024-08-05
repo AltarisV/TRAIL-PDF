@@ -96,7 +96,7 @@ PROMPTS = {
         "Antwort sollte nur den Alternativtext beinhalten, starte deine Antwort NICHT mit 'Alternativtext:'."
     ),
     'test': (
-        "Question: What is depicted in this picture? Answer:"
+        "Give me a detailed description of this image."
     ),
     'empty': (
         ""
