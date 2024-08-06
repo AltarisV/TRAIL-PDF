@@ -77,7 +77,7 @@ def process_images_with_ai(images, chosen_prompt):
     texts = []
     for i, image in enumerate(images):
         if i > 0:
-            time.sleep(6)
+            time.sleep(2)
         current_app.logger.info(f"Processing image {image} on page {i + 1}")
 
         text = send_image_to_ai(image, chosen_prompt)
