@@ -75,14 +75,12 @@ def process_text_for_html(text, idx):
             processed_lines.append(html.escape(line))
             processed_lines.append("\n")
         elif any(tag in stripped_line for tag in ["<table", "</table>", "<tr>", "</tr>", "<th>", "</th>", "<td>", "</td>", "<caption>", "</caption>", "<thead>", "</thead>", "<tbody>", "</tbody>", "<p>", "</p>"]):
-            # Wenn die Zeile HTML-Tags enthält, wird sie nicht escaped
             processed_lines.append(stripped_line)
         elif in_table:
             processed_lines.append(stripped_line)
             if "</table>" in stripped_line:
                 in_table = False
         else:
-            # Normales Escaping für alle anderen Fälle
             line = escape_html(line)
 
             if line.startswith("Seite ") or line.startswith("Page "):
