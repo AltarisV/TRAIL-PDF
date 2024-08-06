@@ -54,35 +54,36 @@ def process_text_for_html(text, idx):
     lines = text.split('\n')
     processed_lines = []
     headers = []
-    in_table = False
     in_code_block = False
+    in_table = False
 
     for line in lines:
         stripped_line = line.strip()
 
-        # Handle <code> blocks without escaping
-        if stripped_line.startswith("<code>"):
+        # Handle <pre><code> blocks
+        if "<code>" in stripped_line and not in_code_block:
             in_code_block = True
-            processed_lines.append(stripped_line)
-        elif stripped_line.endswith("</code>") and in_code_block:
-            processed_lines.append(stripped_line)
+            processed_lines.append("<pre><code>")
+            code_start_index = stripped_line.find("<code>") + len("<code>")
+            processed_lines.append(html.escape(stripped_line[code_start_index:]))
+        elif "</code>" in stripped_line and in_code_block:
+            code_end_index = stripped_line.find("</code>")
+            processed_lines.append(html.escape(stripped_line[:code_end_index]))
+            processed_lines.append("</code></pre>")
             in_code_block = False
         elif in_code_block:
-            processed_lines.append(line)  # Do not escape the code block content
-
-        # Handle <table> blocks without escaping
-        elif stripped_line.startswith("<table"):
-            in_table = True
-            processed_lines.append(stripped_line)
-        elif in_table and stripped_line.startswith("</table>"):
-            in_table = False
+            processed_lines.append(html.escape(line))
+            processed_lines.append("\n")
+        elif any(tag in stripped_line for tag in ["<table", "</table>", "<tr>", "</tr>", "<th>", "</th>", "<td>", "</td>", "<caption>", "</caption>", "<thead>", "</thead>", "<tbody>", "</tbody>", "<p>", "</p>"]):
+            # Wenn die Zeile HTML-Tags enthält, wird sie nicht escaped
             processed_lines.append(stripped_line)
         elif in_table:
             processed_lines.append(stripped_line)
-
+            if "</table>" in stripped_line:
+                in_table = False
         else:
-            if not in_code_block:  # Escape only if not inside a code block
-                line = escape_html(line)
+            # Normales Escaping für alle anderen Fälle
+            line = escape_html(line)
 
             if line.startswith("Seite ") or line.startswith("Page "):
                 colon_pos = line.find(':')
