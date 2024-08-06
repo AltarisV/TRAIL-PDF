@@ -49,7 +49,7 @@ def send_image_to_ai(image_path, chosen_prompt):
         current_app.logger.info(f"Inputs prepared for the model: {inputs}")
         outputs = model.generate(
             **inputs,
-            do_sample=True,
+            do_sample=False,
             num_beams=5,
             max_length=2048,
             min_length=1,
@@ -58,6 +58,7 @@ def send_image_to_ai(image_path, chosen_prompt):
             length_penalty=1.0,
             temperature=1,
         )
+        current_app.logger.info(f"Model generated outputs: {outputs}")
         generated_text = processor.batch_decode(outputs, skip_special_tokens=True)[0].strip()
         current_app.logger.info(f"Model generated text: {generated_text}")
 
