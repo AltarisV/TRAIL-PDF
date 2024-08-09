@@ -10,13 +10,14 @@
         var formData = new FormData(); // Global FormData object
 
         $(document).ready(function() {
-            // Handle image paste
-            $('#upload-box').on('paste', function(e) {
+            // Handle image paste globally
+            $(document).on('paste', function(e) {
                 var items = (e.clipboardData || e.originalEvent.clipboardData).items;
                 for (var index in items) {
                     var item = items[index];
                     if (item.kind === 'file') {
                         var blob = item.getAsFile();
+                        formData = new FormData();  // Reinitialize FormData when new image is pasted
                         formData.append('image', blob); // Append the pasted image to the FormData
 
                         var reader = new FileReader();
@@ -25,6 +26,8 @@
                             $('#upload-box-text').hide(); // Hide the text when image is pasted
                         };
                         reader.readAsDataURL(blob);
+
+                        console.log("Image pasted and preview updated."); // Debugging log
                     }
                 }
             });
