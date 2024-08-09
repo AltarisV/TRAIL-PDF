@@ -402,3 +402,18 @@ h3 {
     height: 16px;
     filter: invert(18%) sepia(84%) saturate(6140%) hue-rotate(359deg) brightness(97%) contrast(104%);
 }
+
+#progress-container {
+    margin-bottom: 20px;
+}
+#progress-bar {
+    width: 100%;
+    height: 25px; /* Increase the height for a thicker bar */
+    margin-top: 5px;
+    border-radius: 5px;
+}
+#progress-text {
+    text-align: center;
+    margin-top: 10px;
+    font-size: 16px;
+}

@@ -2,16 +2,19 @@ import io
 import os
 import webbrowser
 import html
-from flask import Response
+from flask import Response, current_app
 
 
 def open_browser():
     webbrowser.open_new('http://127.0.0.1:7777/')
 
 
+import os
+from flask import current_app, Response
+
 def save_texts(texts, original_filename, language):
     base_filename = os.path.splitext(original_filename)[0]
-    new_filename = base_filename + " " + language
+    new_filename = f"{base_filename} {language}.html"
     html_content = "<!DOCTYPE html>\n"
 
     if language == "english":
@@ -42,12 +45,17 @@ def save_texts(texts, original_filename, language):
     html_content += processed_content
 
     html_content += "</body>\n</html>"
-    html_bytes = io.BytesIO(html_content.encode('utf-8'))
 
-    response = Response(html_bytes.getvalue(),
-                        mimetype="text/html",
-                        headers={"Content-Disposition": f"attachment;filename={new_filename}.html"})
-    return response
+    # Full path where the file will be saved
+    file_path = os.path.join(current_app.config['UPLOAD_PATH'], new_filename)
+
+    with open(file_path, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+
+    response = Response(html_content, mimetype="text/html",
+                        headers={"Content-Disposition": f"attachment;filename={new_filename}"})
+    return response, file_path
+
 
 
 def process_text_for_html(text, idx):

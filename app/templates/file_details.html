@@ -21,6 +21,11 @@
 </div>
 <div class="form-container">
     <div class="upload-files-container">
+        <div id="progress-container">
+            <p>Conversion Progress:</p>
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <p id="progress-text">Progress: 0%</p>
+        </div>
         <form
                 enctype="multipart/form-data"
                 action="{{ url_for('file.convert_pdf', filename=filename) }}"
@@ -63,11 +68,57 @@
 </div>
 
 <script>
+    // Pass the filename variable from Flask to JavaScript
+    const filename = "{{ filename }}";
+
     function submitPartialConversion() {
         var form = document.getElementById('conversionForm');
         form.action = "{{ url_for('file.convert_pdf_n_pages', filename=filename) }}";
         form.submit();
     }
+
+    document.getElementById('conversionForm').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+        const form = event.target;
+        const formData = new FormData(form); // Collect form data
+        const progressBar = document.getElementById('progress-bar');
+        const progressText = document.getElementById('progress-text');
+
+        // Start the conversion process
+        fetch(form.action, {
+            method: 'POST',
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                // Start listening to SSE after the conversion process begins
+                const source = new EventSource(`/progress_endpoint/${filename}`);
+                source.onmessage = function(event) {
+                    const progressValue = parseInt(event.data);
+                    progressBar.value = progressValue;
+                    progressText.textContent = `Progress: ${progressValue}%`;
+
+                    if (progressValue >= 100) {
+                        alert('Conversion Complete!');
+                        source.close(); // Close the SSE connection
+                        // Trigger file download
+                        window.location.href = `/download_file/${filename}`;
+                    }
+                };
+
+                source.onerror = function(error) {
+                    console.error('Error occurred:', error);
+                    progressText.textContent = 'Error occurred. Check console for details.';
+                    source.close();
+                };
+            } else {
+                console.error('Failed to start conversion process.');
+                progressText.textContent = 'Failed to start conversion process.';
+            }
+        }).catch(error => {
+            console.error('Error submitting form:', error);
+            progressText.textContent = 'Error submitting form. Check console for details.';
+        });
+    });
 </script>
 </body>
 </html>
