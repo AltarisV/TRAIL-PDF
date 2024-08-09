@@ -82,7 +82,9 @@ PROMPTS = {
     'code': (
         "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
         "Ich gebe dir ein Bild von einem Code-Ausschnitt aus einer Vorlesungsfolie an der Universität. "
-        "Deine Aufgabe ist es, diesen Code als Code in einem HTML-Code-Tag wiederzugeben. "
+        "Deine Aufgabe ist es, diesen Code als Code in einem HTML-Code-Tag wiederzugeben. Hier ist ein Beispiel: "
+        "<code>def hello_world():"
+        "   print.('hello world!')</code> "
         "Deine Antwort sollte ausschließlich den Code in einem HTML-Tag enthalten, sodass ein Nutzer ihn kopieren und "
         "in einem HTML-Dokument verwenden kann. Die Antwort sollte nur HTML-Code des im Bild dargestellten Codes "
         "beinhalten. Starte deine Antwort NICHT mit 'Alternativtext:'."

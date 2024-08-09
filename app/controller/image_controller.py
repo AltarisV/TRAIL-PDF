@@ -17,6 +17,8 @@ def process_image():
         image = request.files['image']
         prompt_type = request.form.get('prompt', 'normal')
 
+        current_app.logger.info(f"Received image: {image.filename}")
+
         if not is_valid_image(image):
             return "Invalid image uploaded", 400
 
@@ -26,4 +28,5 @@ def process_image():
 
         return jsonify(alt_text=alt_text)
     else:
+        current_app.logger.error("No image uploaded")
         return "No image uploaded", 400

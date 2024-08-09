@@ -32,12 +32,19 @@
 
         function loadFile(event) {
             var file = event.target.files[0];
-            formData.append('image', file); // Append the file to the FormData
+            if (file) {
+                formData = new FormData();  // Reinitialize FormData when new image is selected
+                formData.append('image', file); // Append the file to the FormData
 
-            var output = document.getElementById('upload-box');
-            output.style.backgroundImage = 'url(' + URL.createObjectURL(file) + ')';
-            output.style.backgroundSize = 'cover';
-            document.getElementById('upload-box-text').style.display = 'none'; // Hide the text when image is selected
+                var output = document.getElementById('upload-box');
+                output.style.backgroundImage = 'url(' + URL.createObjectURL(file) + ')';
+                output.style.backgroundSize = 'cover';
+                document.getElementById('upload-box-text').style.display = 'none'; // Hide the text when image is selected
+
+                console.log("Image selected and preview updated."); // Debugging log
+            } else {
+                console.log("No file selected in loadFile function."); // Debugging log
+            }
         }
 
         // Function to escape HTML
@@ -53,32 +60,41 @@
         function submitForm(event) {
             event.preventDefault();
 
-            var selectedPrompt = document.getElementById('prompt-select').value;
-            formData.append('prompt', selectedPrompt);
+            // Reuse the existing FormData object that includes the image
+            if (formData.has('image')) {
+                var selectedPrompt = document.getElementById('prompt-select').value;
+                formData.append('prompt', selectedPrompt);
 
-            $.ajax({
-                url: '/process-image',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(response) {
-                    var escapedResponse = escapeHtml(response.alt_text);
-                    $("#response").html("<strong>Response:</strong> <pre>" + escapedResponse + "</pre>");
-                    $("#response").show();
+                $.ajax({
+                    url: '/process-image',
+                    type: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        var escapedResponse = escapeHtml(response.alt_text);
+                        $("#response").html("<strong>Response:</strong> <pre>" + escapedResponse + "</pre>");
+                        $("#response").show();
 
-                    // Reset the form and clear the upload box
-                    document.getElementById('image-upload-form').reset();
-                    formData = new FormData();
-                    $('#upload-box').css('backgroundImage', '');
-                    $('#upload-box-text').show(); // Show the text again when form is reset
-                },
-                error: function(xhr, status, error) {
-                    console.log("AJAX Error: " + status + "\nError: " + error);
-                    $("#response").html("Error in image processing: " + xhr.responseText);
-                    $("#response").show();
-                }
-            });
+                        // Reset the form and clear the upload box
+                        document.getElementById('image-upload-form').reset();
+                        $('#upload-box').css('backgroundImage', '');
+                        $('#upload-box-text').show(); // Show the text again when form is reset
+
+                        // Reset formData for the next image upload
+                        formData = new FormData();
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("AJAX Error: " + status + "\nError: " + error);
+                        $("#response").html("Error in image processing: " + xhr.responseText);
+                        $("#response").show();
+                    }
+                });
+            } else {
+                console.log("No image file selected.");
+                $("#response").html("No image file selected. Please select an image.");
+                $("#response").show();
+            }
         }
 
         function goToHome() {
