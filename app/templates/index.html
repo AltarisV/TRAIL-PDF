@@ -30,7 +30,7 @@
                         <a href="{{ url_for('file.file_details', filename=file) }}">{{ file }}</a>
                         <!-- Delete button -->
                         <a href="{{ url_for('main.delete_file', filename=file) }}" class="delete-link" title="Delete">
-                            <img src="{{ url_for('static', filename='fonts/trashcan.svg') }}" alt="Delete" class="red-trashcan"/>
+                            <img src="{{ url_for('static', filename='icons/trashcan.svg') }}" alt="Delete" class="red-trashcan"/>
                         </a>
                     </li>
                 {% endfor %}
