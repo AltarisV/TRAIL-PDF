@@ -109,7 +109,7 @@ h1 {
     margin: 5px 0;
     padding: 5px 10px 5px 30px;
     border-radius: 5px;
-    color: #000000; /* Updated for better contrast */
+    color: #ffffff; /* Updated for better contrast */
     display: none;
 }
 
@@ -408,7 +408,7 @@ h3 {
     border: 1px solid #ccc;
     border-radius: 5px;
     background: #333;
-    color: #000000; /* Updated for better contrast */
+    color: #ffffff; /* Updated for better contrast */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     word-wrap: break-word;

@@ -59,7 +59,7 @@ PROMPTS = {
         "deutsch sein. Wiederhole in deiner Antwort nicht den Titel der Folie. "
         "Starte deine Antwort NICHT mit 'Alternativtext:'."
     ),
-    'mathematical': (
+    'mathematical_german': (
         "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
         "Ich gebe dir ein Bild von einer mathematischen Formel aus einer Vorlesungsfolie von der Universität. "
         "Ich benötige eine präzise Beschreibung dieser Formel in zugänglichem Text, als würde man sie vorlesen. "
@@ -70,7 +70,7 @@ PROMPTS = {
         "'Alternativtext:'. Deine Antwort sollte in etwa so aufgebaut sein und direkt mit der Formel in zugänglichem "
         "Text anfangen: {Formel in zugänglichem Text} Formel in LaTeX: {Formel in LaTeX}"
     ),
-    'table': (
+    'table_german': (
         "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
         "Ich gebe dir ein Bild von einer Tabelle aus einer Vorlesungsfolie an der Universität. "
         "Deine Aufgabe ist es, diese Tabelle in HTML-Code umzuwandeln, damit es eine HTML-Tabelle wird, die ein blinder "
@@ -79,7 +79,7 @@ PROMPTS = {
         "und in einem Dokument verwenden kann. Die Antwort sollte kein markdown beinhalten und möglichst mit border "
         "arbeiten. Starte deine Antwort NICHT mit 'Alternativtext:'."
     ),
-    'code': (
+    'code_german': (
         "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
         "Ich gebe dir ein Bild von einem Code-Ausschnitt aus einer Vorlesungsfolie an der Universität. "
         "Deine Aufgabe ist es, diesen Code als Code in einem HTML-Code-Tag wiederzugeben. Hier ist ein Beispiel: "
@@ -89,7 +89,7 @@ PROMPTS = {
         "in einem HTML-Dokument verwenden kann. Die Antwort sollte nur HTML-Code des im Bild dargestellten Codes "
         "beinhalten. Starte deine Antwort NICHT mit 'Alternativtext:'."
     ),
-    'standard': (
+    'standard_german': (
         "Ich gebe dir ein Bild von einer Vorlesungsfolie aus der Universität. Generiere eine Beschreibung, die als "
         "Alternativtext genutzt werden kann. Bitte gib mir einen präzisen Alternativtext für die gezeigte Abbildung. "
         "Ein Studierender mit absoluter Blindheit sollte die Abbildung verstehen können. Falls du Assoziationen auf dem "
@@ -100,5 +100,42 @@ PROMPTS = {
         "mathematische Formeln bitte zudem in normaler Sprache auf, damit auch Leute, die kein LaTeX verstehen, die Formel "
         "lesen können. Nimm auch konkrete Zusammenhänge in den Alternativtext mit auf, falls welche vorhanden sind. Deine "
         "Antwort sollte nur den Alternativtext beinhalten, starte deine Antwort NICHT mit 'Alternativtext:'."
+    ),
+    'mathematical_english': (
+        "You are assisting in creating accessible materials by providing accessible content. "
+        "I am giving you an image of a mathematical formula from a university lecture slide. "
+        "I need a precise description of this formula in accessible text, as it would be read aloud. "
+        "For example: 'x semicolon mu comma beta raised to the power of minus 1 end exponent is equal to "
+        "the square root of the numerator beta divided by the denominator 2 pi fraction result square root end exp "
+        "open parenthesis minus 1 half fraction beta left parenthesis x minus mu right parenthesis squared close parenthesis'. "
+        "Additionally, I need the raw LaTeX for this formula separately. Start your response directly with the formula in accessible "
+        "text and then provide the LaTeX: {Formula in accessible text} Formula in LaTeX: {Formula in LaTeX}"
+    ),
+    'table_english': (
+        "You are assisting in creating accessible materials by providing accessible content. "
+        "I am giving you an image of a table from a university lecture slide. "
+        "Your task is to convert this table into HTML code, so it becomes an accessible HTML table that a blind student "
+        "can navigate using their screen reader. Your response should only include the HTML code for the table, which can be "
+        "copied and used in a document. The response should not include markdown and should use borders where possible. "
+        "Start your response directly with the HTML code."
+    ),
+    'code_english': (
+        "You are assisting in creating accessible materials by providing accessible content. "
+        "I am giving you an image of a code snippet from a university lecture slide. "
+        "Your task is to reproduce this code snippet within an HTML <code> tag. Here is an example: "
+        "<code>def hello_world():"
+        "   print('hello world!')</code>. "
+        "Your response should only include the code within an HTML <code> tag so that it can be copied and used in an HTML document. "
+        "The response should contain only the HTML code representation of the code snippet shown in the image."
+    ),
+    'standard_english': (
+        "I am giving you an image of a university lecture slide. Generate a description that can be used as alternative text. "
+        "Provide me with a precise alternative text for the image shown. A student with total blindness should be able to understand "
+        "the image. If you find any associations in the image, describe them. If normal text is visible in the image, transcribe the "
+        "text exactly as it appears, but in English. If the original text is not in English, only include the translated English text "
+        "in your response. If there are mathematical formulas, provide raw LaTeX for those formulas without specifically highlighting it. "
+        "Also describe mathematical formulas in plain language so that people who don't understand LaTeX can understand the formula. "
+        "Include specific associations in the alternative text if any exist. Your response should only include the alternative text; do "
+        "not start your response with 'Alternative text:'."
     )
 }
