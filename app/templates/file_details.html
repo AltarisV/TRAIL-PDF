@@ -30,33 +30,45 @@
         >
             <h1>File Conversion Details</h1>
             <h2>Details for {{ filename }}</h2>
-            <p>This PDF has {{ page_count }} pages.</p>
 
-            <!-- Language selection dropdown -->
+            <!-- Centering the page count message -->
+            <div class="page-count-container">
+                <p>This PDF has {{ page_count }} pages.<br>
+                    {% set total_seconds = page_count * 8 %}
+                    {% set minutes = total_seconds // 60 %}
+                    {% set seconds = total_seconds % 60 %}
+                    Based on this, conversion will take around
+                    {% if minutes == 0 %}
+                        {{ seconds }} second{{ 's' if seconds != 1 else '' }}.
+                    {% elif minutes == 1 %}
+                        1 minute{% if seconds > 0 %} {{ seconds }} second{{ 's' if seconds != 1 else '' }}{% endif %}.
+                    {% elif minutes == 2 and seconds == 0 %}
+                        2 minutes.
+                    {% else %}
+                        {{ minutes }} minute{{ 's' if minutes > 1 else '' }}
+                        {{ seconds }} second{{ 's' if seconds != 1 else '' }}.
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Other form elements remain unchanged -->
             <label for="language">Choose a language for conversion:</label>
             <select name="language" id="language">
                 <option value="english">English</option>
                 <option value="german" selected>German</option>
-                <!-- Add other languages as needed -->
             </select>
 
-            <!-- Input for starting page -->
             <label for="start_page">Enter starting page:</label>
             <input type="number" name="start_page" id="start_page" min="1" max="{{ page_count }}" value="1">
 
-            <!-- Input for number of pages -->
             <label for="num_pages" style="text-align: center">Enter number of pages to convert <br>
                 (optional, leave empty if you want to convert till the end):</label>
             <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
 
-            <!-- Button to convert the full document -->
             <input class="upload-button" type="submit" value="Convert Full Document" />
-
-            <!-- Button to convert specified pages -->
             <button type="button" class="upload-button" onclick="submitPartialConversion()">
                 Convert from Specified Pages
             </button>
-
             <button class="upload-button" type="button" onclick="window.location.href='{{ url_for('main.index') }}'">
                 Back to file list
             </button>

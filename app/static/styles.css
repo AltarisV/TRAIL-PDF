@@ -428,3 +428,13 @@ h3 {
     height: 16px;
     filter: invert(18%) sepia(84%) saturate(6140%) hue-rotate(359deg) brightness(97%) contrast(104%);
 }
+
+.page-count-container {
+    text-align: center; /* Centers the text horizontally */
+    margin-bottom: 20px; /* Adds some space below the text for better spacing */
+}
+
+.upload-files-container p {
+    margin: 0;
+    padding: 0;
+}
