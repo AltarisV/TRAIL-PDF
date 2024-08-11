@@ -1,36 +1,5 @@
-import os
-import csv
 from flask import Flask, jsonify, current_app
 from app import create_app
-
-
-def save_usage_to_csv(usage_info, filename="token_usage.csv"):
-    """
-    Saves token usage information to a CSV file.
-
-    :param usage_info: Dictionary containing token usage data.
-    :type usage_info: dict
-    :param filename: The name of the CSV file to save the data in, defaults to "token_usage.csv".
-    :type filename: str, optional
-    :returns: None
-    """
-    LOG_DIR = current_app.config['TOKEN_USAGE_DIR']
-    os.makedirs(LOG_DIR, exist_ok=True)  # Create the directory if it doesn't exist
-
-    filepath = os.path.join(LOG_DIR, filename)
-    file_exists = os.path.isfile(filepath)
-    try:
-        with open(filepath, "a", newline='') as csvfile:
-            fieldnames = ['prompt_tokens', 'completion_tokens', 'total_tokens']
-            writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-
-            if not file_exists:
-                writer.writeheader()  # Write the header only if the file doesn't exist
-
-            writer.writerow(usage_info)
-    except Exception as e:
-        current_app.logger.error(f"Failed to save usage data to {filepath}: {e}")
-        raise
 
 
 def handle_global_exception(e):
