@@ -1,3 +1,5 @@
+import os
+import sys
 from flask import Flask, jsonify, current_app
 from app import create_app
 
@@ -49,5 +51,13 @@ if __name__ == '__main__':
     # Initialize the app with exception handling
     app_instance = create_app_with_exception_handling()
 
-    # Run the application
-    app_instance.run(host='0.0.0.0', port=7777, debug=True)
+    # Check if the app is being run as an .exe
+    if getattr(sys, 'frozen', False):
+        # If running as an .exe, don't run in debug mode and open browser
+        from app.utils.helpers import open_browser
+        from threading import Timer
+        Timer(1, open_browser).start()
+        app_instance.run(host='0.0.0.0', port=7777, debug=False)
+    else:
+        # If running normally (e.g., via Python script), allow for debug mode
+        app_instance.run(host='0.0.0.0', port=7777, debug=True)
