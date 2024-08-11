@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
     <title>File Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
@@ -27,7 +28,8 @@
                 method="post"
                 id="conversionForm"
         >
-            <h3>Details for {{ filename }}</h3>
+            <h1>File Conversion Details</h1>
+            <h2>Details for {{ filename }}</h2>
             <p>This PDF has {{ page_count }} pages.</p>
 
             <!-- Language selection dropdown -->
@@ -68,6 +70,17 @@
         form.action = "{{ url_for('file.convert_pdf_n_pages', filename=filename) }}";
         form.submit();
     }
+
+    // Ensure focus styles are visible when elements are focused
+    document.querySelectorAll('button, input, select').forEach(function(element) {
+        element.addEventListener('focus', function() {
+            element.style.outline = '2px solid #76B900';
+            element.style.outlineOffset = '2px';
+        });
+        element.addEventListener('blur', function() {
+            element.style.outline = 'none';
+        });
+    });
 </script>
 </body>
 </html>

@@ -195,6 +195,16 @@ h1 {
     margin: 10px;
     padding: 7.5px 50px;
     cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.upload-button:hover {
+    background-color: #63a700;
+}
+
+.upload-button:focus {
+    outline: 2px solid #4bb543;
+    outline-offset: 4px;
 }
 
 .upload-icon {
@@ -347,6 +357,16 @@ h3 {
     background-position: center;
     margin: 20px 0;
     position: relative;
+    transition: border-color 0.3s;
+}
+
+#upload-box:hover {
+    border-color: #4bb543;
+}
+
+#upload-box:focus {
+    outline: 2px solid #4bb543;
+    outline-offset: 4px;
 }
 
 #upload-box-text {
@@ -373,6 +393,12 @@ h3 {
 #submit-button:hover,
 #home-button:hover {
     background-color: #63a700;
+}
+
+#submit-button:focus,
+#home-button:focus {
+    outline: 2px solid #4bb543;
+    outline-offset: 4px;
 }
 
 #response {
