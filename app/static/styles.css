@@ -21,7 +21,7 @@ body {
 }
 
 .upload-files-container {
-    background-color: #191f19;
+    background-color: #191F09;
     width: 500px;
     padding: 30px 60px;
     border-radius: 40px;
@@ -109,7 +109,7 @@ h1 {
     margin: 5px 0;
     padding: 5px 10px 5px 30px;
     border-radius: 5px;
-    color: #bb0000;
+    color: #000000; /* Updated for better contrast */
     display: none;
 }
 
@@ -138,7 +138,7 @@ h1 {
 }
 
 .file-block {
-    color: #f7fff7;
+    color: #000000; /* Updated for better contrast */
     background-color: #76B900;
     transition: all 1s;
     width: 390px;
@@ -186,7 +186,7 @@ h1 {
 .upload-button {
     font-family: "Montserrat";
     background-color: #76B900;
-    color: #f7fff7;
+    color: #000000; /* Updated for better contrast */
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -381,7 +381,7 @@ h3 {
 #home-button {
     font-family: "Montserrat";
     background-color: #76B900;
-    color: #f7fff7;
+    color: #000000; /* Updated for better contrast */
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -408,7 +408,7 @@ h3 {
     border: 1px solid #ccc;
     border-radius: 5px;
     background: #333;
-    color: #fff;
+    color: #000000; /* Updated for better contrast */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     word-wrap: break-word;
