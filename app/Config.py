@@ -1,35 +1,30 @@
 import os
+import sys
 from dotenv import load_dotenv, set_key
 
-load_dotenv()
+if getattr(sys, 'frozen', False):
+    base_dir = os.path.dirname(sys.executable)
+    internal_dir = os.path.join(base_dir, '_internal')
+    env_file = os.path.join(internal_dir, '.env')
+else:
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+    env_file = os.path.join(base_dir, '.env')
 
-base_dir = os.path.abspath(os.path.dirname(__file__))
+# Load the .env file if it exists
+if os.path.exists(env_file):
+    load_dotenv(env_file)
 
 
 class Config:
-    """
-    Configuration class for setting up environment variables and application settings.
-
-    Attributes:
-        SECRET_KEY (str): The secret key for session management.
-        UPLOAD_EXTENSIONS (list): List of allowed file extensions for uploads.
-        UPLOAD_PATH (str): Directory path for uploaded files.
-        IMAGE_EXTENSIONS (list): List of allowed image file extensions.
-        TEMP_IMAGE_PATH (str): Directory path for temporary images.
-        OPENAI_API_KEY (str): API key for accessing OpenAI services.
-        GPT_MODEL (str): The model name for the OpenAI GPT service.
-        LOG_DIR (str): Directory path for saving application logs.
-        TOKEN_USAGE_DIR (str): Directory path for saving token usage logs.
-    """
     SECRET_KEY = os.getenv('SECRET_KEY', 'default_secret_key')
     UPLOAD_EXTENSIONS = ['.pdf']
-    UPLOAD_PATH = os.path.join(base_dir, '..', 'uploads')
+    UPLOAD_PATH = os.path.join(base_dir, 'uploads')
     IMAGE_EXTENSIONS = ['.jpg', '.jpeg', '.png', '.gif']
-    TEMP_IMAGE_PATH = os.path.join(base_dir, '..', 'temp_images')
-    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
+    TEMP_IMAGE_PATH = os.path.join(base_dir, 'temp_images')
     GPT_MODEL = "gpt-4o"
-    LOG_DIR = os.path.join(base_dir, '..', 'logs')
+    LOG_DIR = os.path.join(base_dir, 'logs')
     TOKEN_USAGE_DIR = os.path.join(LOG_DIR, 'token_usage')
+    OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')  # Ensure this is pulled from the environment
 
     @staticmethod
     def setup_env_file():
@@ -42,13 +37,26 @@ class Config:
 
         :returns: None
         """
-        env_file = os.path.join(base_dir, '..', '.env')
-        load_dotenv(env_file)
         required_keys = ['OPENAI_API_KEY']
 
+        # Ensure the _internal directory exists
+        os.makedirs(os.path.dirname(env_file), exist_ok=True)
+
+        updated = False
         for key in required_keys:
             if not os.getenv(key):
                 value = input(f"Enter your {key}: ")
-                set_key(env_file, key, value)
+
+                # Manually write the key to the .env file
+                with open(env_file, 'a') as f:
+                    f.write(f"{key}={value}\n")
+
                 # Update environment after setting new key
                 os.environ[key] = value
+                updated = True
+        if updated:
+            # Reload the .env file to ensure the changes take effect in the current instance
+            load_dotenv(env_file)
+
+            # Update the Config class attributes with the newly loaded environment variables
+            Config.OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')

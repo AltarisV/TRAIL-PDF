@@ -1,9 +1,21 @@
+import os
+import sys
 from flask import Flask
 from app.Config import Config
 from dotenv import load_dotenv
 import logging
-import os
 from logging.handlers import RotatingFileHandler
+
+
+def set_working_directory():
+    if getattr(sys, 'frozen', False):
+        # If running as a bundled executable, use the directory of the executable
+        base_path = os.path.dirname(sys.executable)
+    else:
+        # Otherwise, use the root directory of the project
+        base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
+
+    os.chdir(base_path)
 
 
 def create_app():
@@ -18,6 +30,7 @@ def create_app():
     :returns: The configured Flask application instance.
     :rtype: Flask
     """
+    set_working_directory()  # Set the working directory
     Config.setup_env_file()
 
     app = Flask(__name__, template_folder='templates')
