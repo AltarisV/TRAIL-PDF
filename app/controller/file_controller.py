@@ -11,6 +11,20 @@ file_bp = Blueprint('file', __name__)
 
 @file_bp.route('/files/<filename>')
 def file_details(filename):
+    """
+    Displays details of a specific PDF file, including the number of pages.
+
+    - Logs the access to the file details.
+    - Attempts to read the PDF and count its pages.
+    - Handles and logs errors during file processing.
+
+    :param filename: The name of the PDF file.
+    :type filename: str
+    :returns:
+        Response: Renders the 'file_details.html' template with the filename and page count.
+        tuple: Error message and status code if an exception occurs.
+    :rtype: flask.Response or tuple
+    """
     current_app.logger.debug(f'Accessing file details for: {filename}')
     file_path = os.path.join(current_app.config['UPLOAD_PATH'], filename)
     try:
@@ -27,6 +41,16 @@ def file_details(filename):
 
 @file_bp.route('/convert_pdf/<filename>', methods=['POST'])
 def convert_pdf(filename):
+    """
+    Converts an entire PDF to images and generates alt text using AI.
+
+    :param filename: The name of the PDF file to convert.
+    :type filename: str
+    :returns:
+        - If the conversion is successful, initiates the download of the generated HTML file with the alt text.
+        - If an error occurs, redirects to the file details page.
+    :rtype: flask.Response
+    """
     current_app.logger.info(f"Starting conversion for {filename}")
     file_path = os.path.join(current_app.config['UPLOAD_PATH'], filename)
     chosen_language = request.form.get('language', 'english')
@@ -52,6 +76,20 @@ def convert_pdf(filename):
 
 @file_bp.route('/convert_pdf_n_pages/<filename>', methods=['POST'])
 def convert_pdf_n_pages(filename):
+    """
+    Converts a specified range of pages from a PDF to images and generates alt text using AI.
+
+    - Logs the start of the conversion process.
+    - Converts the specified range of PDF pages into images, processes them with AI, and saves the resulting text.
+    - Handles and logs errors during the conversion process.
+
+    :param filename: The name of the PDF file to convert.
+    :type filename: str
+    :returns:
+        Response: A response that initiates the download of the generated HTML file with the alt text.
+        Redirect: Redirects to the file details page if an error occurs.
+    :rtype: flask.Response
+    """
     current_app.logger.info(f"Starting conversion for {filename}")
     file_path = os.path.join(current_app.config['UPLOAD_PATH'], filename)
     chosen_language = request.form.get('language', 'english')

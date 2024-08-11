@@ -129,4 +129,5 @@ cython_debug/
 /uploads/
 /temp_images/
 /generated/
-/logs/
+/old logs/
+/logs

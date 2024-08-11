@@ -6,10 +6,31 @@ from flask import Response
 
 
 def open_browser():
+    """
+    Opens the default web browser and navigates to the local server URL.
+
+    :returns: None
+    """
     webbrowser.open_new('http://127.0.0.1:7777/')
 
 
 def save_texts(texts, original_filename, language):
+    """
+    Saves processed text content as an HTML file with navigation links.
+
+    - Creates an HTML document with language-specific settings.
+    - Adds a navigation bar based on the headers found in the texts.
+    - Saves the content to a temporary file and prepares it for download.
+
+    :param texts: A list of text strings to be processed and saved.
+    :type texts: list of str
+    :param original_filename: The original name of the file to base the new filename on.
+    :type original_filename: str
+    :param language: The language setting to be used in the HTML document (e.g., 'english', 'german').
+    :type language: str
+    :returns: A Flask Response object that initiates a download of the generated HTML file.
+    :rtype: flask.Response
+    """
     base_filename = os.path.splitext(original_filename)[0]
     new_filename = base_filename + " " + language
     html_content = "<!DOCTYPE html>\n"
@@ -51,6 +72,20 @@ def save_texts(texts, original_filename, language):
 
 
 def process_text_for_html(text, idx):
+    """
+    Processes a text string into HTML content, identifying and structuring headers and paragraphs.
+
+    - Identifies code blocks, tables, and paragraphs within the text.
+    - Escapes HTML content to prevent injection attacks.
+    - Generates navigation anchors for identified headers.
+
+    :param text: The text content to process.
+    :type text: str
+    :param idx: The index of the text block, used to generate unique header IDs.
+    :type idx: int
+    :returns: A tuple containing the processed HTML content and a list of headers.
+    :rtype: tuple of (str, list of dict)
+    """
     lines = text.split('\n')
     processed_lines = []
     headers = []
@@ -108,4 +143,12 @@ def process_text_for_html(text, idx):
 
 
 def escape_html(text):
+    """
+    Escapes special HTML characters in a text string to prevent injection attacks.
+
+    :param text: The text to escape.
+    :type text: str
+    :returns: The escaped text.
+    :rtype: str
+    """
     return html.escape(text)

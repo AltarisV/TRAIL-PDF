@@ -5,6 +5,22 @@ import fitz
 
 
 def convert_pdf_to_images(pdf_path, start_page=None, end_page=None):
+    """
+    Converts a PDF document into individual image files for each page.
+
+    - Opens the PDF document and converts each page within the specified range to a PNG image.
+    - Saves the images to a temporary directory specified in the application's configuration.
+
+    :param pdf_path: The file path to the PDF document that needs to be converted.
+    :type pdf_path: str
+    :param start_page: The page number to start conversion (1-based index). Defaults to the first page.
+    :type start_page: int, optional
+    :param end_page: The page number to end conversion (1-based index). Defaults to the last page.
+    :type end_page: int, optional
+    :returns: A list of file paths to the generated PNG images.
+    :rtype: list of str
+    :raises Exception: If an error occurs during the PDF conversion process, the exception is logged and re-raised.
+    """
     try:
         doc = fitz.open(pdf_path)
         image_paths = []

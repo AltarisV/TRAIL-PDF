@@ -8,11 +8,30 @@ image_bp = Blueprint('image', __name__)
 
 @image_bp.route('/image-upload')
 def image_upload():
+    """
+    Renders the image upload page.
+
+    :returns: The HTML page for image upload.
+    :rtype: flask.Response
+    """
     return render_template('image_upload.html')
 
 
 @image_bp.route('/process-image', methods=['POST'])
 def process_image():
+    """
+    Processes an uploaded image by sending it to the AI service and returns the generated alt text.
+
+    - Validates the uploaded image.
+    - Determines the appropriate prompt based on language and prompt type.
+    - Saves the image temporarily, processes it with AI, and deletes the image afterward.
+    - Returns the generated alt text as a JSON response.
+
+    :returns:
+        - JSON response containing the alt text if successful.
+        - JSON response with an error message and 400 status code if an error occurs.
+    :rtype: flask.Response
+    """
     TEMP_IMAGE_PATH = current_app.config['TEMP_IMAGE_PATH']
     if 'image' in request.files:
         image = request.files['image']

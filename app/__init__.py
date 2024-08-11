@@ -7,7 +7,17 @@ from logging.handlers import RotatingFileHandler
 
 
 def create_app():
-    # Set up environment and ensure API keys are set
+    """
+    Creates and configures the Flask application.
+
+    - Sets up environment variables and ensures API keys are loaded.
+    - Configures logging to a rotating file handler.
+    - Registers the application's blueprints.
+    - Ensures necessary directories for file uploads, temporary images, and logs are created.
+
+    :returns: The configured Flask application instance.
+    :rtype: Flask
+    """
     Config.setup_env_file()
 
     app = Flask(__name__, template_folder='templates')
@@ -15,9 +25,13 @@ def create_app():
     load_dotenv()
 
     # Set up logging
-    if not os.path.exists('logs'):
-        os.makedirs('logs')
-    file_handler = RotatingFileHandler('logs/app.log', maxBytes=1024000, backupCount=25)
+    if not os.path.exists(app.config['LOG_DIR']):
+        os.makedirs(app.config['LOG_DIR'])
+    if not os.path.exists(app.config['TOKEN_USAGE_DIR']):
+        os.makedirs(app.config['TOKEN_USAGE_DIR'])
+
+    log_file_path = os.path.join(app.config['LOG_DIR'], 'app.log')
+    file_handler = RotatingFileHandler(log_file_path, maxBytes=1024000, backupCount=25)
     file_handler.setFormatter(logging.Formatter(
         '%(asctime)s %(levelname)s: %(message)s [in %(pathname)s:%(lineno)d]'
     ))

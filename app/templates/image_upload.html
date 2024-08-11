@@ -108,6 +108,7 @@
 </head>
 <body>
 <div class="area">
+    <!-- Background circles for visual effect -->
     <ul class="circles">
         <li></li>
         <li></li>
@@ -121,13 +122,20 @@
         <li></li>
     </ul>
 </div>
+
+<!-- Container for the upload form -->
 <div class="form-container">
     <div class="upload-files-container">
+        <!-- Form for image upload -->
         <form id="image-upload-form" onsubmit="submitForm(event)">
+            <!-- Upload box for selecting or pasting images -->
             <div id="upload-box" role="button" aria-label="Upload or paste an image" onclick="document.getElementById('image-input').click();">
                 <span id="upload-box-text">Click here or paste an image (Ctrl+V)</span>
+                <!-- Hidden file input to trigger with the upload box click -->
                 <input type="file" id="image-input" name="image" hidden onchange="loadFile(event)" accept="image/*">
             </div>
+
+            <!-- Dropdown to select the type of image description -->
             <label for="prompt-select">What does the image show?:</label>
             <select id="prompt-select" name="prompt" aria-label="Select an image description type">
                 <option value="standard">Standard</option>
@@ -135,16 +143,24 @@
                 <option value="table">Table</option>
                 <option value="code">Code</option>
             </select>
+
+            <!-- Dropdown to select the language for the description -->
             <label for="language-select">Choose the language for the description:</label>
             <select id="language-select" name="language" aria-label="Select the language for image description">
                 <option value="german" selected>German</option>
                 <option value="english">English</option>
             </select>
+
+            <!-- Submit button to process the image -->
             <div style="display: flex; justify-content: center; width: 100%;">
                 <button type="submit" id="submit-button">Submit</button>
             </div>
         </form>
+
+        <!-- Area to display the response from the server -->
         <div id="response" aria-live="polite"></div>
+
+        <!-- Button to go back to the home page -->
         <button id="home-button" onclick="goToHome()">Home</button>
     </div>
 </div>

@@ -3,10 +3,12 @@
 <head>
     <title>File Details</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Link to external stylesheet for page styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 <div class="area">
+    <!-- Decorative background circles -->
     <ul class="circles">
         <li></li>
         <li></li>
@@ -20,8 +22,11 @@
         <li></li>
     </ul>
 </div>
+
+<!-- Container for the file conversion form -->
 <div class="form-container">
     <div class="upload-files-container">
+        <!-- Form for converting the PDF file -->
         <form
                 enctype="multipart/form-data"
                 action="{{ url_for('file.convert_pdf', filename=filename) }}"
@@ -31,7 +36,7 @@
             <h1>File Conversion Details</h1>
             <h2>Details for {{ filename }}</h2>
 
-            <!-- Centering the page count message -->
+            <!-- Display page count and estimated conversion time -->
             <div class="page-count-container">
                 <p>This PDF has {{ page_count }} pages.<br>
                     {% set total_seconds = page_count * 8 %}
@@ -51,24 +56,29 @@
                 </p>
             </div>
 
-            <!-- Other form elements remain unchanged -->
+            <!-- Dropdown to select the language for conversion -->
             <label for="language">Choose a language for conversion:</label>
             <select name="language" id="language">
                 <option value="english">English</option>
                 <option value="german" selected>German</option>
             </select>
 
+            <!-- Input to select the starting page for conversion -->
             <label for="start_page">Enter starting page:</label>
             <input type="number" name="start_page" id="start_page" min="1" max="{{ page_count }}" value="1">
 
+            <!-- Input to specify the number of pages to convert (optional) -->
             <label for="num_pages" style="text-align: center">Enter number of pages to convert <br>
                 (optional, leave empty if you want to convert till the end):</label>
             <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
 
+            <!-- Submit button to convert the entire document -->
             <input class="upload-button" type="submit" value="Convert Full Document" />
+            <!-- Button to convert a specific range of pages -->
             <button type="button" class="upload-button" onclick="submitPartialConversion()">
                 Convert from Specified Pages
             </button>
+            <!-- Button to go back to the file list -->
             <button class="upload-button" type="button" onclick="window.location.href='{{ url_for('main.index') }}'">
                 Back to file list
             </button>
@@ -77,13 +87,14 @@
 </div>
 
 <script>
+    // Function to submit the form for partial conversion (specified page range)
     function submitPartialConversion() {
         var form = document.getElementById('conversionForm');
         form.action = "{{ url_for('file.convert_pdf_n_pages', filename=filename) }}";
         form.submit();
     }
 
-    // Ensure focus styles are visible when elements are focused
+    // Ensure focus styles are visible when form elements are focused
     document.querySelectorAll('button, input, select').forEach(function(element) {
         element.addEventListener('focus', function() {
             element.style.outline = '2px solid #76B900';
