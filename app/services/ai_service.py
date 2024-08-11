@@ -6,10 +6,6 @@ from flask import current_app
 from app.services.image_service import encode_image
 from app.utils.prompts import PROMPTS
 
-# Define the directory for saving token usage logs
-LOG_DIR = os.path.join(os.path.dirname(__file__), '../../logs/token_usage')
-os.makedirs(LOG_DIR, exist_ok=True)  # Create the directory if it doesn't exist
-
 
 def save_usage_to_csv(usage_info, filename="token_usage.csv"):
     """
@@ -21,6 +17,10 @@ def save_usage_to_csv(usage_info, filename="token_usage.csv"):
     :type filename: str, optional
     :returns: None
     """
+    # Get the directory for saving token usage logs from the app's configuration
+    LOG_DIR = current_app.config['TOKEN_USAGE_DIR']
+    os.makedirs(LOG_DIR, exist_ok=True)  # Ensure the directory exists
+
     filepath = os.path.join(LOG_DIR, filename)
     file_exists = os.path.isfile(filepath)
     with open(filepath, "a", newline='') as csvfile:

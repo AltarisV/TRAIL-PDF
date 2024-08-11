@@ -28,7 +28,7 @@ class Config:
     TEMP_IMAGE_PATH = os.path.join(base_dir, '..', 'temp_images')
     OPENAI_API_KEY = os.getenv('OPENAI_API_KEY')
     GPT_MODEL = "gpt-4o"
-    LOG_DIR = os.path.join(base_dir, '..', 'old logs')
+    LOG_DIR = os.path.join(base_dir, '..', 'logs')
     TOKEN_USAGE_DIR = os.path.join(LOG_DIR, 'token_usage')
 
     @staticmethod
