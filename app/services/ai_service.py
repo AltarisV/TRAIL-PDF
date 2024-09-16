@@ -25,7 +25,7 @@ def save_usage_to_csv(usage_info, filename="token_usage.csv"):
     file_exists = os.path.isfile(filepath)
     with open(filepath, "a", newline='') as csvfile:
         fieldnames = ['prompt_tokens', 'completion_tokens', 'total_tokens']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+        writer = csv.DictWriter(csvfile, fieldnames=fieldnames, extrasaction='ignore')
 
         if not file_exists:
             writer.writeheader()  # Write the header only if the file doesn't exist
