@@ -60,7 +60,7 @@ PROMPTS = {
         "Dies ist von höchster Wichtigkeit. "
         "Deine Nachricht muss mit 'Seite {page_number}, <eine von dir generierte "
         "Überschrift in ein-zwei Worten>:' beginnen. Die Überschrift soll auf "
-        "deutsch sein. Wiederhole in deiner Antwort nicht den Titel der Folie. "
+        "deutsch sein. Wiederhole in deiner Antwort nicht den Titel der Folie. Ignoriere Quellenangaben. "
         "Starte deine Antwort NICHT mit 'Alternativtext:'."
     ),
     'mathematical_german': (

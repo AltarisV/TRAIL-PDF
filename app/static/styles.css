@@ -2,10 +2,11 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 
 /* General Styles */
-body {
+html, body {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    overflow: hidden;
     font-family: "Montserrat", sans-serif;
     color: white;
 }
@@ -18,6 +19,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-top: 0;
 }
 
 .upload-files-container {
@@ -220,10 +222,12 @@ h1 {
 }
 
 .area {
+    position: fixed;
     background: #f7fff7;
     background: -webkit-linear-gradient(to left, #76B900, #f7fff7);
     width: 100vw;
     min-height: 100vh;
+    z-index: -1;
 }
 
 .circles {
@@ -237,6 +241,7 @@ h1 {
     width: 100%;
     height: 100%;
     overflow: hidden;
+    z-index: -2;
 }
 
 .circles li {
@@ -437,4 +442,62 @@ h3 {
 .upload-files-container p {
     margin: 0;
     padding: 0;
+}
+
+/* Navigation Bar Styling */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    z-index: 1000;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0;
+}
+
+.navbar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 20px;
+}
+
+.navbar li {
+    display: inline;
+}
+
+.navbar a {
+    text-decoration: none;
+    color: white;
+    font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background 0.3s;
+}
+
+.navbar a:hover {
+    background-color: #76B900;
+    color: #fff;
+}
+
+a {
+    color: #76B900;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: #63a700;
+    text-decoration: underline;
+}
+
+a:visited {
+    color: #76B900;
+}
+
+a:active {
+    color: #4bb543;
 }

@@ -74,3 +74,14 @@ def delete_file(filename):
     except Exception as e:
         current_app.logger.error(f'Error deleting file: {e}')
     return redirect(url_for('main.index'))
+
+
+@main_bp.route('/about')
+def about():
+    """
+    Renders the About page.
+
+    :returns: The About HTML page.
+    :rtype: flask.Response
+    """
+    return render_template('about.html')
