@@ -501,3 +501,7 @@ a:visited {
 a:active {
     color: #4bb543;
 }
+
+h2 {
+    text-align: center;
+    margin-bottom: 20px;
