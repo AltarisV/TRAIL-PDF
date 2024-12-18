@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+<nav class="navbar">
+    <ul>
+        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+        <li><a href="{{ url_for('image.image_upload') }}">Image Upload</a></li>
+        <li><a href="{{ url_for('main.about') }}">About</a></li>
+    </ul>
+</nav>
 <div class="area">
     <!-- Decorative background circles -->
     <ul class="circles">

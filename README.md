@@ -9,7 +9,7 @@ By utilizing GPT-4o, TRAIL is able to produce neatly structured HTML files that 
 
 ### Affiliation
 
-This project has been developed as part of the research activities in the "Computer Science and Society" group 
+This version of TRAIL has been developed as part of the research activities in the "Computer Science and Society" group 
 ([Informatik und Gesellschaft](https://iug.htw-berlin.de/)) under the guidance of Prof. Dr. Katharina Simbeck at the HTW Berlin (University of Applied Sciences).
 
 ## Getting Started

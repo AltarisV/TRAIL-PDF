@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>About</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+<nav class="navbar">
+    <ul>
+        <li><a href="{{ url_for('main.index') }}">Home</a></li>
+        <li><a href="{{ url_for('image.image_upload') }}">Image Upload</a></li>
+        <li><a href="{{ url_for('main.about') }}">About</a></li>
+    </ul>
+</nav>
+
+<div class="area">
+    <ul class="circles">
+        <li></li><li></li><li></li><li></li><li></li>
+        <li></li><li></li><li></li><li></li><li></li>
+    </ul>
+</div>
+
+<div class="form-container">
+    <div class="upload-files-container" style="text-align: center;">
+        <h1>About TRAIL</h1>
+        <p>
+            This version of TRAIL has been developed by
+            <strong>Leon Schüßler</strong> (<a href="https://github.com/AltarisV" target="_blank">https://github.com/AltarisV</a>)
+            as part of the research activities in the
+            <strong>Computer Science and Society</strong> group
+            (<a href="https://iug.htw-berlin.de/" target="_blank">Informatik und Gesellschaft</a>)
+            under the guidance of <strong>Prof. Dr. Katharina Simbeck</strong> at
+            <strong>HTW Berlin (University of Applied Sciences)</strong>.        </p>
+    </div>
+</div>
+</body>
+</html>
