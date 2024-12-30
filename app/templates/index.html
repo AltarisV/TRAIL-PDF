@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ get_locale() }}">
 <head>
-    <title>Home</title>
+    <title>{{ _('Home') }}</title>
     <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet" />
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 <nav class="navbar">
     <ul>
-        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-        <li><a href="{{ url_for('image.image_upload') }}">Image Upload</a></li>
-        <li><a href="{{ url_for('main.about') }}">About</a></li>
+        <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
+        <li><a href="{{ url_for('image.image_upload') }}">{{ _('Image Upload') }}</a></li>
+        <li><a href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
+        <li class="language-switcher">
+            <a href="{{ url_for('main.set_language', lang='en') }}">{{ _('English') }}</a> |
+            <a href="{{ url_for('main.set_language', lang='de') }}">{{ _('German') }}</a>
+        </li>
     </ul>
 </nav>
 <div class="area">
-    <!-- Decorative circles background -->
     <ul class="circles">
         <li></li>
         <li></li>
@@ -28,56 +31,47 @@
         <li></li>
     </ul>
 </div>
-<!-- Container for upload forms and file list -->
 <div class="form-container">
     <div class="upload-files-container">
-        <!-- Form to handle file uploads -->
         <form action="{{ url_for('main.upload_files') }}" method="post" enctype="multipart/form-data">
-            <h1>Uploaded Files</h1>
+            <h1>{{ _('Uploaded Files') }}</h1>
             <ul class="upload-files-list">
-                <!-- Loop through the list of files and display them -->
                 {% for file in files %}
                     <li>
-                        <!-- Link to view file details -->
                         <a href="{{ url_for('file.file_details', filename=file) }}">{{ file }}</a>
-                        <!-- Link to delete the file -->
-                        <a href="{{ url_for('main.delete_file', filename=file) }}" class="delete-link" title="Delete">
-                            <img src="{{ url_for('static', filename='icons/trashcan.svg') }}" alt="Delete" class="red-trashcan" aria-label="Delete {{ file }}"/>
+                        <a href="{{ url_for('main.delete_file', filename=file) }}" class="delete-link" title="{{ _('Delete') }}">
+                            <img src="{{ url_for('static', filename='icons/trashcan.svg') }}" alt="{{ _('Delete') }}" class="red-trashcan" aria-label="{{ _('Delete') }} {{ file }}"/>
                         </a>
                     </li>
                 {% endfor %}
             </ul>
 
-            <!-- Drag-and-drop area for uploading files -->
-            <div class="drag-file-area" role="button" aria-label="Drag and drop a PDF file here, or click to browse" aria-live="polite">
+            <div class="drag-file-area" role="button" aria-label="{{ _('Drag and drop a PDF file here, or click to browse') }}" aria-live="polite">
                 <span class="material-icons-outlined upload-icon" aria-hidden="true">file_upload</span>
-                <h3 class="dynamic-message">Drag & drop any PDF file here</h3>
+                <h3 class="dynamic-message">{{ _('Drag & drop any PDF file here') }}</h3>
                 <label class="label">
-                    or
-                    <!-- Hidden file input triggered by clicking 'browse file' -->
-                    <span class="browse-files-text" tabindex="0" role="button" aria-label="Browse for a PDF file from your device" onclick="document.querySelector('.default-file-input').click();">browse file</span>
-                    <input type="file" name="file[]" accept=".pdf" multiple="multiple" class="default-file-input" aria-label="Browse for a PDF file from your device" style="display: none;"/>
-                    <span>from device</span>
+                    {{ _('or') }}
+                    <span class="browse-files-text" tabindex="0" role="button" aria-label="{{ _('Browse for a PDF file from your device') }}" onclick="document.querySelector('.default-file-input').click();">
+                        {{ _('browse file') }}
+                    </span>
+                    <input type="file" name="file[]" accept=".pdf" multiple="multiple" class="default-file-input" aria-label="{{ _('Browse for a PDF file from your device') }}" style="display: none;"/>
+                    <span>{{ _('from device') }}</span>
                 </label>
             </div>
 
-            <!-- Error message for file upload issues -->
             <span class="cannot-upload-message" role="alert" aria-live="assertive">
-                <span class="material-icons-outlined">error</span> Please select a file first
-                <span class="material-icons-outlined cancel-alert-button" role="button" tabindex="0" aria-label="Dismiss error message">cancel</span>
+                <span class="material-icons-outlined">error</span> {{ _('Please select a file first') }}
+                <span class="material-icons-outlined cancel-alert-button" role="button" tabindex="0" aria-label="{{ _('Dismiss error message') }}">cancel</span>
             </span>
 
-            <!-- Container to display selected files -->
             <ul class="files-block-container"></ul>
 
-            <!-- Upload button -->
-            <button type="submit" class="upload-button">Upload</button>
-            <p>or</p>
+            <button type="submit" class="upload-button">{{ _('Upload') }}</button>
+            <p>{{ _('or') }}</p>
         </form>
 
-        <!-- Form for uploading individual images -->
         <form action="{{ url_for('image.image_upload') }}" method="get" style="margin: 0;">
-            <button type="submit" class="upload-button" style="text-decoration: none;">Upload singular Images</button>
+            <button type="submit" class="upload-button" style="text-decoration: none;">{{ _('Upload singular Images') }}</button>
         </form>
     </div>
 </div>

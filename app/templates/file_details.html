@@ -1,21 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ get_locale() }}">
 <head>
-    <title>File Details</title>
+    <title>{{ _('File Details') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Link to external stylesheet for page styling -->
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
 <nav class="navbar">
     <ul>
-        <li><a href="{{ url_for('main.index') }}">Home</a></li>
-        <li><a href="{{ url_for('image.image_upload') }}">Image Upload</a></li>
-        <li><a href="{{ url_for('main.about') }}">About</a></li>
+        <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
+        <li><a href="{{ url_for('image.image_upload') }}">{{ _('Image Upload') }}</a></li>
+        <li><a href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
+        <li class="language-switcher">
+            <a href="{{ url_for('main.set_language', lang='en') }}">{{ _('English') }}</a> |
+            <a href="{{ url_for('main.set_language', lang='de') }}">{{ _('German') }}</a>
+        </li>
     </ul>
 </nav>
 <div class="area">
-    <!-- Decorative background circles -->
     <ul class="circles">
         <li></li>
         <li></li>
@@ -29,77 +31,66 @@
         <li></li>
     </ul>
 </div>
-
-<!-- Container for the file conversion form -->
 <div class="form-container">
     <div class="upload-files-container">
-        <!-- Form for converting the PDF file -->
         <form
                 enctype="multipart/form-data"
                 action="{{ url_for('file.convert_pdf', filename=filename) }}"
                 method="post"
                 id="conversionForm"
         >
-            <h1>File Conversion Details</h1>
-            <h2>Details for {{ filename }}</h2>
-
-            <!-- Display page count and estimated conversion time -->
+            <div style="text-align: center;">
+                <h1>{{ _('File Conversion Details') }}</h1>
+                <h2>{{ _('Details for') }} {{ filename }}</h2>
+            </div>
             <div class="page-count-container">
-                <p>This PDF has {{ page_count }} pages.<br>
+                <p>
+                    {{ _('This PDF has') }} {{ page_count }} {{ _('pages.') }}<br>
                     {% set total_seconds = page_count * 8 %}
                     {% set minutes = total_seconds // 60 %}
                     {% set seconds = total_seconds % 60 %}
-                    Based on this, conversion will take around
+                    {{ _('Based on this, conversion will take around') }}
                     {% if minutes == 0 %}
-                        {{ seconds }} second{{ 's' if seconds != 1 else '' }}.
+                        {{ ngettext('{seconds} second', '{seconds} seconds', seconds).format(seconds=seconds) }}.
+                    {% elif seconds == 0 %}
+                        {{ ngettext('{minutes} minute', '{minutes} minutes', minutes).format(minutes=minutes) }}.
                     {% else %}
-                        {{ minutes }} minute{{ 's' if minutes > 1 else '' }}
-                        {% if seconds > 0 %}
-                            {{ seconds }} second{{ 's' if seconds != 1 else '' }}
-                        {% endif %}.
+                        {{ ngettext('{minutes} minute', '{minutes} minutes', minutes).format(minutes=minutes) }}
+                        {{ ngettext('{seconds} second', '{seconds} seconds', seconds).format(seconds=seconds) }}.
                     {% endif %}
                 </p>
             </div>
-            <!-- Dropdown to select the language for conversion -->
-            <label for="language">Choose a language for conversion:</label>
+            <label for="language">{{ _('Choose a language for conversion:') }}</label>
             <select name="language" id="language">
-                <option value="english">English</option>
-                <option value="german" selected>German</option>
-                <option value="bilingual ger/eng">Bilingual Ger/Eng</option>
+                <option value="english">{{ _('English') }}</option>
+                <option value="german" selected>{{ _('German') }}</option>
+                <option value="bilingual ger/eng">{{ _('Bilingual Ger/Eng') }}</option>
             </select>
 
-            <!-- Input to select the starting page for conversion -->
-            <label for="start_page">Enter starting page:</label>
+            <label for="start_page">{{ _('Enter starting page:') }}</label>
             <input type="number" name="start_page" id="start_page" min="1" max="{{ page_count }}" value="1">
 
-            <!-- Input to specify the number of pages to convert (optional) -->
-            <label for="num_pages" style="text-align: center">Enter number of pages to convert <br>
-                (optional, leave empty if you want to convert till the end):</label>
+            <label for="num_pages" style="text-align: center">{{ _('Enter number of pages to convert') }} <br>
+                ({{ _('optional, leave empty if you want to convert till the end:') }})</label>
             <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
 
-            <!-- Submit button to convert the entire document -->
-            <input class="upload-button" type="submit" value="Convert Full Document" />
-            <!-- Button to convert a specific range of pages -->
+            <input class="upload-button" type="submit" value="{{ _('Convert Full Document') }}" />
             <button type="button" class="upload-button" onclick="submitPartialConversion()">
-                Convert from Specified Pages
+                {{ _('Convert from Specified Pages') }}
             </button>
-            <!-- Button to go back to the file list -->
             <button class="upload-button" type="button" onclick="window.location.href='{{ url_for('main.index') }}'">
-                Back to file list
+                {{ _('Back to file list') }}
             </button>
         </form>
     </div>
 </div>
-
 <script>
-    // Function to submit the form for partial conversion (specified page range)
     function submitPartialConversion() {
         var form = document.getElementById('conversionForm');
         form.action = "{{ url_for('file.convert_pdf_n_pages', filename=filename) }}";
         form.submit();
     }
 
-    // Ensure focus styles are visible when form elements are focused
     document.querySelectorAll('button, input, select').forEach(function(element) {
         element.addEventListener('focus', function() {
             element.style.outline = '2px solid #76B900';

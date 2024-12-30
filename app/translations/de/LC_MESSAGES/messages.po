@@ -1,0 +1,267 @@
+# German translations for PROJECT.
+# Copyright (C) 2024 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2024-12-30 18:44+0100\n"
+"PO-Revision-Date: 2024-12-30 17:00+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: de\n"
+"Language-Team: de <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.13.1\n"
+
+#: app/templates/about.html:4 app/templates/about.html:12
+#: app/templates/file_details.html:13 app/templates/image_upload.html:112
+#: app/templates/index.html:13
+msgid "About"
+msgstr "Über"
+
+#: app/templates/about.html:10 app/templates/file_details.html:11
+#: app/templates/image_upload.html:110 app/templates/image_upload.html:159
+#: app/templates/index.html:4 app/templates/index.html:11
+msgid "Home"
+msgstr "Startseite"
+
+#: app/templates/about.html:11 app/templates/file_details.html:12
+#: app/templates/image_upload.html:4 app/templates/image_upload.html:111
+#: app/templates/index.html:12
+msgid "Image Upload"
+msgstr "Bilder hochladen"
+
+#: app/templates/about.html:25
+msgid "About TRAIL"
+msgstr "Über TRAIL"
+
+#: app/templates/about.html:26
+msgid "TRAIL Open Version 1.1"
+msgstr "TRAIL Open Version 1.1"
+
+#: app/templates/about.html:28
+msgid ""
+"TRAIL is designed to promote inclusion in education and to support "
+"research activities. It is intended to be a tool for creating inclusive "
+"and accessible contents and collaborations within academic and non-"
+"commercial settings."
+msgstr ""
+"TRAIL wurde entwickelt, um Inklusion in der Bildung zu fördern und "
+"Forschungsaktivitäten zu unterstützen. Es soll ein Werkzeug sein, um "
+"inklusive und zugängliche Inhalte sowie Zusammenarbeit in akademischen "
+"und nicht-kommerziellen Umgebungen zu schaffen."
+
+#: app/templates/about.html:33
+msgid ""
+"The use of this application is strictly limited to educational and "
+"research purposes. Any commercial use, including but not limited to "
+"generating financial profit or distributing the software for monetary "
+"gain, is expressly prohibited."
+msgstr ""
+"Die Nutzung dieser Anwendung ist strikt auf Bildungs- und "
+"Forschungszwecke beschränkt. Jegliche kommerzielle Nutzung, "
+"einschließlich, aber nicht beschränkt auf die Erzielung finanzieller "
+"Gewinne oder die Verbreitung der Software gegen Bezahlung, ist "
+"ausdrücklich untersagt."
+
+#: app/templates/about.html:38
+msgid "By using TRAIL, you agree to comply with these terms."
+msgstr "Durch die Nutzung von TRAIL stimmen Sie diesen Bedingungen zu."
+
+#: app/templates/about.html:41
+msgid "This version of TRAIL was developed by"
+msgstr "Diese Version von TRAIL wurde entwickelt von"
+
+#: app/templates/about.html:44
+msgid "as part of the research activities in the"
+msgstr "im Rahmen der Forschungsaktivitäten der"
+
+#: app/templates/about.html:45
+msgid "Computer Science and Society"
+msgstr "Informatik und Gesellschaft"
+
+#: app/templates/about.html:46
+msgid "Informatik und Gesellschaft"
+msgstr "Informatik und Gesellschaft"
+
+#: app/templates/about.html:47
+msgid "group at"
+msgstr "Gruppe an der"
+
+#: app/templates/about.html:47
+msgid "HTW Berlin (University of Applied Sciences)"
+msgstr "HTW Berlin (Hochschule für Technik und Wirtschaft)"
+
+#: app/templates/file_details.html:4
+msgid "File Details"
+msgstr "Dateidetails"
+
+#: app/templates/file_details.html:39
+msgid "File Conversion Details"
+msgstr "Details zur Dateikonvertierung"
+
+#: app/templates/file_details.html:40
+msgid "Details for"
+msgstr "Details für"
+
+#: app/templates/file_details.html:44
+msgid "This PDF has"
+msgstr "Dieses PDF hat"
+
+#: app/templates/file_details.html:44
+msgid "pages."
+msgstr "Seiten."
+
+#: app/templates/file_details.html:48
+msgid "Based on this, conversion will take around"
+msgstr "Basierend darauf dauert die Konvertierung etwa"
+
+#: app/templates/file_details.html:50 app/templates/file_details.html:55
+msgid "{seconds} second"
+msgid_plural "{seconds} seconds"
+msgstr[0] "{seconds} Sekunde"
+msgstr[1] "{seconds} Sekunden"
+
+#: app/templates/file_details.html:52 app/templates/file_details.html:54
+msgid "{minutes} minute"
+msgid_plural "{minutes} minutes"
+msgstr[0] "{minutes} Minute"
+msgstr[1] "{minutes} Minuten"
+
+#: app/templates/file_details.html:59
+msgid "Choose a language for conversion:"
+msgstr "Wählen Sie eine Sprache für die Konvertierung aus:"
+
+#: app/templates/file_details.html:61 app/templates/image_upload.html:149
+msgid "English"
+msgstr "Englisch"
+
+#: app/templates/file_details.html:62 app/templates/image_upload.html:148
+msgid "German"
+msgstr "Deutsch"
+
+#: app/templates/file_details.html:63
+msgid "Bilingual Ger/Eng"
+msgstr "Zweisprachig Dt./Eng"
+
+#: app/templates/file_details.html:66
+msgid "Enter starting page:"
+msgstr "Bei dieser Seite starten:"
+
+#: app/templates/file_details.html:69
+msgid "Enter number of pages to convert"
+msgstr "Anzahl der zu konvertierenden Seiten eingeben:"
+
+#: app/templates/file_details.html:70
+msgid "optional, leave empty if you want to convert till the end:"
+msgstr "Optional. Leer lassen, wenn Sie das gesamte Dokument konvertieren möchten."
+
+#: app/templates/file_details.html:73
+msgid "Convert Full Document"
+msgstr "Gesamtes Dokument konvertieren"
+
+#: app/templates/file_details.html:75
+msgid "Convert from Specified Pages"
+msgstr "Von angegebenen Seiten konvertieren"
+
+#: app/templates/file_details.html:78
+msgid "Back to file list"
+msgstr "Zurück zur Dateiliste"
+
+#: app/templates/image_upload.html:133
+msgid "Upload or paste an image"
+msgstr "Bild hochladen oder einfügen"
+
+#: app/templates/image_upload.html:134
+msgid "Click here or paste an image (Ctrl+V)"
+msgstr "Hier klicken oder ein Bild einfügen (Strg+V)"
+
+#: app/templates/image_upload.html:138
+msgid "What does the image show?"
+msgstr "Was zeigt das Bild?"
+
+#: app/templates/image_upload.html:139
+msgid "Select an image description type"
+msgstr "Wählen Sie einen Bildbeschreibungstyp"
+
+#: app/templates/image_upload.html:140
+msgid "Standard"
+msgstr "Standard"
+
+#: app/templates/image_upload.html:141
+msgid "Mathematical Formula"
+msgstr "Mathematische Formel"
+
+#: app/templates/image_upload.html:142
+msgid "Table"
+msgstr "Tabelle"
+
+#: app/templates/image_upload.html:143
+msgid "Code"
+msgstr "Code"
+
+#: app/templates/image_upload.html:146
+msgid "Choose the language for the description:"
+msgstr "Wählen Sie die Sprache für die Beschreibung:"
+
+#: app/templates/image_upload.html:147
+msgid "Select the language for image description"
+msgstr "Wählen Sie die Sprache für die Bildbeschreibung"
+
+#: app/templates/image_upload.html:153
+msgid "Submit"
+msgstr "Absenden"
+
+#: app/templates/index.html:33
+msgid "Uploaded Files"
+msgstr "Hochgeladene Dateien"
+
+#: app/templates/index.html:38 app/templates/index.html:39
+msgid "Delete"
+msgstr "Löschen"
+
+#: app/templates/index.html:45
+msgid "Drag and drop a PDF file here, or click to browse"
+msgstr "Ziehen Sie eine PDF-Datei hierher oder klicken Sie, um zu suchen"
+
+#: app/templates/index.html:47
+msgid "Drag & drop any PDF file here"
+msgstr "Ziehen Sie hier eine beliebige PDF-Datei hinein"
+
+#: app/templates/index.html:49 app/templates/index.html:66
+msgid "or"
+msgstr "oder"
+
+#: app/templates/index.html:50 app/templates/index.html:53
+msgid "Browse for a PDF file from your device"
+msgstr "Suchen Sie eine PDF-Datei von Ihrem Gerät"
+
+#: app/templates/index.html:51
+msgid "browse file"
+msgstr "Datei suchen"
+
+#: app/templates/index.html:54
+msgid "from device"
+msgstr "vom Gerät"
+
+#: app/templates/index.html:59
+msgid "Please select a file first"
+msgstr "Bitte wählen Sie zuerst eine Datei aus"
+
+#: app/templates/index.html:60
+msgid "Dismiss error message"
+msgstr "Fehlermeldung schließen"
+
+#: app/templates/index.html:65
+msgid "Upload"
+msgstr "Hochladen"
+
+#: app/templates/index.html:70
+msgid "Upload singular Images"
+msgstr "Einzelne Bilder hochladen"
+

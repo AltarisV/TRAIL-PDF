@@ -1,21 +1,28 @@
 import os
 import sys
-from flask import Flask
+from flask import Flask, request
 from app.Config import Config
 from dotenv import load_dotenv
 import logging
 from logging.handlers import RotatingFileHandler
+from flask_babel import Babel
 
 
 def set_working_directory():
     if getattr(sys, 'frozen', False):
-        # If running as a bundled executable, use the directory of the executable
         base_path = os.path.dirname(sys.executable)
     else:
-        # Otherwise, use the root directory of the project
         base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
-
     os.chdir(base_path)
+
+
+def get_locale():
+    # Check if the user has set a language preference in cookies
+    lang = request.cookies.get('language')
+    if lang in ['en', 'de']:
+        return lang
+    # Fallback to best match based on browser settings
+    return request.accept_languages.best_match(['en', 'de'])
 
 
 def create_app():
@@ -37,7 +44,16 @@ def create_app():
     app.config.from_object(Config)
     load_dotenv()
 
-    # Set up logging
+    app.config['BABEL_DEFAULT_LOCALE'] = 'en'
+    app.config['BABEL_SUPPORTED_LOCALES'] = ['en', 'de']
+    app.config['BABEL_TRANSLATION_DIRECTORIES'] = 'translations'  # Adjust if translations directory is elsewhere
+
+    babel = Babel(app, locale_selector=get_locale)
+
+    @app.context_processor
+    def inject_get_locale():
+        return {'get_locale': get_locale}
+
     if not os.path.exists(app.config['LOG_DIR']):
         os.makedirs(app.config['LOG_DIR'])
     if not os.path.exists(app.config['TOKEN_USAGE_DIR']):

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, current_app, request, redirect, url_for, send_from_directory
+from flask import Blueprint, render_template, current_app, request, redirect, url_for, make_response
 from werkzeug.utils import secure_filename
 import os
 
@@ -85,3 +85,11 @@ def about():
     :rtype: flask.Response
     """
     return render_template('about.html')
+
+
+@main_bp.route('/set_language/<lang>')
+def set_language(lang):
+    response = make_response(redirect(request.referrer or url_for('main.index')))
+    if lang in ['en', 'de']:  # Check if the language is supported
+        response.set_cookie('language', lang, max_age=30 * 24 * 60 * 60)  # 30 days
+    return response
