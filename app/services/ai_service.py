@@ -51,6 +51,7 @@ def send_image_to_ai(image_path, chosen_prompt):
     image_url = f"data:image/jpeg;base64,{base64_image}"
 
     prompt_text = PROMPTS.get(chosen_prompt)
+    current_app.logger.info(f"Chosen prompt: {chosen_prompt}")
 
     if prompt_text is None:
         current_app.logger.error(f"Unsupported language choice: {chosen_prompt}")
