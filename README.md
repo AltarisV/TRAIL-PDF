@@ -12,8 +12,7 @@ formulas.
 ## Getting Started
 
 ### Prerequisites
-Before you begin, ensure you have:
-- You have an [OpenAI API Key](https://openai.com/blog/openai-api) and are at least Tier 1 (meaning you have charged at least $5 of credit).
+Before you begin, ensure you have an [OpenAI API Key](https://openai.com/blog/openai-api) and are at least Tier 1 (meaning you have charged at least $5 of credit).
 
 ### Using the latest TRAIL release
 To use TRAIL using the bundled release, simply unpack the folder and start TRAIL.exe.

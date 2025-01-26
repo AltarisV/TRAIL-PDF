@@ -3,6 +3,7 @@ import os
 import webbrowser
 import html
 from flask import Response
+from collections import defaultdict
 
 
 def open_browser():
@@ -50,13 +51,41 @@ def save_texts(texts, original_filename, language):
     html_content += "</style>\n"
     html_content += "</head>\n<body>\n"
 
+    # Dictionary to count duplicate headers
+    header_counter = defaultdict(int)
+
     navigation = "<nav>\n  <ul class='nav-list'>\n"
     processed_content = ""
     for idx, text in enumerate(texts):
         processed_text, headers = process_text_for_html(text, idx)
-        processed_content += processed_text + "\n\n"
+        updated_headers = []
+
         for header in headers:
-            navigation += f'    <li><a href="#{header["id"]}">{header["title"]}</a></li>\n'
+            original_title = header["title"]
+            header_counter[original_title] += 1
+            if header_counter[original_title] > 1:
+                # Add numbering to duplicate headers
+                numbered_title = f"{original_title} {header_counter[original_title]}"
+            else:
+                numbered_title = original_title
+
+            # Update header IDs and titles with numbered versions
+            header["id"] = header["id"] + f"-{header_counter[original_title]}"
+            header["title"] = numbered_title
+            updated_headers.append(header)
+
+            # Add to navigation
+            navigation += f'    <li><a href="#{header["id"]}">{numbered_title}</a></li>\n'
+
+        # Replace headers in the processed content with numbered versions
+        for header in updated_headers:
+            processed_text = processed_text.replace(
+                f'<h1 id="{header["id"].rsplit("-", 1)[0]}">{header["title"].rsplit(" ", 1)[0]}</h1>',
+                f'<h1 id="{header["id"]}">{header["title"]}</h1>',
+            )
+
+        processed_content += processed_text + "\n\n"
+
     navigation += "  </ul>\n</nav>\n"
 
     html_content += navigation
