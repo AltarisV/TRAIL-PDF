@@ -67,6 +67,9 @@
                 var selectedPrompt = document.getElementById('prompt-select').value;
                 formData.append('prompt', selectedPrompt);
 
+                var selectedLanguage = document.getElementById('language-select').value;
+                formData.append('language', selectedLanguage);
+
                 $.ajax({
                     url: '/process-image',
                     type: 'POST',

@@ -1,16 +1,13 @@
 # TRAIL
 
-A PDF to Alt-Text Generator. Check out the latest release here: [Latest Release](https://github.com/AltarisV/TRAIL-PDF/releases)
+A PDF to accessible HTML-Script Generator. Check out the latest release here: [Latest Release](https://github.com/AltarisV/TRAIL-PDF/releases)
 
 ## Description
 TRAIL is a web application that converts PDF files into images, sends them to the GPT-4o Model, and generates alternative text for each image. 
 The resulting text is then downloaded as an HTML file, which enables a blind person to navigate them with a screenreader. 
-By utilizing GPT-4o, TRAIL is able to produce neatly structured HTML files that includes HTML-style tables, structured Code and descriptions of mathematical formulas. 
-
-### Affiliation
-
-This version of TRAIL has been developed as part of the research activities in the "Computer Science and Society" group 
-([Informatik und Gesellschaft](https://iug.htw-berlin.de/)) under the guidance of Prof. Dr. Katharina Simbeck at the HTW Berlin (University of Applied Sciences).
+By utilizing GPT-4o, TRAIL is able to turn non-accessible PDF contents into neatly structured HTML files that include 
+image descriptions for important images, HTML tables, structured Code and descriptions of mathematical
+formulas.
 
 ## Getting Started
 
@@ -32,14 +29,7 @@ As a rough estimation, the API cost of generating alternative text via TRAIL is 
 Before working on TRAIL, make sure you have have installed the latest version of Docker or [Docker Desktop](https://www.docker.com/products/docker-desktop).
 To start working on TRAIL, follow these steps:
 
-#### Clone the repository:
-
-```bash
-git clone https://github.com/yourusername/yourrepository.git
-cd yourrepository
-```
-
-#### Configuring the Application
+### Configuring the Application
 
 Create a `.env` file in the project root directory and add the following configurations:
 
@@ -63,13 +53,7 @@ This will build and start the TRAIL application in a Docker container. You can a
 - Showing the current progress for PDF-conversion
 - Giving a Side-by-Side of the PDF pages and corresponding HTML for easy post-editing
 
-## Contributing to TRAIL
+## Affiliation
 
-To contribute to TRAIL, follow these steps:
-
-1. Fork this repository.
-2. Create a new branch (`git checkout -b feature_branch`).
-3. Make changes and test.
-4. Commit your changes (`git commit -am 'Add some feature'`).
-5. Push to the branch (`git push origin feature_branch`).
-6. Create a new Pull Request.
+This version of TRAIL has been developed as part of the research activities in the "Computer Science and Society" group
+([Informatik und Gesellschaft](https://iug.htw-berlin.de/)) at HTW Berlin (University of Applied Sciences).
