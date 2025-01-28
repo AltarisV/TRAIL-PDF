@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-02 13:15+0100\n"
+"POT-Creation-Date: 2025-01-28 16:04+0100\n"
 "PO-Revision-Date: 2024-12-30 17:00+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -19,32 +19,32 @@ msgstr ""
 "Generated-By: Babel 2.13.1\n"
 
 #: app/templates/about.html:4 app/templates/about.html:12
-#: app/templates/file_details.html:13 app/templates/image_upload.html:112
+#: app/templates/file_details.html:13 app/templates/image_upload.html:115
 #: app/templates/index.html:13
 msgid "About"
 msgstr "Über"
 
 #: app/templates/about.html:10 app/templates/file_details.html:11
-#: app/templates/image_upload.html:110 app/templates/image_upload.html:163
+#: app/templates/image_upload.html:113 app/templates/image_upload.html:166
 #: app/templates/index.html:4 app/templates/index.html:11
 msgid "Home"
 msgstr "Startseite"
 
 #: app/templates/about.html:11 app/templates/file_details.html:12
-#: app/templates/image_upload.html:4 app/templates/image_upload.html:111
+#: app/templates/image_upload.html:4 app/templates/image_upload.html:114
 #: app/templates/index.html:12
 msgid "Image Upload"
 msgstr "Bilder hochladen"
 
 #: app/templates/about.html:14 app/templates/file_details.html:15
-#: app/templates/file_details.html:65 app/templates/image_upload.html:114
-#: app/templates/image_upload.html:153 app/templates/index.html:15
+#: app/templates/file_details.html:67 app/templates/image_upload.html:117
+#: app/templates/image_upload.html:156 app/templates/index.html:15
 msgid "English"
 msgstr "Englisch"
 
 #: app/templates/about.html:15 app/templates/file_details.html:16
-#: app/templates/file_details.html:66 app/templates/image_upload.html:115
-#: app/templates/image_upload.html:152 app/templates/index.html:16
+#: app/templates/file_details.html:68 app/templates/image_upload.html:118
+#: app/templates/image_upload.html:155 app/templates/index.html:16
 msgid "German"
 msgstr "Deutsch"
 
@@ -53,7 +53,8 @@ msgid "About TRAIL"
 msgstr "Über TRAIL"
 
 #: app/templates/about.html:30
-msgid "TRAIL Open Version 1.1"
+#, fuzzy
+msgid "TRAIL Open Version 1.1.1"
 msgstr "TRAIL Open Version 1.1"
 
 #: app/templates/about.html:32
@@ -145,80 +146,99 @@ msgid_plural "{minutes} minutes"
 msgstr[0] "{minutes} Minute"
 msgstr[1] "{minutes} Minuten"
 
-#: app/templates/file_details.html:63
+#: app/templates/file_details.html:65
 msgid "Choose a language for conversion:"
 msgstr "Wählen Sie eine Sprache für die Konvertierung aus:"
 
-#: app/templates/file_details.html:67
+#: app/templates/file_details.html:69
 #, fuzzy
 msgid "Bilingual"
 msgstr "Zweisprachig"
 
-#: app/templates/file_details.html:70
+#: app/templates/file_details.html:72
 msgid "Enter starting page:"
 msgstr "Bei dieser Seite starten:"
 
-#: app/templates/file_details.html:73
+#: app/templates/file_details.html:75
 msgid "Enter number of pages to convert"
 msgstr "Anzahl der zu konvertierenden Seiten eingeben:"
 
-#: app/templates/file_details.html:74
+#: app/templates/file_details.html:76
 msgid "optional, leave empty if you want to convert till the end:"
 msgstr "Optional. Leer lassen, wenn Sie das gesamte Dokument konvertieren möchten."
 
-#: app/templates/file_details.html:77
+#: app/templates/file_details.html:79 app/templates/file_details.html:150
 msgid "Convert Full Document"
 msgstr "Gesamtes Dokument konvertieren"
 
-#: app/templates/file_details.html:79
+#: app/templates/file_details.html:81
 msgid "Convert from Specified Pages"
 msgstr "Von angegebenen Seiten konvertieren"
 
-#: app/templates/file_details.html:82
+#: app/templates/file_details.html:84
 msgid "Back to file list"
 msgstr "Zurück zur Dateiliste"
 
-#: app/templates/image_upload.html:137
+#: app/templates/file_details.html:130
+msgid "Finishing..."
+msgstr ""
+
+#: app/templates/file_details.html:136 app/templates/file_details.html:142
+#, fuzzy
+msgid "seconds left"
+msgstr "{seconds} Sekunde"
+
+#: app/templates/file_details.html:139
+#, fuzzy
+msgid "minutes left"
+msgstr "{minutes} Minute"
+
+#: app/templates/file_details.html:142
+#, fuzzy
+msgid "minutes"
+msgstr "{minutes} Minute"
+
+#: app/templates/image_upload.html:140
 msgid "Upload or paste an image"
 msgstr "Bild hochladen oder einfügen"
 
-#: app/templates/image_upload.html:138
+#: app/templates/image_upload.html:141
 msgid "Click here or paste an image (Ctrl+V)"
 msgstr "Hier klicken oder ein Bild einfügen (Strg+V)"
 
-#: app/templates/image_upload.html:142
+#: app/templates/image_upload.html:145
 msgid "What does the image show?"
 msgstr "Was zeigt das Bild?"
 
-#: app/templates/image_upload.html:143
+#: app/templates/image_upload.html:146
 msgid "Select an image description type"
 msgstr "Wählen Sie einen Bildbeschreibungstyp"
 
-#: app/templates/image_upload.html:144
+#: app/templates/image_upload.html:147
 msgid "Standard"
 msgstr "Standard"
 
-#: app/templates/image_upload.html:145
+#: app/templates/image_upload.html:148
 msgid "Mathematical Formula"
 msgstr "Mathematische Formel"
 
-#: app/templates/image_upload.html:146
+#: app/templates/image_upload.html:149
 msgid "Table"
 msgstr "Tabelle"
 
-#: app/templates/image_upload.html:147
+#: app/templates/image_upload.html:150
 msgid "Code"
 msgstr "Code"
 
-#: app/templates/image_upload.html:150
+#: app/templates/image_upload.html:153
 msgid "Choose the language for the description:"
 msgstr "Wählen Sie die Sprache für die Beschreibung:"
 
-#: app/templates/image_upload.html:151
+#: app/templates/image_upload.html:154
 msgid "Select the language for image description"
 msgstr "Wählen Sie die Sprache für die Bildbeschreibung"
 
-#: app/templates/image_upload.html:157
+#: app/templates/image_upload.html:160
 msgid "Submit"
 msgstr "Absenden"
 
@@ -269,4 +289,10 @@ msgstr "Hochladen"
 #: app/templates/index.html:74
 msgid "Upload singular Images"
 msgstr "Einzelne Bilder hochladen"
+
+#~ msgid "Based on this, conversion will take around"
+#~ msgstr "Basierend darauf dauert die Konvertierung etwa"
+
+#~ msgid "Estimated conversion time:"
+#~ msgstr "Geschätzte Konvertierungszeit:"
 

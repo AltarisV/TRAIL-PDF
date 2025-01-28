@@ -4,6 +4,7 @@ import webbrowser
 import html
 from flask import Response
 from collections import defaultdict
+import re
 
 
 def open_browser():
@@ -103,17 +104,6 @@ def save_texts(texts, original_filename, language):
 def process_text_for_html(text, idx):
     """
     Processes a text string into HTML content, identifying and structuring headers and paragraphs.
-
-    - Identifies code blocks, tables, and paragraphs within the text.
-    - Escapes HTML content to prevent injection attacks.
-    - Generates navigation anchors for identified headers.
-
-    :param text: The text content to process.
-    :type text: str
-    :param idx: The index of the text block, used to generate unique header IDs.
-    :type idx: int
-    :returns: A tuple containing the processed HTML content and a list of headers.
-    :rtype: tuple of (str, list of dict)
     """
     lines = text.split('\n')
     processed_lines = []
@@ -121,38 +111,70 @@ def process_text_for_html(text, idx):
     in_code_block = False
     in_table = False
 
+    # If the final line includes any of these tags, skip escaping:
+    NON_ESCAPED_TAGS = [
+        "<table", "</table>", "<tr>", "</tr>", "<th>", "</th>", "<td>", "</td>",
+        "<caption>", "</caption>", "<thead>", "</thead>", "<tbody>", "</tbody>",
+        "<ul>", "</ul>", "<li>", "</li>", "<ol>", "</ol>",
+        "<strong>", "</strong>", "<em>", "</em>", "<p>", "</p>"
+    ]
+
     for line in lines:
         stripped_line = line.strip()
 
-        # Handle <pre><code> blocks
+        # 1) If we detect a <code> block start
         if "<code>" in stripped_line and not in_code_block:
             in_code_block = True
             processed_lines.append("<pre><code>")
             code_start_index = stripped_line.find("<code>") + len("<code>")
+            # Escape any code segment to avoid injection
             processed_lines.append(html.escape(stripped_line[code_start_index:]))
+
+        # 2) If we detect a </code> block end
         elif "</code>" in stripped_line and in_code_block:
             code_end_index = stripped_line.find("</code>")
             processed_lines.append(html.escape(stripped_line[:code_end_index]))
             processed_lines.append("</code></pre>")
             in_code_block = False
+
+        # 3) If we're inside a code block, keep escaping
         elif in_code_block:
             processed_lines.append(html.escape(line))
             processed_lines.append("\n")
-        elif any(tag in stripped_line for tag in ["<table", "</table>", "<tr>", "</tr>", "<th>", "</th>", "<td>", "</td>", "<caption>", "</caption>", "<thead>", "</thead>", "<tbody>", "</tbody>", "<p>", "</p>"]):
-            processed_lines.append(stripped_line)
-        elif in_table:
-            processed_lines.append(stripped_line)
-            if "</table>" in stripped_line:
-                in_table = False
-        else:
-            line = escape_html(line)
 
-            if line.startswith("Seite ") or line.startswith("Page "):
-                colon_pos = line.find(':')
+        else:
+            # First, run markdown on the line (handle **bold**, *italic*, etc.)
+            converted_line = markdown_to_html(line)
+
+            # If line has any of the recognized tags => skip escaping
+            if any(tag in converted_line for tag in NON_ESCAPED_TAGS):
+                # If line might contain <table>, track that for your in_table logic
+                if "<table" in converted_line:
+                    in_table = True
+                if "</table>" in converted_line:
+                    in_table = False
+
+                processed_line = converted_line
+
+            # If we're within a table but haven't detected new tags
+            elif in_table:
+                processed_line = converted_line
+                if "</table>" in converted_line:
+                    in_table = False
+
+            else:
+                # Default: escape the final line
+                processed_line = html.escape(converted_line)
+
+            # Now see if line starts with "Seite ..." or "Page ...":
+            # If so, treat as a new <h1> block
+            if processed_line.startswith("Seite ") or processed_line.startswith("Page "):
+                colon_pos = processed_line.find(':')
                 if colon_pos != -1:
-                    title_start_pos = line.find(',') + 1
-                    title = line[title_start_pos:colon_pos].strip()
-                    content = line[colon_pos + 1:].strip()
+                    # Grab the text after 'Seite 1,' etc. as the header
+                    title_start_pos = processed_line.find(',') + 1
+                    title = processed_line[title_start_pos:colon_pos].strip()
+                    content = processed_line[colon_pos + 1:].strip()
 
                     header_id = f"section-{idx}-{len(headers)}"
                     headers.append({"id": header_id, "title": title})
@@ -161,14 +183,33 @@ def process_text_for_html(text, idx):
                     if content:
                         processed_lines.append(f"<p>{content}</p>")
                 else:
+                    # No colon => entire line is the header
                     header_id = f"section-{idx}-{len(headers)}"
-                    headers.append({"id": header_id, "title": line.strip()})
-                    processed_lines.append(f'<h1 id="{header_id}">{line.strip()}</h1>')
-            else:
-                if line.strip():
-                    processed_lines.append(f"<p>{line.strip()}</p>")
+                    headers.append({"id": header_id, "title": processed_line.strip()})
+                    processed_lines.append(f'<h1 id="{header_id}">{processed_line.strip()}</h1>')
 
-    return ''.join(processed_lines), headers
+            else:
+                # Not a "Seite" line
+                if processed_line.strip():
+                    processed_lines.append(f"<p>{processed_line.strip()}</p>")
+
+    return "".join(processed_lines), headers
+
+
+def markdown_to_html(text):
+    """
+    Converts basic Markdown syntax to HTML.
+
+    :param text: Text containing Markdown syntax.
+    :type text: str
+    :returns: Text with Markdown replaced by HTML.
+    :rtype: str
+    """
+    # Replace **bold** with <strong>
+    text = re.sub(r'\*\*(.*?)\*\*', r'<strong>\1</strong>', text)
+    # Replace *italic* with <em>
+    text = re.sub(r'\*(.*?)\*', r'<em>\1</em>', text)
+    return text
 
 
 def escape_html(text):

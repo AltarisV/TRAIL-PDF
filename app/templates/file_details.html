@@ -59,6 +59,8 @@
                         {{ ngettext('{seconds} second', '{seconds} seconds', seconds).format(seconds=seconds) }}.
                     {% endif %}
                 </p>
+                <!-- New paragraph for the live countdown text -->
+                <p id="countdownDisplay" style="font-weight: bold; color: red;"></p>
             </div>
             <label for="language">{{ _('Choose a language for conversion:') }}</label>
             <select name="language" id="language">
@@ -99,6 +101,61 @@
         element.addEventListener('blur', function() {
             element.style.outline = 'none';
         });
+    });
+</script>
+
+<!-- New script for the countdown logic -->
+<script>
+    // Pass the total_seconds (already set by Jinja above) into JavaScript:
+    let totalSeconds = {{ total_seconds|int }};
+
+    function startCountdown() {
+        let secondsLeft = totalSeconds;
+        updateCountdownText(secondsLeft);
+
+        let interval = setInterval(function() {
+            secondsLeft--;
+            updateCountdownText(secondsLeft);
+
+            if (secondsLeft <= 0) {
+                clearInterval(interval);
+            }
+        }, 1000);
+    }
+
+    function updateCountdownText(seconds) {
+        const countdownEl = document.getElementById('countdownDisplay');
+        if (!countdownEl) return;
+        if (seconds <= 0) {
+            countdownEl.textContent = "{{ _('Finishing...') }}";
+        } else {
+            let m = Math.floor(seconds / 60);
+            let s = seconds % 60;
+            if (m === 0) {
+                // e.g., "35 seconds left"
+                countdownEl.textContent = s + " {{ _('seconds left') }}";
+            } else if (s === 0) {
+                // e.g., "2 minutes left"
+                countdownEl.textContent = m + " {{ _('minutes left') }}";
+            } else {
+                // e.g., "2 minutes 15 seconds left"
+                countdownEl.textContent = m + " {{ _('minutes') }} " + s + " {{ _('seconds left') }}";
+            }
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Find the "Convert Full Document" submit button by its value text
+        const convertFullBtn = document.querySelector(
+            'input[type="submit"][value="{{ _("Convert Full Document") }}"]'
+        );
+        if (convertFullBtn) {
+            convertFullBtn.addEventListener('click', function() {
+                // Start the countdown when user clicks to convert
+                startCountdown();
+                // We do NOT prevent form submission, so the form still submits as normal.
+            });
+        }
     });
 </script>
 </body>
