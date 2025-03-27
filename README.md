@@ -50,9 +50,4 @@ This will build and start the TRAIL application in a Docker container. You can a
 ## Planned
 
 - Showing the current progress for PDF-conversion
-- Giving a Side-by-Side of the PDF pages and corresponding HTML for easy post-editing
-
-## Affiliation
-
-This version of TRAIL has been developed as part of the research activities in the "Computer Science and Society" group
-([Informatik und Gesellschaft](https://iug.htw-berlin.de/)) at HTW Berlin (University of Applied Sciences).
+- Giving a Side-by-Side of the PDF pages and corresponding HTML for easy post-editing 
