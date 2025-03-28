@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-01-28 16:04+0100\n"
+"POT-Creation-Date: 2025-03-28 11:29+0100\n"
 "PO-Revision-Date: 2024-12-30 17:00+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: de\n"
@@ -17,24 +17,6 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.13.1\n"
-
-#: app/templates/about.html:4 app/templates/about.html:12
-#: app/templates/file_details.html:13 app/templates/image_upload.html:115
-#: app/templates/index.html:13
-msgid "About"
-msgstr "Über"
-
-#: app/templates/about.html:10 app/templates/file_details.html:11
-#: app/templates/image_upload.html:113 app/templates/image_upload.html:166
-#: app/templates/index.html:4 app/templates/index.html:11
-msgid "Home"
-msgstr "Startseite"
-
-#: app/templates/about.html:11 app/templates/file_details.html:12
-#: app/templates/image_upload.html:4 app/templates/image_upload.html:114
-#: app/templates/index.html:12
-msgid "Image Upload"
-msgstr "Bilder hochladen"
 
 #: app/templates/about.html:14 app/templates/file_details.html:15
 #: app/templates/file_details.html:67 app/templates/image_upload.html:117
@@ -47,15 +29,6 @@ msgstr "Englisch"
 #: app/templates/image_upload.html:155 app/templates/index.html:16
 msgid "German"
 msgstr "Deutsch"
-
-#: app/templates/about.html:29
-msgid "About TRAIL"
-msgstr "Über TRAIL"
-
-#: app/templates/about.html:30
-#, fuzzy
-msgid "TRAIL Open Version 1.1.1"
-msgstr "TRAIL Open Version 1.1"
 
 #: app/templates/about.html:32
 msgid ""
@@ -87,32 +60,28 @@ msgid "By using TRAIL, you agree to comply with these terms."
 msgstr "Durch die Nutzung von TRAIL stimmen Sie diesen Bedingungen zu."
 
 #: app/templates/about.html:45
-msgid "This version of TRAIL was developed by"
-msgstr "Diese Version von TRAIL wurde entwickelt von"
-
-#: app/templates/about.html:48
-msgid "as part of the research activities in the"
-msgstr "im Rahmen der Forschungsaktivitäten der"
-
-#: app/templates/about.html:49
-msgid "Computer Science and Society"
-msgstr "Informatik und Gesellschaft"
-
-#: app/templates/about.html:50
-msgid "Informatik und Gesellschaft"
-msgstr "Informatik und Gesellschaft"
-
-#: app/templates/about.html:51
-msgid "group at"
-msgstr "Gruppe an der"
-
-#: app/templates/about.html:51
-msgid "HTW Berlin (University of Applied Sciences)"
-msgstr "HTW Berlin (Hochschule für Technik und Wirtschaft)"
+msgid "TRAIL was developed by"
+msgstr "TRAIL wurde entwickelt von"
 
 #: app/templates/file_details.html:4
 msgid "File Details"
 msgstr "Dateidetails"
+
+#: app/templates/file_details.html:11 app/templates/image_upload.html:113
+#: app/templates/image_upload.html:166 app/templates/index.html:4
+#: app/templates/index.html:11
+msgid "Home"
+msgstr "Startseite"
+
+#: app/templates/file_details.html:12 app/templates/image_upload.html:4
+#: app/templates/image_upload.html:114 app/templates/index.html:12
+msgid "Image Upload"
+msgstr "Bilder hochladen"
+
+#: app/templates/file_details.html:13 app/templates/image_upload.html:115
+#: app/templates/index.html:13
+msgid "About"
+msgstr "Über"
 
 #: app/templates/file_details.html:43
 msgid "File Conversion Details"
@@ -181,7 +150,7 @@ msgstr "Zurück zur Dateiliste"
 
 #: app/templates/file_details.html:130
 msgid "Finishing..."
-msgstr ""
+msgstr "Finalisierung..."
 
 #: app/templates/file_details.html:136 app/templates/file_details.html:142
 #, fuzzy
