@@ -40,7 +40,7 @@
                     <li>
                         <a href="{{ url_for('file.file_details', filename=file) }}">{{ file }}</a>
                         <a href="{{ url_for('main.delete_file', filename=file) }}" class="delete-link" title="{{ _('Delete') }}">
-                            <img src="{{ url_for('static', filename='icons/trashcan.svg') }}" alt="{{ _('Delete') }}" class="red-trashcan" aria-label="{{ _('Delete') }} {{ file }}"/>
+                            <img src="{{ url_for('static', filename='icons/trashcan.svg') }}" alt="{{ _('Delete') }}" class="trashcan" aria-label="{{ _('Delete') }} {{ file }}"/>
                         </a>
                     </li>
                 {% endfor %}

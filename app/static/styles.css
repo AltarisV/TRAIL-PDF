@@ -23,7 +23,7 @@ html, body {
 }
 
 .upload-files-container {
-    background-color: #222; /* Dunkler Hintergrund */
+    background-color: #333333;
     width: 1000px;
     padding: 30px 60px;
     border-radius: 40px;
@@ -32,6 +32,7 @@ html, body {
     justify-content: center;
     flex-direction: column;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 10px 20px, rgba(0, 0, 0, 0.28) 0px 6px 6px;
+    color: white;
 }
 
 form {
@@ -59,7 +60,7 @@ h1 {
 }
 
 .drag-file-area {
-    border: 2px dashed #76B900;
+    border: 2px dashed #429EFF;
     border-radius: 40px;
     margin: 10px 0 15px;
     padding: 30px 50px;
@@ -88,7 +89,7 @@ h1 {
 }
 
 .browse-files-text {
-    color: #76B900;
+    color: #429EFF;
     font-weight: bolder;
     cursor: pointer;
 }
@@ -104,14 +105,14 @@ h1 {
 }
 
 .cannot-upload-message {
-    background-color: #ffc6c4;
+    background-color: #429EFF;
     font-size: 17px;
     display: flex;
     align-items: center;
     margin: 5px 0;
     padding: 5px 10px 5px 30px;
     border-radius: 5px;
-    color: #ffffff; /* Updated for better contrast */
+    color: #ffffff;
     display: none;
 }
 
@@ -140,8 +141,8 @@ h1 {
 }
 
 .file-block {
-    color: #000000; /* Updated for better contrast */
-    background-color: #76B900;
+    color: white;
+    background-color: #429EFF;
     transition: all 1s;
     width: 390px;
     position: relative;
@@ -182,13 +183,13 @@ h1 {
     width: 0;
     height: 5px;
     border-radius: 25px;
-    background-color: #4bb543;
+    background-color: #007BFF;
 }
 
 .upload-button {
     font-family: "Montserrat";
-    background-color: #76B900;
-    color: #000000; /* Updated for better contrast */
+    background-color: #007BFF;
+    color: #ffffff;
     display: flex;
     align-items: center;
     font-size: 18px;
@@ -201,11 +202,11 @@ h1 {
 }
 
 .upload-button:hover {
-    background-color: #63a700;
+    background-color: #006FE6;
 }
 
 .upload-button:focus {
-    outline: 2px solid #4bb543;
+    outline: 2px solid #006FE6;
     outline-offset: 4px;
 }
 
@@ -223,8 +224,8 @@ h1 {
 
 .area {
     position: fixed;
-    background: #f7fff7;
-    background: -webkit-linear-gradient(to left, #76B900, #f7fff7);
+    background: white;
+    background: -webkit-linear-gradient(to left, #429EFF, white);
     width: 100vw;
     min-height: 100vh;
     z-index: -1;
@@ -250,7 +251,7 @@ h1 {
     list-style: none;
     width: 20px;
     height: 20px;
-    background: #76B900;
+    background: #429EFF;
     animation: animate 25s linear infinite;
     bottom: -150px;
 }
@@ -349,7 +350,7 @@ h3 {
 }
 
 #upload-box {
-    border: 2px dashed #76B900;
+    border: 2px dashed #429EFF;
     border-radius: 20px;
     width: 400px;
     height: 300px;
@@ -366,11 +367,11 @@ h3 {
 }
 
 #upload-box:hover {
-    border-color: #4bb543;
+    border-color: #0056B3;
 }
 
 #upload-box:focus {
-    outline: 2px solid #4bb543;
+    outline: 2px solid #0056B3;
     outline-offset: 4px;
 }
 
@@ -385,8 +386,8 @@ h3 {
 #submit-button,
 #home-button {
     font-family: "Montserrat";
-    background-color: #76B900;
-    color: #000000; /* Updated for better contrast */
+    background-color: #007BFF;
+    color: #ffffff;
     border: none;
     border-radius: 20px;
     padding: 10px 20px;
@@ -397,12 +398,12 @@ h3 {
 
 #submit-button:hover,
 #home-button:hover {
-    background-color: #63a700;
+    background-color: #006FE6;
 }
 
 #submit-button:focus,
 #home-button:focus {
-    outline: 2px solid #4bb543;
+    outline: 2px solid #0056B3;
     outline-offset: 4px;
 }
 
@@ -412,8 +413,8 @@ h3 {
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-    background: #333;
-    color: #ffffff; /* Updated for better contrast */
+    background: #002244;
+    color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     word-wrap: break-word;
@@ -428,15 +429,15 @@ h3 {
     word-wrap: break-word;
 }
 
-.red-trashcan {
+.trashcan {
     width: 16px;
     height: 16px;
-    filter: invert(18%) sepia(84%) saturate(6140%) hue-rotate(359deg) brightness(97%) contrast(104%);
+    filter: invert(18%) sepia(84%) saturate(6140%) hue-rotate(240deg) brightness(97%) contrast(104%);
 }
 
 .page-count-container {
-    text-align: center; /* Centers the text horizontally */
-    margin-bottom: 20px; /* Adds some space below the text for better spacing */
+    text-align: center;
+    margin-bottom: 20px;
 }
 
 .upload-files-container p {
@@ -444,13 +445,12 @@ h3 {
     padding: 0;
 }
 
-/* Navigation Bar Styling */
 .navbar {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
-    background-color: #333;
+    background-color: #333333;
     z-index: 1000;
     display: flex;
     justify-content: center;
@@ -485,27 +485,27 @@ h3 {
 }
 
 .navbar a:hover {
-    background-color: #76B900;
+    background-color: #007BFF;
     color: #fff;
 }
 
 a {
-    color: #76B900;
+    color: #429EFF;
     text-decoration: none;
     transition: color 0.3s;
 }
 
 a:hover {
-    color: #63a700;
+    color: #006FE6;
     text-decoration: underline;
 }
 
 a:visited {
-    color: #76B900;
+    color: #429EFF;
 }
 
 a:active {
-    color: #4bb543;
+    color: #0056B3;
 }
 
 h2 {
@@ -514,14 +514,14 @@ h2 {
 }
 
 .about-trail {
-    background-color: #222; /* Dunkler Hintergrund */
-    color: #fff; /* Weißer Text */
+    background-color: #333333;
+    color: #fff;
     padding: 20px;
-    border-radius: 15px; /* Abgerundete Ecken */
+    border-radius: 15px;
     max-width: 800px;
-    margin: 0 auto; /* Zentriert */
+    margin: 0 auto;
     text-align: left;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5); /* Schatten für Tiefe */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
 }
 
 .about-trail h1 {
@@ -537,7 +537,7 @@ h2 {
 
 .about-trail p {
     font-size: 1.2em;
-    line-height: 1.8; /* Zeilenabstand für bessere Lesbarkeit */
+    line-height: 1.8;
     margin-bottom: 15px;
     text-align: left;
     width: 100%;
