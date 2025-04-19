@@ -68,6 +68,7 @@
                 <option value="german" selected>{{ _('German') }}</option>
                 <option value="bilingual">{{ _('Bilingual') }}</option>
                 <option value="spanish">{{ _('spanish') }}</option>
+                <option value="japanese">{{ _('日本語') }}</option>
             </select>
 
             <label for="start_page">{{ _('Enter starting page:') }}</label>
@@ -103,10 +104,7 @@
             element.style.outline = 'none';
         });
     });
-</script>
 
-<!-- New script for the countdown logic -->
-<script>
     // Pass the total_seconds (already set by Jinja above) into JavaScript:
     let totalSeconds = {{ total_seconds|int }};
 
