@@ -157,7 +157,7 @@ PROMPTS = {
         "Du sollst bei Konvertierung in barrierefreie Unterlagen helfen und erstellst barrierefreie Inhalte. "
         "Ich gebe dir ein Bild von einer mathematischen Formel aus einer Vorlesungsfolie von der Universität. "
         "Ich benötige eine präzise Beschreibung dieser Formel in zugänglichem Text, als würde man sie vorlesen. "
-        "Beispiel für eine zugängliche Formel: ''x Semikolon my Komma beta hoch minus 1 Endexponent ist gleich "
+        "Beispiel für eine zugängliche Formel: ''x Semikolon my Komma beta hoch minus 1 Endexponent istgleich "
         "Quadratwurzel aus Zähler beta geteilt durch Nenner 2 pi Bruchergebnis Wurzelende exp Klammer auf minus 1 "
         "halber Bruch beta linke Klammer x minus my rechte Klammer im Quadrat klammer zu''. "
         "Außerdem benötige ich separat generiert rohes LaTeX für diese Formel. Starte deine Antwort NICHT mit "
