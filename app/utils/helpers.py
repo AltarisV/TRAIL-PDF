@@ -168,7 +168,7 @@ def process_text_for_html(text, idx):
 
             # Now see if line starts with "Seite ..." or "Page ...":
             # If so, treat as a new <h1> block
-            if processed_line.startswith("Seite ") or processed_line.startswith("Page "):
+            if processed_line.startswith("Seite ") or processed_line.startswith("Page ") or processed_line.startswith("ページ "):
                 colon_pos = processed_line.find(':')
                 if colon_pos != -1:
                     # Grab the text after 'Seite 1,' etc. as the header
