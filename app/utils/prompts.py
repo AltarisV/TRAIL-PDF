@@ -136,11 +136,11 @@ PROMPTS = {
         "de manière accessible à l'aide de son lecteur d'écran. Votre réponse doit inclure le code HTML du tableau avec les balises <thead>, <tbody> et <th scope>, ainsi qu'une "
         "<caption> pour le tableau. La réponse ne doit pas inclure de markdown."
         "\n\n"
-        "Si l'image contient du code, il vous appartient de reproduire ce code dans une balise HTML <code>. Voici un exemple si l'image contient du code:\N"
+        "Si l'image contient du code, il vous appartient de reproduire ce code dans une balise HTML <code>. Voici un exemple si l'image contient du code:\n"
         "<code>def hello_world():\\n print('hello world!')</code>"
-        "\\n"
-        "D'une manière générale, n'écrivez rien sur le style, le design ou le logo de l'institution. Ceci est de la plus haute importance. "Votre message doit commencer par "Page {numéro de page}, {un titre en un ou deux mots généré par vous} : Le titre doit être en anglais et choisi par vous, . "
-        "Ne répétez pas le titre de la diapositive dans votre réponse. Ne commencez PAS votre réponse par "Texte alternatif :".
+        "\n"
+        "D'une manière générale, n'écrivez rien sur le style, le design ou le logo de l'institution. Ceci est de la plus haute importance. \"Votre message doit commencer par \"Page {numéro de page}, {un titre en un ou deux mots généré par vous} : Le titre doit être en anglais et choisi par vous, . "
+        "Ne répétez pas le titre de la diapositive dans votre réponse. Ne commencez PAS votre réponse par \"Texte alternatif :\"."
     ),
     'japanese': (
         "「アクセシブルなコンテンツを作成することで、資料をアクセシブルなフォーマットに変換する手助けをしてください。"
