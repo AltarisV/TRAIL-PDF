@@ -44,7 +44,7 @@ app/
 ### Controllers (Routes)
 | File | Routes | Purpose |
 |------|--------|---------|
-| [main_controller.py](app/controller/main_controller.py) | `/`, `/delete/<filename>`, `/about`, `/set_language/<lang>` | File listing, upload, deletion, language |
+| [main_controller.py](app/controller/main_controller.py) | `/`, `/delete/<filename>`, `/set_language/<lang>` | File listing, upload, deletion, language |
 | [file_controller.py](app/controller/file_controller.py) | `/files/<filename>`, `/convert_pdf/<filename>`, `/convert_pdf_n_pages/<filename>` | PDF details, full/partial conversion |
 | [image_controller.py](app/controller/image_controller.py) | `/image-upload`, `/process-image` | Single image alt-text generation |
 

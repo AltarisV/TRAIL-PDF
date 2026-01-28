@@ -76,17 +76,6 @@ def delete_file(filename):
     return redirect(url_for('main.index'))
 
 
-@main_bp.route('/about')
-def about():
-    """
-    Renders the About page.
-
-    :returns: The About HTML page.
-    :rtype: flask.Response
-    """
-    return render_template('about.html')
-
-
 @main_bp.route('/set_language/<lang>')
 def set_language(lang):
     response = make_response(redirect(request.referrer or url_for('main.index')))
