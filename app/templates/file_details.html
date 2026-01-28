@@ -10,10 +10,9 @@
     <ul>
         <li><a href="{{ url_for('main.index') }}">{{ _('Home') }}</a></li>
         <li><a href="{{ url_for('image.image_upload') }}">{{ _('Image Upload') }}</a></li>
-        <li><a href="{{ url_for('main.about') }}">{{ _('About') }}</a></li>
         <li class="language-switcher">
-            <a href="{{ url_for('main.set_language', lang='en') }}">{{ _('English') }}</a> |
-            <a href="{{ url_for('main.set_language', lang='de') }}">{{ _('German') }}</a>
+            <a href="{{ url_for('main.set_language', lang='en') }}" class="{{ 'active-lang' if get_locale() == 'en' else '' }}">{{ _('English') }}</a> |
+            <a href="{{ url_for('main.set_language', lang='de') }}" class="{{ 'active-lang' if get_locale() == 'de' else '' }}">{{ _('German') }}</a>
         </li>
     </ul>
 </nav>
@@ -79,10 +78,7 @@
                 ({{ _('optional, leave empty if you want to convert till the end:') }})</label>
             <input type="number" name="num_pages" id="num_pages" min="1" max="{{ page_count }}">
 
-            <input class="upload-button" type="submit" value="{{ _('Convert Full Document') }}" />
-            <button type="button" class="upload-button" onclick="submitPartialConversion()">
-                {{ _('Convert from Specified Pages') }}
-            </button>
+            <input class="upload-button" type="submit" id="mainConvertBtn" value="{{ _('Convert PDF') }}" />
             <button class="upload-button" type="button" onclick="window.location.href='{{ url_for('main.index') }}'">
                 {{ _('Back to file list') }}
             </button>
@@ -90,12 +86,6 @@
     </div>
 </div>
 <script>
-    function submitPartialConversion() {
-        var form = document.getElementById('conversionForm');
-        form.action = "{{ url_for('file.convert_pdf_n_pages', filename=filename) }}";
-        form.submit();
-    }
-
     document.querySelectorAll('button, input, select').forEach(function(element) {
         element.addEventListener('focus', function() {
             element.style.outline = '2px solid #76B900';
@@ -106,11 +96,22 @@
         });
     });
 
-    // Pass the total_seconds (already set by Jinja above) into JavaScript:
-    let totalSeconds = {{ total_seconds|int }};
+    const startPageInput = document.getElementById('start_page');
+    const numPagesInput = document.getElementById('num_pages');
+    const pageCount = {{ page_count }};
+
+    function calculateSeconds() {
+        let start = parseInt(startPageInput.value) || 1;
+        let num = parseInt(numPagesInput.value);
+        if (!num || num <= 0) {
+            num = pageCount - start + 1;
+        }
+        num = Math.min(num, pageCount - start + 1);
+        return Math.max(0, num * 8); 
+    }
 
     function startCountdown() {
-        let secondsLeft = totalSeconds;
+        let secondsLeft = calculateSeconds();
         updateCountdownText(secondsLeft);
 
         let interval = setInterval(function() {
@@ -132,31 +133,24 @@
             let m = Math.floor(seconds / 60);
             let s = seconds % 60;
             if (m === 0) {
-                // e.g., "35 seconds left"
                 countdownEl.textContent = s + " {{ _('seconds left') }}";
             } else if (s === 0) {
-                // e.g., "2 minutes left"
                 countdownEl.textContent = m + " {{ _('minutes left') }}";
             } else {
-                // e.g., "2 minutes 15 seconds left"
                 countdownEl.textContent = m + " {{ _('minutes') }} " + s + " {{ _('seconds left') }}";
             }
         }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
-        // Find the "Convert Full Document" submit button by its value text
-        const convertFullBtn = document.querySelector(
-            'input[type="submit"][value="{{ _("Convert Full Document") }}"]'
-        );
-        if (convertFullBtn) {
-            convertFullBtn.addEventListener('click', function() {
-                // Start the countdown when user clicks to convert
+        const convertBtn = document.getElementById('mainConvertBtn');
+        if (convertBtn) {
+            convertBtn.addEventListener('click', function() {
                 startCountdown();
-                // We do NOT prevent form submission, so the form still submits as normal.
             });
         }
     });
+</script>
 </script>
 </body>
 </html>

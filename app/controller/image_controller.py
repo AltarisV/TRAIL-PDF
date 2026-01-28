@@ -1,4 +1,7 @@
 from flask import Blueprint, request, jsonify, render_template, current_app
+import os
+import shutil
+import uuid
 from app.services.ai_service import send_image_to_ai
 from app.services.image_service import save_image, delete_image, is_valid_image
 from app.utils.prompts import PROMPTS
@@ -24,7 +27,7 @@ def process_image():
 
     - Validates the uploaded image.
     - Determines the appropriate prompt based on language and prompt type.
-    - Saves the image temporarily, processes it with AI, and deletes the image afterward.
+    - Saves the image temporarily in a unique subdirectory, processes it with AI, and deletes the subdirectory afterward.
     - Returns the generated alt text as a JSON response.
 
     :returns:
@@ -32,7 +35,6 @@ def process_image():
         - JSON response with an error message and 400 status code if an error occurs.
     :rtype: flask.Response
     """
-    TEMP_IMAGE_PATH = current_app.config['TEMP_IMAGE_PATH']
     if 'image' in request.files:
         image = request.files['image']
         prompt_type = request.form.get('prompt', 'standard')
@@ -49,11 +51,17 @@ def process_image():
             current_app.logger.error(f"Unsupported prompt key: {prompt_key}")
             return jsonify({"error": f"Unsupported language or prompt type: {prompt_key}"}), 400
 
-        image_path = save_image(image, TEMP_IMAGE_PATH)
-        alt_text = send_image_to_ai(image_path, prompt_key)
-        delete_image(image_path)
-
-        return jsonify(alt_text=alt_text)
+        # Unique subdirectory for this process to prevent race conditions
+        temp_id = str(uuid.uuid4())
+        unique_temp_path = os.path.join(current_app.config['TEMP_IMAGE_PATH'], temp_id)
+        
+        try:
+            image_path = save_image(image, unique_temp_path)
+            alt_text = send_image_to_ai(image_path, prompt_key)
+            return jsonify(alt_text=alt_text)
+        finally:
+            if os.path.exists(unique_temp_path):
+                shutil.rmtree(unique_temp_path)
     else:
         current_app.logger.error("No image uploaded")
         return jsonify({"error": "No image uploaded"}), 400

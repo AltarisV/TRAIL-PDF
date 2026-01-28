@@ -58,32 +58,11 @@ def save_texts(texts, original_filename, language):
     navigation = "<nav>\n  <ul class='nav-list'>\n"
     processed_content = ""
     for idx, text in enumerate(texts):
-        processed_text, headers = process_text_for_html(text, idx)
-        updated_headers = []
-
+        processed_text, headers = process_text_for_html(text, idx, header_counter)
+        
         for header in headers:
-            original_title = header["title"]
-            header_counter[original_title] += 1
-            if header_counter[original_title] > 1:
-                # Add numbering to duplicate headers
-                numbered_title = f"{original_title} {header_counter[original_title]}"
-            else:
-                numbered_title = original_title
-
-            # Update header IDs and titles with numbered versions
-            header["id"] = header["id"] + f"-{header_counter[original_title]}"
-            header["title"] = numbered_title
-            updated_headers.append(header)
-
             # Add to navigation
-            navigation += f'    <li><a href="#{header["id"]}">{numbered_title}</a></li>\n'
-
-        # Replace headers in the processed content with numbered versions
-        for header in updated_headers:
-            processed_text = processed_text.replace(
-                f'<h1 id="{header["id"].rsplit("-", 1)[0]}">{header["title"].rsplit(" ", 1)[0]}</h1>',
-                f'<h1 id="{header["id"]}">{header["title"]}</h1>',
-            )
+            navigation += f'    <li><a href="#{header["id"]}">{header["title"]}</a></li>\n'
 
         processed_content += processed_text + "\n\n"
 
@@ -101,10 +80,13 @@ def save_texts(texts, original_filename, language):
     return response
 
 
-def process_text_for_html(text, idx):
+def process_text_for_html(text, idx, header_counter=None):
     """
     Processes a text string into HTML content, identifying and structuring headers and paragraphs.
     """
+    if header_counter is None:
+        header_counter = defaultdict(int)
+
     lines = text.split('\n')
     processed_lines = []
     headers = []
@@ -130,7 +112,7 @@ def process_text_for_html(text, idx):
             # Escape any code segment to avoid injection
             processed_lines.append(html.escape(stripped_line[code_start_index:]))
 
-        # 2) If we detect a </code> block end
+        # 2) If we detect a Code block end
         elif "</code>" in stripped_line and in_code_block:
             code_end_index = stripped_line.find("</code>")
             processed_lines.append(html.escape(stripped_line[:code_end_index]))
@@ -176,17 +158,24 @@ def process_text_for_html(text, idx):
                     title = processed_line[title_start_pos:colon_pos].strip()
                     content = processed_line[colon_pos + 1:].strip()
 
-                    header_id = f"section-{idx}-{len(headers)}"
-                    headers.append({"id": header_id, "title": title})
+                    header_counter[title] += 1
+                    display_title = f"{title} {header_counter[title]}" if header_counter[title] > 1 else title
+                    
+                    header_id = f"section-{idx}-{len(headers)}-{header_counter[title]}"
+                    headers.append({"id": header_id, "title": display_title})
 
-                    processed_lines.append(f'<h1 id="{header_id}">{title}</h1>')
+                    processed_lines.append(f'<h1 id="{header_id}">{display_title}</h1>')
                     if content:
                         processed_lines.append(f"<p>{content}</p>")
                 else:
                     # No colon => entire line is the header
-                    header_id = f"section-{idx}-{len(headers)}"
-                    headers.append({"id": header_id, "title": processed_line.strip()})
-                    processed_lines.append(f'<h1 id="{header_id}">{processed_line.strip()}</h1>')
+                    title = processed_line.strip()
+                    header_counter[title] += 1
+                    display_title = f"{title} {header_counter[title]}" if header_counter[title] > 1 else title
+                    
+                    header_id = f"section-{idx}-{len(headers)}-{header_counter[title]}"
+                    headers.append({"id": header_id, "title": display_title})
+                    processed_lines.append(f'<h1 id="{header_id}">{display_title}</h1>')
 
             else:
                 # Not a "Seite" line
