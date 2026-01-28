@@ -11,8 +11,8 @@
         <li><a href="{{ url_for('image.image_upload') }}">Image Upload</a></li>
         <li><a href="{{ url_for('main.about') }}">About</a></li>
         <li class="language-switcher">
-            <a href="{{ url_for('main.set_language', lang='en') }}">{{ _('English') }}</a> |
-            <a href="{{ url_for('main.set_language', lang='de') }}">{{ _('German') }}</a>
+            <a href="{{ url_for('main.set_language', lang='en') }}" class="{{ 'active-lang' if get_locale() == 'en' else '' }}">{{ _('English') }}</a> |
+            <a href="{{ url_for('main.set_language', lang='de') }}" class="{{ 'active-lang' if get_locale() == 'de' else '' }}">{{ _('German') }}</a>
         </li>
     </ul>
 </nav>
